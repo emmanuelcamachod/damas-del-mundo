@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Damas del Mundo: Némesis IA — Edición Magistral GEM V4.0</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Fichas con bordes estriados, anillos concéntricos y relieve táctil */
+    .piece-token {
+      transition: transform 0.16s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.16s ease-out;
+      will-change: transform;
+      position: relative;
+    }
+    .piece-selected {
+      transform: translateY(-4px) scale(1.08);
+      box-shadow: 0 12px 18px -2px rgba(0, 0, 0, 0.55), 0 0 0 2.5px #38bdf8 !important;
+      z-index: 10;
+    }
+    .piece-white {
+      background: radial-gradient(circle at 40% 35%, #ffffff 0%, #f1f5f9 60%, #cbd5e1 100%);
+      /* Borde exterior escalonado + canal concéntrico tallado + bisel */
+      box-shadow: 
+        0 4px 8px rgba(0,0,0,0.35),
+        inset 0 0 0 2px #e2e8f0,
+        inset 0 0 0 4px #94a3b8,
+        inset 0 0 0 6px #f8fafc,
+        inset 0 2px 3px rgba(255,255,255,0.9);
+      border: 1.5px solid #94a3b8;
+    }
+    .piece-black {
+      background: radial-gradient(circle at 40% 35%, #334155 0%, #1e293b 65%, #090d16 100%);
+      /* Borde exterior estriado oscuro + canal concéntrico tallado */
+      box-shadow: 
+        0 4px 8px rgba(0,0,0,0.6),
+        inset 0 0 0 2px #475569,
+        inset 0 0 0 4px #090d16,
+        inset 0 0 0 6px #1e293b,
+        inset 0 1px 2px rgba(148,163,184,0.4);
+      border: 1.5px solid #0f172a;
+    }
+    /* Estilo especial para la Dama: Borde doble de orfebrería con relieve dorado */
+    .piece-king-white {
+      box-shadow: 
+        0 6px 12px rgba(0,0,0,0.45),
+        0 0 8px rgba(245, 158, 11, 0.4),
+        inset 0 0 0 2.5px #f59e0b,
+        inset 0 0 0 4.5px #b45309,
+        inset 0 0 0 6.5px #fef3c7,
+        inset 0 2px 4px rgba(255,255,255,0.9) !important;
+      border: 1.5px solid #d97706 !important;
+    }
+    .piece-king-black {
+      box-shadow: 
+        0 6px 12px rgba(0,0,0,0.7),
+        0 0 8px rgba(245, 158, 11, 0.5),
+        inset 0 0 0 2.5px #f59e0b,
+        inset 0 0 0 4.5px #78350f,
+        inset 0 0 0 6.5px #1e293b,
+        inset 0 1px 2px rgba(251, 191, 36, 0.4) !important;
+      border: 1.5px solid #b45309 !important;
+    }
+    /* Anillo acanalado central */
+    .inner-rib {
+      width: 58%;
+      height: 58%;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 1px rgba(255,255,255,0.4);
+    }
+    .inner-rib-white {
+      border: 1.5px dashed #94a3b8;
+      background: radial-gradient(circle, #f8fafc 0%, #e2e8f0 100%);
+    }
+    .inner-rib-black {
+      border: 1.5px dashed #475569;
+      background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
+    }
+    .board-cell-dark {
+      background-color: #5c3a21;
+    }
+    .board-cell-light {
+      background-color: #d8b68a;
+    }
+    .board-cell-target {
+      position: relative;
+    }
+    .board-cell-target::after {
+      content: '';
+      position: absolute;
+      width: 32%;
+      height: 32%;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.85);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      pointer-events: none;
+    }
+    .board-cell-coach {
+      box-shadow: inset 0 0 0 3px #06b6d4 !important;
+      animation: pulse-coach 1.4s infinite ease-in-out;
+    }
+    @keyframes pulse-coach {
+      0%, 100% { box-shadow: inset 0 0 0 3px #06b6d4; }
+      50% { box-shadow: inset 0 0 0 5px #22d3ee, 0 0 12px #06b6d4; }
+    }
+    :root {
+      --background: #090d16;
+      --foreground: #f8fafc;
+      --card: #0f172a;
+      --border: #1e293b;
+      --muted-foreground: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] min-h-screen flex flex-col font-sans antialiased select-none pb-6">
+
+  <!-- Header Superior Compacto -->
+  <header class="border-b border-[var(--border)] bg-[var(--card)] px-4 py-2.5 flex items-center justify-between sticky top-0 z-20">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-black text-sm">
+        ♛
+      </div>
+      <div>
+        <h1 class="text-sm font-bold tracking-tight text-[var(--foreground)]">Damas del Mundo</h1>
+        <p class="text-[10px] text-[var(--muted-foreground)]">Motor Némesis Alfa-Beta P4 • GEM V4.0</p>
+      </div>
+    </div>
+
+    <!-- Controles Rápidos -->
+    <div class="flex items-center gap-1.5">
+      <select id="variantSelect" class="bg-[var(--background)] border border-[var(--border)] text-xs rounded-lg px-2 py-1 text-[var(--foreground)] focus:outline-none focus:border-amber-500">
+        <option value="spanish">Española (8x8)</option>
+        <option value="brazilian">Brasileña (8x8)</option>
+        <option value="english">Inglesa / Checkers (8x8)</option>
+        <option value="russian">Rusa / Shashki (8x8)</option>
+        <option value="italian">Italiana (8x8)</option>
+        <option value="international">Internacional (10x10)</option>
+        <option value="turkish">Turca (Ortogonal 8x8)</option>
+      </select>
+      <button id="coachBtn" title="Pista del Entrenador Táctico" class="px-2.5 py-1 rounded-lg bg-cyan-950/60 border border-cyan-800 text-cyan-400 hover:bg-cyan-900/60 text-xs font-semibold flex items-center gap-1 transition">
+        <span>💡</span> Pista
+      </button>
+      <button id="soundBtn" title="Activar/Silenciar Sonido" class="px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 text-xs transition">
+        🔊
+      </button>
+      <button id="resetBtn" title="Reiniciar Partida" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition">
+        Reiniciar
+      </button>
+    </div>
+  </header>
+
+  <!-- Modal de Victoria con Animación de Celebración -->
+  <div id="victoryModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[var(--card)] border border-amber-500/50 rounded-2xl max-w-sm w-full p-5 text-center shadow-2xl relative">
+      <div class="w-14 h-14 mx-auto rounded-full bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-3xl mb-3 shadow-[0_0_20px_rgba(245,158,11,0.5)]">
+        🏆
+      </div>
+      <h2 id="victoryHeading" class="text-xl font-black text-amber-400 tracking-tight mb-1">¡MATE DE LA DAMA!</h2>
+      <p id="victorySub" class="text-xs text-[var(--muted-foreground)] mb-4">La partida ha finalizado.</p>
+      
+      <div class="grid grid-cols-3 gap-2 bg-[var(--background)] p-3 rounded-xl border border-[var(--border)] mb-4 text-xs">
+        <div>
+          <div class="text-[10px] text-[var(--muted-foreground)] uppercase font-semibold">Jugadas</div>
+          <div id="statMoves" class="font-bold text-[var(--foreground)] text-sm mt-0.5">0</div>
+        </div>
+        <div>
+          <div class="text-[10px] text-[var(--muted-foreground)] uppercase font-semibold">Capturas</div>
+          <div id="statCaps" class="font-bold text-emerald-400 text-sm mt-0.5">0</div>
+        </div>
+        <div>
+          <div class="text-[10px] text-[var(--muted-foreground)] uppercase font-semibold">Damas</div>
+          <div id="statKings" class="font-bold text-amber-400 text-sm mt-0.5">0</div>
+        </div>
+      </div>
+
+      <div id="learningAlert" class="text-[11px] text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 p-2 rounded-lg mb-4 text-left">
+        🧠 <strong>Adaptación TD-Learning:</strong> La IA ajustó sus pesos heurísticos según tus decisiones tácticas.
+      </div>
+
+      <div class="flex gap-2">
+        <button id="rematchBtn" class="flex-1 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition">
+          Jugar Revancha
+        </button>
+        <button id="closeModalBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor Principal Responsive -->
+  <div class="flex-1 max-w-5xl w-full mx-auto p-3 flex flex-col justify-center">
+    <!-- Barra Superior de Variante y Reglas -->
+    <div class="flex items-center justify-between text-xs text-[var(--muted-foreground)] mb-2 px-1">
+      <div class="flex items-center gap-2">
+        <span class="font-semibold text-[var(--foreground)]" id="variantHeader">Española (8x8)</span>
+        <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">Damas Largas</span>
+      </div>
+      <label class="flex items-center gap-1.5 cursor-pointer hover:text-[var(--foreground)]">
+        <input type="checkbox" id="huffCheck" class="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0 w-3.5 h-3.5" />
+        <span>Regla de Soplido</span>
+      </label>
+    </div>
+
+    <!-- Layout Grid: Tablero + Paneles Laterales -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-start">
+      <!-- Columna del Tablero -->
+      <div class="md:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 flex flex-col items-center shadow-sm">
+        <!-- Marcador Rápido -->
+        <div class="w-full max-w-sm flex items-center justify-between text-xs text-[var(--muted-foreground)] mb-2 px-1">
+          <span class="flex items-center gap-1.5">
+            <span class="w-3.5 h-3.5 rounded-full piece-white inline-block"></span>
+            Tú: <strong id="whiteCount" class="text-[var(--foreground)] font-mono text-sm">12</strong>
+          </span>
+          <span id="turnLabel" class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Tu turno
+          </span>
+          <span class="flex items-center gap-1.5">
+            IA: <strong id="blackCount" class="text-[var(--foreground)] font-mono text-sm">12</strong>
+            <span class="w-3.5 h-3.5 rounded-full piece-black inline-block"></span>
+          </span>
+        </div>
+
+        <!-- El Tablero de Madera con Bordes Biselados -->
+        <div class="w-full max-w-sm aspect-square p-2 bg-[#2d180b] rounded-2xl shadow-2xl border-2 border-amber-950/60 ring-1 ring-amber-900/30">
+          <div id="boardGrid" class="w-full h-full rounded-xl overflow-hidden grid shadow-inner"></div>
+        </div>
+
+        <!-- Banner de Información y Ventaja Posicional -->
+        <div id="infoBanner" class="w-full max-w-sm mt-2.5 text-xs py-2 px-3 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--muted-foreground)] flex items-center justify-between shadow-sm">
+          <span id="infoText" class="truncate pr-2">Toca una ficha para iniciar tu jugada.</span>
+          <span id="evalScore" class="font-mono text-xs font-bold text-emerald-400 shrink-0">+0.0 cp</span>
+        </div>
+      </div>
+
+      <!-- Paneles Laterales: IA Némesis y ADN del Jugador -->
+      <div class="md:col-span-4 space-y-3 text-xs">
+        
+        <!-- Panel 1: Cerebro Némesis IA con Contraataque Activo -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3.5 space-y-2.5 shadow-sm">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-[var(--foreground)] flex items-center gap-1.5">
+              <span>🤖</span> Motor Némesis IA
+            </span>
+            <span id="aiEngineBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-mono border border-amber-500/20">
+              Minimax P4
+            </span>
+          </div>
+
+          <!-- HUD de Pensamiento en Tiempo Real -->
+          <div class="bg-slate-900/90 rounded-xl p-2.5 border border-slate-800 space-y-1.5">
+            <div id="aiThinkingHud" class="text-[11px] font-mono text-emerald-400 flex items-center justify-between">
+              <span>IA lista para responder</span>
+              <span class="text-slate-500 text-[10px]">0 ms</span>
+            </div>
+            
+            <!-- Insignia Dinámica de Contraataque -->
+            <div id="aiTacticsBadge" class="text-[11px] font-medium text-amber-300 bg-amber-950/40 p-2 rounded-lg border border-amber-700/40 leading-snug">
+              🛡️ <strong>Estrategia Activa:</strong> Evaluando apertura y buscando asedio central.
+            </div>
+          </div>
+
+          <!-- Pesos Heurísticos TD-Learning Adaptados -->
+          <div class="pt-1.5 border-t border-[var(--border)]">
+            <div class="flex justify-between text-[11px] text-[var(--muted-foreground)] mb-1">
+              <span>Pesos Heurísticos (TD-Learning)</span>
+              <span id="gamesLearnedCount" class="text-amber-400 font-mono text-[10px]">0 partidas</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 text-[10px] font-mono">
+              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+                <span class="text-slate-400">Centro:</span>
+                <span id="weightCenter" class="text-amber-300 font-bold">+18</span>
+              </div>
+              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+                <span class="text-slate-400">Fila Base:</span>
+                <span id="weightBackRow" class="text-amber-300 font-bold">+25</span>
+              </div>
+              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+                <span class="text-slate-400">Avance:</span>
+                <span id="weightAdvance" class="text-amber-300 font-bold">+8</span>
+              </div>
+              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+                <span class="text-slate-400">Dama:</span>
+                <span id="weightKing" class="text-amber-300 font-bold">+285</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Radiografía ADN del Jugador -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3.5 space-y-2.5 shadow-sm">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-[var(--foreground)] flex items-center gap-1.5">
+              <span>🧬</span> Radiografía de tu ADN
+            </span>
+            <span id="dnaAgg" class="text-emerald-400 font-bold text-[11px]">50% Ataque</span>
+          </div>
+
+          <!-- Barra de Agresividad -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-[10px] text-[var(--muted-foreground)]">
+              <span>Estilo Táctico</span>
+              <span id="dnaStyleLabel" class="text-slate-300 font-medium">Equilibrado</span>
+            </div>
+            <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div id="dnaBar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Flanco y Fila Base -->
+          <div class="grid grid-cols-2 gap-2 pt-1 text-[11px]">
+            <div class="bg-[var(--background)] p-2 rounded-xl border border-[var(--border)]">
+              <div class="text-[10px] text-[var(--muted-foreground)]">Flanco Preferido</div>
+              <div id="dnaFlank" class="font-bold text-cyan-400 mt-0.5 truncate">Centro</div>
+            </div>
+            <div class="bg-[var(--background)] p-2 rounded-xl border border-[var(--border)]">
+              <div class="text-[10px] text-[var(--muted-foreground)]">Fila Base</div>
+              <div id="dnaBackRow" class="font-bold text-amber-400 mt-0.5">100% Sólida</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Academia Táctica Rápida -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3.5 space-y-2 shadow-sm">
+          <div class="font-bold text-[var(--foreground)] text-xs flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>🎓</span> Academia Táctica
+            </span>
+            <span class="text-amber-500 font-mono text-[10px]">6 Puzzles</span>
+          </div>
+          <div id="lessonsList" class="space-y-1.5 max-h-40 overflow-y-auto pr-0.5"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sintetizador de audio ligero (Web Audio API nativo a 60 FPS)
+    class LiteAudio {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+      init() {
+        if (!this.ctx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) this.ctx = new AC();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      click() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+      }
+      capture() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(260, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(75, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+      crown() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc1.type = 'triangle';
+        osc2.type = 'sine';
+        osc1.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
+        osc2.frequency.setValueAtTime(659.25, this.ctx.currentTime); // E5
+        gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.35);
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc1.start(); osc2.start();
+        osc1.stop(this.ctx.currentTime + 0.35); osc2.stop(this.ctx.currentTime + 0.35);
+      }
+      victory() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const notes = [440, 554.37, 659.25, 880];
+        notes.forEach((f, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(f, this.ctx.currentTime + i * 0.12);
+          gain.gain.setValueAtTime(0.25, this.ctx.currentTime + i * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + i * 0.12 + 0.22);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + i * 0.12);
+          osc.stop(this.ctx.currentTime + i * 0.12 + 0.22);
+        });
+      }
+    }
+
+    const sound = new LiteAudio();
+
+    // Reglas de las 7 variantes mundiales
+    const RULES = {
+      spanish: { name: 'Española (8x8)', size: 8, flying: true, bwdPawn: false, ortho: false },
+      brazilian: { name: 'Brasileña (8x8)', size: 8, flying: true, bwdPawn: true, ortho: false },
+      english: { name: 'Inglesa / Checkers', size: 8, flying: false, bwdPawn: false, ortho: false },
+      russian: { name: 'Rusa / Shashki', size: 8, flying: true, bwdPawn: true, ortho: false },
+      italian: { name: 'Italiana (8x8)', size: 8, flying: false, bwdPawn: false, ortho: false },
+      international: { name: 'Internacional (10x10)', size: 10, flying: true, bwdPawn: true, ortho: false },
+      turkish: { name: 'Turca (Ortogonal)', size: 8, flying: true, bwdPawn: false, ortho: true }
+    };
+
+    const LESSONS = [
+      { id: 1, title: 'La Diagonal Viva', tech: 'Control del Centro', var: 'spanish', setup: [[5,2,'w',false],[4,5,'b',false],[2,3,'b',false]], from:[5,2], to:[4,3], prompt: 'Ocupa la casilla central d4.' },
+      { id: 2, title: 'La Muralla Real', tech: 'Defensa de Base', var: 'spanish', setup: [[7,1,'w',false],[6,2,'w',false],[4,3,'b',false]], from:[6,2], to:[5,3], prompt: 'Avanza c2 a d3 sin romper la fila base.' },
+      { id: 3, title: 'El Golpe 2-por-1', tech: 'Sacrificio y Barrido', var: 'spanish', setup: [[5,0,'w',false],[4,1,'b',false],[2,3,'b',false]], from:[5,0], to:[3,2], prompt: 'Entrega en b4 y captura dos piezas.' },
+      { id: 4, title: 'La Horquilla', tech: 'Ataque Doble', var: 'english', setup: [[4,3,'w',false],[2,1,'b',false],[2,5,'b',false]], from:[4,3], to:[3,2], prompt: 'Amenaza dos fichas a la vez.' },
+      { id: 5, title: 'La Escalera Brasileña', tech: 'Captura Hacia Atrás', var: 'brazilian', setup: [[3,2,'w',false],[4,3,'b',false]], from:[3,2], to:[5,4], prompt: 'Usa el peón brasileño que salta hacia atrás.' },
+      { id: 6, title: 'La Corona Voladora', tech: 'Dama a Distancia', var: 'spanish', setup: [[7,0,'w',true],[3,4,'b',false]], from:[7,0], to:[2,5], prompt: 'Cruza la Gran Diagonal como Dama.' }
+    ];
+
+    // Pesos Heurísticos Adaptativos de la IA Némesis
+    let aiWeights = {
+      pawn: 100,
+      king: 285,
+      center: 18,
+      advance: 8,
+      backRow: 25,
+      gamesLearned: 0,
+      wins: 0,
+      losses: 0
+    };
+
+    // Cargar pesos persistentes si existen
+    try {
+      const saved = localStorage.getItem('gem_v4_nemesis_weights');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        aiWeights = { ...aiWeights, ...parsed };
+      }
+    } catch (e) {
+      console.warn('Almacenamiento no accesible');
+    }
+
+    // ADN táctico del usuario
+    let userDna = {
+      moves: 0,
+      aggMoves: 0,
+      leftMoves: 0,
+      rightMoves: 0,
+      brokenBackRowMoves: 0,
+      flankPreference: 'Centro',
+      aggressionPct: 50,
+      backRowPct: 100,
+      activeCounterTactics: 'Evaluando apertura y buscando asedio central.'
+    };
+
+    let currentVar = 'spanish';
+    let board = [];
+    let turn = 'w';
+    let selected = null;
+    let moves = [];
+    let coachHighlight = null;
+    let activeLesson = null;
+    let stats = { moves: 0, caps: 0, kings: 0, aggMoves: 0 };
+    let aiNodesEvaluated = 0;
+
+    function initGame(variantKey) {
+      currentVar = variantKey;
+      const cfg = RULES[variantKey];
+      const sz = cfg.size;
+      board = Array.from({ length: sz }, () => Array(sz).fill(null));
+
+      if (cfg.ortho) {
+        for (let r = 1; r <= 2; r++) for (let c = 0; c < sz; c++) board[r][c] = { col: 'b', king: false };
+        for (let r = sz - 3; r <= sz - 2; r++) for (let c = 0; c < sz; c++) board[r][c] = { col: 'w', king: false };
+      } else {
+        const rows = sz === 10 ? 4 : 3;
+        for (let r = 0; r < rows; r++) for (let c = 0; c < sz; c++) if ((r + c) % 2 === 1) board[r][c] = { col: 'b', king: false };
+        for (let r = sz - rows; r < sz; r++) for (let c = 0; c < sz; c++) if ((r + c) % 2 === 1) board[r][c] = { col: 'w', king: false };
+      }
+
+      turn = 'w';
+      selected = null;
+      coachHighlight = null;
+      stats = { moves: 0, caps: 0, kings: 0, aggMoves: 0 };
+      document.getElementById('variantHeader').textContent = cfg.name;
+      document.getElementById('victoryModal').classList.add('hidden');
+      updateInfo('Tu turno. Selecciona una ficha.');
+      updateMoves();
+      renderWeightsHud();
+      renderDnaHud();
+      render();
+    }
+
+    function inBounds(r, c, sz) { return r >= 0 && r < sz && c >= 0 && c < sz; }
+
+    function cloneBoard(b) {
+      return b.map(row => row.map(cell => cell ? { ...cell } : null));
+    }
+
+    function getLegalMoves(bd, col, cfg) {
+      const sz = cfg.size;
+      const caps = [];
+      const steps = [];
+      const allowHuff = document.getElementById('huffCheck') ? document.getElementById('huffCheck').checked : false;
+
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          const p = bd[r][c];
+          if (!p || p.col !== col) continue;
+
+          const dirs = cfg.ortho
+            ? [[col === 'w' ? -1 : 1, 0], [0, -1], [0, 1], ...(p.king ? [[col === 'w' ? 1 : -1, 0]] : [])]
+            : [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+
+          for (const [dr, dc] of dirs) {
+            const isFwd = col === 'w' ? dr < 0 : dr > 0;
+            const nr = r + dr, nc = c + dc;
+            if (!inBounds(nr, nc, sz)) continue;
+
+            if (!bd[nr][nc] && (p.king || isFwd || cfg.ortho)) {
+              steps.push({ from: [r, c], to: [nr, nc], caps: [] });
+              if (p.king && cfg.flying) {
+                let fr = nr + dr, fc = nc + dc;
+                while (inBounds(fr, fc, sz) && !bd[fr][fc]) {
+                  steps.push({ from: [r, c], to: [fr, fc], caps: [] });
+                  fr += dr; fc += dc;
+                }
+              }
+            }
+
+            const canCap = p.king || isFwd || cfg.bwdPawn || cfg.ortho;
+            if (!canCap) continue;
+
+            if (p.king && cfg.flying) {
+              let sr = r + dr, sc = c + dc;
+              while (inBounds(sr, sc, sz) && !bd[sr][sc]) { sr += dr; sc += dc; }
+              if (inBounds(sr, sc, sz) && bd[sr][sc] && bd[sr][sc].col !== col) {
+                const jr = sr + dr, jc = sc + dc;
+                if (inBounds(jr, jc, sz) && !bd[jr][jc]) caps.push({ from: [r, c], to: [jr, jc], caps: [[sr, sc]] });
+              }
+            } else {
+              const jr = r + 2 * dr, jc = c + 2 * dc;
+              if (inBounds(jr, jc, sz) && bd[nr][nc] && bd[nr][nc].col !== col && !bd[jr][jc]) {
+                caps.push({ from: [r, c], to: [jr, jc], caps: [[nr, nc]] });
+              }
+            }
+          }
+        }
+      }
+      return (caps.length > 0 && !allowHuff) ? caps : [...caps, ...steps];
+    }
+
+    function applyMoveOnBoard(b, m, cfg) {
+      const nb = cloneBoard(b);
+      const [fr, fc] = m.from;
+      const [tr, tc] = m.to;
+      const piece = { ...nb[fr][fc] };
+      nb[fr][fc] = null;
+      for (const [cr, cc] of m.caps) nb[cr][cc] = null;
+      if ((piece.col === 'w' && tr === 0) || (piece.col === 'b' && tr === cfg.size - 1)) {
+        piece.king = true;
+      }
+      nb[tr][tc] = piece;
+      return nb;
+    }
+
+    // EVALUADOR POSICIONAL MULTIVARIANTE CON CONTRATAQUE REACTIVO
+    function evaluateBoard(b, cfg, dna) {
+      const sz = cfg.size;
+      let score = 0;
+      let blackPieces = 0, whitePieces = 0;
+
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          const p = b[r][c];
+          if (!p) continue;
+          let val = p.king ? aiWeights.king : aiWeights.pawn;
+
+          // Control del cuadrante central
+          const isCenter = (r >= Math.floor(sz / 2) - 1 && r <= Math.floor(sz / 2)) &&
+                           (c >= Math.floor(sz / 2) - 1 && c <= Math.floor(sz / 2));
+          if (isCenter) val += aiWeights.center;
+
+          // Preservación de Fila Real defensiva
+          if (!p.king) {
+            if (p.col === 'b' && r === 0) val += aiWeights.backRow;
+            if (p.col === 'w' && r === sz - 1) val += aiWeights.backRow;
+            // Avance ordenado
+            const advance = p.col === 'b' ? r : (sz - 1 - r);
+            val += advance * aiWeights.advance;
+          }
+
+          // MODULACIÓN DINÁMICA POR ADN DEL RIVAL (CONTRATAQUE ACTIVO):
+          if (p.col === 'b') {
+            blackPieces++;
+            // 1. Explotar brecha en la Fila Real rival
+            if (dna.backRowPct < 75 && r >= sz - 3) {
+              val += 32; // Infiltración voraz hacia coronación
+            }
+            // 2. Contragolpear el flanco opuesto al que sobrecarga el rival
+            if (dna.flankPreference.includes('Izquierdo') && c >= sz / 2) {
+              val += 24; // Contragolpe flanco derecho
+            } else if (dna.flankPreference.includes('Derecho') && c < sz / 2) {
+              val += 24; // Contragolpe flanco izquierdo
+            }
+            // 3. Castigar agresividad desmedida con control de diagonales
+            if (dna.aggressionPct >= 60 && isCenter) {
+              val += 16;
+            }
+            score += val;
+          } else {
+            whitePieces++;
+            score -= val;
+          }
+        }
+      }
+
+      if (whitePieces === 0) return 99999;
+      if (blackPieces === 0) return -99999;
+      return score;
+    }
+
+    // MOTOR DE BÚSQUEDA MINIMAX CON PODA ALFA-BETA
+    function minimax(b, depth, alpha, beta, isMaximizing, cfg, dna) {
+      aiNodesEvaluated++;
+      const currentColor = isMaximizing ? 'b' : 'w';
+      const legalMoves = getLegalMoves(b, currentColor, cfg);
+
+      if (legalMoves.length === 0) {
+        return isMaximizing ? -90000 - depth : 90000 + depth;
+      }
+      if (depth === 0) {
+        return evaluateBoard(b, cfg, dna);
+      }
+
+      // Move Ordering: Capturas primero (MVV/LVA) para podas tempranas
+      legalMoves.sort((m1, m2) => m2.caps.length - m1.caps.length);
+
+      if (isMaximizing) {
+        let maxEval = -Infinity;
+        for (const mv of legalMoves) {
+          const nextB = applyMoveOnBoard(b, mv, cfg);
+          const ev = minimax(nextB, depth - 1, alpha, beta, false, cfg, dna);
+          if (ev > maxEval) maxEval = ev;
+          if (ev > alpha) alpha = ev;
+          if (beta <= alpha) break; // Poda Beta
+        }
+        return maxEval;
+      } else {
+        let minEval = Infinity;
+        for (const mv of legalMoves) {
+          const nextB = applyMoveOnBoard(b, mv, cfg);
+          const ev = minimax(nextB, depth - 1, alpha, beta, true, cfg, dna);
+          if (ev < minEval) minEval = ev;
+          if (ev < beta) beta = ev;
+          if (beta <= alpha) break; // Poda Alfa
+        }
+        return minEval;
+      }
+    }
+
+    function recordUserMove(from, to, isCap) {
+      userDna.moves++;
+      if (isCap) userDna.aggMoves++;
+      const sz = RULES[currentVar].size;
+      const midCol = sz / 2;
+      if (to[1] < midCol) userDna.leftMoves++;
+      else userDna.rightMoves++;
+
+      // Fila real de blancas es la última fila (sz - 1)
+      if (from[0] === sz - 1) {
+        userDna.brokenBackRowMoves++;
+      }
+
+      userDna.aggressionPct = Math.min(95, Math.max(15, Math.round((userDna.aggMoves * 100) / userDna.moves)));
+      const backRowPenalty = userDna.brokenBackRowMoves * 18;
+      userDna.backRowPct = Math.max(10, 100 - backRowPenalty);
+
+      const flankDiff = userDna.leftMoves - userDna.rightMoves;
+      if (Math.abs(flankDiff) <= 1) userDna.flankPreference = 'Centro Equilibrado';
+      else if (flankDiff > 1) userDna.flankPreference = 'Flanco Izquierdo';
+      else userDna.flankPreference = 'Flanco Derecho';
+
+      // Actualizar contrataque reactivo
+      if (userDna.backRowPct < 75) {
+        userDna.activeCounterTactics = '⚡ Contrataque: Infiltración profunda por brecha abierta en tu Fila Real.';
+      } else if (userDna.flankPreference === 'Flanco Izquierdo') {
+        userDna.activeCounterTactics = '🎯 Contrataque: Presión de ruptura en tu Flanco Derecho desprotegido.';
+      } else if (userDna.flankPreference === 'Flanco Derecho') {
+        userDna.activeCounterTactics = '🎯 Contrataque: Presión de ruptura en tu Flanco Izquierdo desprotegido.';
+      } else if (userDna.aggressionPct >= 60) {
+        userDna.activeCounterTactics = '🪤 Contrataque: Celada posicional y trampa 2-por-1 por sobreextensión.';
+      } else {
+        userDna.activeCounterTactics = '🛡️ Contrataque: Control de casillas críticas y asedio central.';
+      }
+
+      renderDnaHud();
+    }
+
+    function renderDnaHud() {
+      document.getElementById('dnaAgg').textContent = `${userDna.aggressionPct}% Ataque`;
+      document.getElementById('dnaBar').style.width = `${userDna.aggressionPct}%`;
+      document.getElementById('dnaFlank').textContent = userDna.flankPreference;
+      document.getElementById('dnaBackRow').textContent = `${userDna.backRowPct}% Sólida`;
+      document.getElementById('dnaStyleLabel').textContent = 
+        userDna.aggressionPct >= 60 ? 'Táctico-Agresivo' : (userDna.aggressionPct <= 35 ? 'Ultra-Cauto' : 'Equilibrado');
+      document.getElementById('aiTacticsBadge').innerHTML = `<strong>Estrategia Activa:</strong> ${userDna.activeCounterTactics}`;
+    }
+
+    function renderWeightsHud() {
+      document.getElementById('weightCenter').textContent = `+${aiWeights.center}`;
+      document.getElementById('weightBackRow').textContent = `+${aiWeights.backRow}`;
+      document.getElementById('weightAdvance').textContent = `+${aiWeights.advance}`;
+      document.getElementById('weightKing').textContent = `+${aiWeights.king}`;
+      document.getElementById('gamesLearnedCount').textContent = `${aiWeights.gamesLearned} partidas`;
+    }
+
+    function learnFromGame(outcome) {
+      aiWeights.gamesLearned++;
+      if (outcome === 'human_win') {
+        aiWeights.losses++;
+        // La IA perdió: aumenta significativamente control central, fila base y penalización
+        aiWeights.center = Math.min(38, aiWeights.center + 3);
+        aiWeights.backRow = Math.min(42, aiWeights.backRow + 4);
+        aiWeights.advance = Math.min(18, aiWeights.advance + 2);
+        aiWeights.king = Math.min(380, aiWeights.king + 15);
+      } else if (outcome === 'ai_win') {
+        aiWeights.wins++;
+        aiWeights.advance = Math.min(18, aiWeights.advance + 1);
+        aiWeights.pawn = Math.min(130, aiWeights.pawn + 2);
+      }
+      try {
+        localStorage.setItem('gem_v4_nemesis_weights', JSON.stringify(aiWeights));
+      } catch (e) {}
+      renderWeightsHud();
+    }
+
+    function updateMoves() {
+      moves = getLegalMoves(board, turn, RULES[currentVar]);
+    }
+
+    function onCellClick(r, c) {
+      if (turn !== 'w') return;
+      if (selected) {
+        const m = moves.find(mv => mv.from[0] === selected[0] && mv.from[1] === selected[1] && mv.to[0] === r && mv.to[1] === c);
+        if (m) { applyMove(m); return; }
+      }
+
+      const p = board[r][c];
+      if (!p || p.col !== turn) return;
+      if (!moves.some(mv => mv.from[0] === r && mv.from[1] === c)) return;
+
+      selected = [r, c];
+      coachHighlight = null;
+      sound.click();
+      render();
+    }
+
+    function applyMove(m) {
+      const cfg = RULES[currentVar];
+      stats.moves++;
+      const isCap = m.caps.length > 0;
+      if (isCap) {
+        stats.caps += m.caps.length;
+        stats.aggMoves++;
+        sound.capture();
+      } else {
+        sound.click();
+      }
+
+      recordUserMove(m.from, m.to, isCap);
+
+      // Modo Academia
+      if (activeLesson) {
+        if (m.from[0] === activeLesson.from[0] && m.from[1] === activeLesson.from[1] &&
+            m.to[0] === activeLesson.to[0] && m.to[1] === activeLesson.to[1]) {
+          sound.crown();
+          updateInfo(`¡Superada! Dominaste "${activeLesson.tech}".`);
+        }
+      }
+
+      const [fr, fc] = m.from;
+      const [tr, tc] = m.to;
+      const piece = { ...board[fr][fc] };
+      board[fr][fc] = null;
+      for (const [cr, cc] of m.caps) board[cr][cc] = null;
+
+      if ((piece.col === 'w' && tr === 0) || (piece.col === 'b' && tr === cfg.size - 1)) {
+        if (!piece.king) { stats.kings++; sound.crown(); }
+        piece.king = true;
+      }
+      board[tr][tc] = piece;
+
+      selected = null;
+      coachHighlight = null;
+      turn = 'b';
+      updateMoves();
+      render();
+
+      setTimeout(runAiTurn, 140);
+    }
+
+    function runAiTurn() {
+      if (turn !== 'b') return;
+      const cfg = RULES[currentVar];
+      const aiMoves = getLegalMoves(board, 'b', cfg);
+
+      if (aiMoves.length === 0) {
+        showVictory('¡MATE DE LA DAMA!', 'Victoria total. Has doblegado a la IA Némesis.');
+        learnFromGame('human_win');
+        return;
+      }
+
+      // Minimax con Poda Alfa-Beta (Profundidad 4 en 8x8, 3 en 10x10 para 60 FPS)
+      aiNodesEvaluated = 0;
+      const searchDepth = cfg.size === 10 ? 3 : 4;
+      const startTime = performance.now();
+
+      aiMoves.sort((m1, m2) => m2.caps.length - m1.caps.length);
+      let bestMove = aiMoves[0];
+      let bestScore = -Infinity;
+      let alpha = -Infinity;
+      const beta = Infinity;
+
+      for (const mv of aiMoves) {
+        const nextB = applyMoveOnBoard(board, mv, cfg);
+        const score = minimax(nextB, searchDepth - 1, alpha, beta, false, cfg, userDna);
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = mv;
+        }
+        if (score > alpha) alpha = score;
+      }
+
+      const elapsed = Math.max(1, Math.round(performance.now() - startTime));
+      const evalCp = (bestScore / 100).toFixed(1);
+
+      document.getElementById('aiThinkingHud').innerHTML = 
+        `<span>Profundidad ${searchDepth} | ${aiNodesEvaluated} nodos</span><span class="text-slate-400 font-mono">${elapsed}ms</span>`;
+      document.getElementById('evalScore').textContent = `${bestScore > 0 ? '+' : ''}${evalCp} cp`;
+
+      if (bestMove.caps.length > 0) sound.capture();
+      else sound.click();
+
+      board = applyMoveOnBoard(board, bestMove, cfg);
+
+      turn = 'w';
+      updateMoves();
+      if (moves.length === 0) {
+        showVictory('VICTORIA DE LA IA', 'La IA Némesis contragolpeó y ganó la partida.');
+        learnFromGame('ai_win');
+      }
+      render();
+    }
+
+    function showVictory(title, desc) {
+      sound.victory();
+      document.getElementById('victoryHeading').textContent = title;
+      document.getElementById('victorySub').textContent = desc;
+      document.getElementById('statMoves').textContent = stats.moves;
+      document.getElementById('statCaps').textContent = stats.caps;
+      document.getElementById('statKings').textContent = stats.kings;
+      document.getElementById('victoryModal').classList.remove('hidden');
+    }
+
+    function updateInfo(txt) {
+      document.getElementById('infoText').textContent = txt;
+    }
+
+    function render() {
+      const cfg = RULES[currentVar];
+      const sz = cfg.size;
+      const grid = document.getElementById('boardGrid');
+      grid.style.gridTemplateColumns = `repeat(${sz}, minmax(0, 1fr))`;
+      grid.innerHTML = '';
+
+      let wCnt = 0, bCnt = 0;
+
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          const p = board[r][c];
+          if (p) { if (p.col === 'w') wCnt++; else bCnt++; }
+
+          const isDark = (r + c) % 2 === 1;
+          const isSel = selected && selected[0] === r && selected[1] === c;
+          const isTgt = selected && moves.some(m => m.from[0] === selected[0] && m.from[1] === selected[1] && m.to[0] === r && m.to[1] === c);
+          const isCoach = coachHighlight && ((coachHighlight.from[0] === r && coachHighlight.from[1] === c) || (coachHighlight.to[0] === r && coachHighlight.to[1] === c));
+
+          const cell = document.createElement('div');
+          let base = isDark ? 'board-cell-dark' : 'board-cell-light';
+          if (isTgt) base += ' board-cell-target cursor-pointer';
+          if (isCoach) base += ' board-cell-coach';
+
+          cell.className = `aspect-square flex items-center justify-center relative select-none ${base}`;
+          cell.onclick = () => onCellClick(r, c);
+
+          if (p) {
+            const token = document.createElement('div');
+            let colorClass = p.col === 'w' ? 'piece-white text-slate-800' : 'piece-black text-amber-300';
+            if (p.king) {
+              colorClass += p.col === 'w' ? ' piece-king-white' : ' piece-king-black';
+            }
+            const selClass = isSel ? 'piece-selected' : '';
+            token.className = `w-4/5 h-4/5 rounded-full flex items-center justify-center font-bold text-xs piece-token cursor-pointer ${colorClass} ${selClass}`;
+
+            const rib = document.createElement('div');
+            rib.className = `inner-rib ${p.col === 'w' ? 'inner-rib-white' : 'inner-rib-black'}`;
+            if (p.king) {
+              rib.innerHTML = '<span class="text-amber-500 drop-shadow text-sm leading-none">♛</span>';
+            } else {
+              rib.innerHTML = `<span class="w-2.5 h-2.5 rounded-full border ${p.col === 'w' ? 'border-slate-400 bg-slate-200/50' : 'border-slate-600 bg-slate-800/50'}"></span>`;
+            }
+            token.appendChild(rib);
+            cell.appendChild(token);
+          }
+
+          grid.appendChild(cell);
+        }
+      }
+
+      document.getElementById('whiteCount').textContent = wCnt;
+      document.getElementById('blackCount').textContent = bCnt;
+      document.getElementById('turnLabel').innerHTML = turn === 'w' 
+        ? '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Tu turno' 
+        : '<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> IA pensando...';
+      document.getElementById('turnLabel').className = turn === 'w' 
+        ? 'text-xs font-bold text-emerald-400 flex items-center gap-1.5' 
+        : 'text-xs font-bold text-amber-400 flex items-center gap-1.5';
+    }
+
+    function renderLessons() {
+      const container = document.getElementById('lessonsList');
+      container.innerHTML = '';
+      LESSONS.forEach(l => {
+        const item = document.createElement('div');
+        item.className = 'p-2 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-between hover:border-amber-500/50 transition cursor-pointer';
+        item.innerHTML = `
+          <div>
+            <div class="font-bold text-[var(--foreground)] text-[11px]">${l.title}</div>
+            <div class="text-[10px] text-amber-400">${l.tech}</div>
+          </div>
+          <button class="px-2 py-0.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold">Cargar</button>
+        `;
+        item.querySelector('button').onclick = (e) => {
+          e.stopPropagation();
+          activeLesson = l;
+          currentVar = l.var;
+          document.getElementById('variantSelect').value = l.var;
+          const sz = RULES[l.var].size;
+          board = Array.from({ length: sz }, () => Array(sz).fill(null));
+          for (const [r, c, col, k] of l.setup) board[r][c] = { col, king: k };
+          turn = 'w';
+          selected = null;
+          updateMoves();
+          updateInfo(`${l.title}: ${l.prompt}`);
+          render();
+        };
+        container.appendChild(item);
+      });
+    }
+
+    // Eventos de controles
+    document.getElementById('variantSelect').onchange = (e) => {
+      activeLesson = null;
+      initGame(e.target.value);
+    };
+    if (document.getElementById('huffCheck')) {
+      document.getElementById('huffCheck').onchange = () => {
+        updateMoves();
+        render();
+      };
+    }
+    document.getElementById('coachBtn').onclick = () => {
+      if (moves.length > 0) {
+        coachHighlight = moves[0];
+        updateInfo('Pista del Coach: casilla recomendada resaltada en cian.');
+        render();
+      }
+    };
+    document.getElementById('soundBtn').onclick = () => {
+      sound.muted = !sound.muted;
+      document.getElementById('soundBtn').textContent = sound.muted ? '🔇' : '🔊';
+    };
+    document.getElementById('resetBtn').onclick = () => initGame(currentVar);
+    document.getElementById('rematchBtn').onclick = () => initGame(currentVar);
+    document.getElementById('closeModalBtn').onclick = () => document.getElementById('victoryModal').classList.add('hidden');
+
+    renderLessons();
+    initGame('spanish');
+  </script>
+</body>
+</html>

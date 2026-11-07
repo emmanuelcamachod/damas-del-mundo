@@ -1,0 +1,19 @@
+# REGLAS DE NEGOCIO: Juego de Damas
+
+* **Metodología:** GEM PROYECTOS SOFTWARE V4.0 (`P-05` / `P-17`)
+* **Estado:** APROBADO POR EL SUPERVISOR (2026-11-06)
+
+---
+
+## POLÍTICAS Y REGLAS VINCULANTES DEL DOMINIO
+
+| ID | Nombre | Definición Innegociable | Excepciones / Notas |
+| :---: | :--- | :--- | :--- |
+| **RN-001** | Geometría Paramétrica por Variante (8x8 y 10x10) | Las variantes diagonales 8x8 (Española, Brasileña, Inglesa, Rusa, Italiana) usan 32 casillas oscuras y 12 fichas por bando. La Internacional (10x10) usa 50 casillas oscuras y 20 fichas por bando. La Turca (8x8) usa las 64 casillas (ortogonal) y 16 fichas por bando (filas 1-2 y 5-6). | Se valida mediante invariante explícita `assert(squares.length == ruleset.boardSize * ruleset.boardSize)`. |
+| **RN-002** | Reglas de Peón y Coronación por Variante | El peón captura solo hacia adelante en Española, Inglesa, Italiana y Turca (adelante y lados), y captura también hacia atrás en Brasileña, Rusa e Internacional. En la variante Rusa (`promoteMidJump: true`), si un peón toca la fila de coronación durante un salto múltiple, se corona de inmediato y continúa el salto como Dama voladora. | En las demás variantes, la coronación ocurre al finalizar el turno en la fila de coronación. |
+| **RN-003** | Alcance de la Dama (Voladora vs Corto Alcance) | En Española, Brasileña, Rusa, Internacional y Turca, la Dama es de **largo alcance ("voladora")**. En Inglesa/Americana e Italiana, la Dama es de **corto alcance** (se mueve y salta 1 sola casilla). En la variante Italiana, **un peón tiene prohibido capturar a una Dama** (`pawnCanCaptureKing: false`). | Ninguna. |
+| **RN-004** | Captura Obligatoria vs Regla Opcional del "Soplido" | Si `allowHuffing: false` (modo torneo oficial), capturar es obligatorio al inicio del turno. Si `allowHuffing: true` (modo tradicional del Soplido), el jugador puede realizar un movimiento simple aunque tuviera captura disponible, pero las fichas que omitieron comer quedan marcadas como **infractoras (`huffablePositions`)** y el rival puede retirar ("soplar") una de ellas gratis al inicio de su turno antes de mover. | En Damas Turcas las piezas comidas en cadena se retiran inmediatamente tras cada salto; en las variantes diagonales se retiran al concluir la secuencia (obstáculo turco). |
+| **RN-005** | Leyes de Cantidad y Calidad Paramétricas | Según la variante activa: Española e Italiana aplican **Ley de Cantidad y Calidad**; Brasileña, Internacional y Turca aplican **Ley de Cantidad** (máximo de piezas sin distinguir Damas); Inglesa y Rusa aplican **captura obligatoria libre** (cualquier secuencia completa de captura es válida). | Ninguna. |
+| **RN-006** | Condiciones de Victoria y Tablas | Gana quien captura todas las piezas del oponente o lo deja sin movimientos legales. Tablas por triple repetición de posición (hash Zobrist) o tras 40 jugadas consecutivas sin captura ni movimiento de peón. | Ninguna. |
+| **RN-007** | Aprendizaje Adaptativo Acotado y ADN del Jugador | Los pesos heurísticos aprendidos por la IA (TD-Learning) se mantienen acotados con `clamp` para garantizar que nunca degraden la capacidad táctica base. El perfil **ADN del Jugador** actualiza métricas reales observadas. | El usuario puede consultar o reiniciar la memoria aprendida en cualquier momento. |
+| **RN-008** | Detector de Errores ($\ge 180\text{cp}$) y Currículo de 10 Niveles + Generador Infinito | Cuando una jugada del humano provoca una caída de evaluación $\ge 180$ centipeones respecto a la mejor jugada disponible, el sistema la registra como **Momento Crítico (Blunder)** y permite restaurar ese estado exacto (*"Reintentar desde mi Error"*). La Academia estructura **10 niveles progresivos** (de Novato a Gran Maestro) con técnicas tácticas con nombre propio más un **Generador Infinito de Retos Tácticos** validado por el motor Alfa-Beta. | Ninguna. |

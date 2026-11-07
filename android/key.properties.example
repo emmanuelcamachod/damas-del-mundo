@@ -1,0 +1,6 @@
+# Copia este archivo como android/key.properties antes de ejecutar `flutter build appbundle --release`
+# NUNCA subas tu archivo key.properties real ni tu .jks a repositorios públicos.
+storePassword=CAMBIA_POR_TU_PASSWORD_DEL_KEYSTORE
+keyPassword=CAMBIA_POR_TU_PASSWORD_DE_LA_LLAVE
+keyAlias=upload
+storeFile=upload-keystore.jks

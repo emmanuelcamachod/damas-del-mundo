@@ -1,0 +1,21 @@
+name: juego_de_damas
+description: >-
+  Juego de Damas Españolas (8x8) para Android en Flutter/Dart con Motor de IA
+  Híbrido Adaptativo (Alfa-Beta + TD-Learning) y Academia Interactiva por Niveles.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
