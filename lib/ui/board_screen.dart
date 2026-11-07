@@ -3,8 +3,10 @@
 
 import 'package:flutter/material.dart';
 import '../domain/checkers_engine.dart';
+import '../multiplayer/multiplayer.dart';
 import 'academy_sheet.dart';
 import 'ai_dna_sheet.dart';
+import 'coin_shop_dialog.dart';
 import 'game_controller.dart';
 import 'victory_celebration_dialog.dart';
 
@@ -151,7 +153,15 @@ class _BoardScreenState extends State<BoardScreen> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
+            _buildCoinWalletChip(),
+            const SizedBox(width: 8),
+            _buildOnlineBettingSelectorChip(),
+            const SizedBox(width: 8),
             _buildVariantSelectorButton(),
+            const SizedBox(width: 8),
+            _buildDifficultySelectorChip(),
+            const SizedBox(width: 8),
+            _buildThemeSelectorChip(),
             const SizedBox(width: 8),
             _buildAcademyButtonChip(),
             const SizedBox(width: 8),
@@ -159,6 +169,136 @@ class _BoardScreenState extends State<BoardScreen> {
             const SizedBox(width: 8),
             _buildHuffingToggleChip(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCoinWalletChip() {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 48),
+      child: ActionChip(
+        onPressed: () => CoinShopDialog.show(context, _controller),
+        backgroundColor: const Color(0xFF0F172A),
+        avatar: const Icon(Icons.monetization_on, color: Colors.amber, size: 20),
+        label: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${_controller.playerCoins} 🪙',
+              style: const TextStyle(
+                color: Colors.amber,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 4),
+            const Icon(Icons.add_circle, color: Colors.amber, size: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOnlineBettingSelectorChip() {
+    final isOnline = _controller.isOnlineMatch;
+    return PopupMenuButton<MatchmakingTier>(
+      tooltip: 'Buscar Partida Online con Apuesta de Monedas',
+      onSelected: (tier) => _controller.joinOnlineMatchWithBet(tier),
+      itemBuilder: (context) {
+        return [
+          for (final tier in MatchmakingTier.allTiers)
+            PopupMenuItem<MatchmakingTier>(
+              value: tier,
+              child: Row(
+                children: [
+                  Text(tier.iconEmoji, style: const TextStyle(fontSize: 16)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text('${tier.name} (Apuesta: ${tier.entryFee} 🪙 | Pozo: ${tier.prizePool} 🪙)'),
+                  ),
+                ],
+              ),
+            ),
+        ];
+      },
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: Chip(
+          backgroundColor: isOnline ? const Color(0xFF059669) : const Color(0xFFD97706),
+          avatar: Icon(
+            isOnline ? Icons.wifi : Icons.sports_esports,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: Text(
+            isOnline
+                ? 'Online (${_controller.activeOnlineRoom?.tier.entryFee} 🪙)'
+                : 'Apostar Online',
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDifficultySelectorChip() {
+    return PopupMenuButton<AiDifficulty>(
+      tooltip: 'Cambiar Dificultad de la IA Offline',
+      onSelected: _controller.setAiDifficulty,
+      itemBuilder: (context) {
+        return [
+          for (final diff in AiDifficulty.values)
+            PopupMenuItem<AiDifficulty>(
+              value: diff,
+              child: Text(diff.displayName),
+            ),
+        ];
+      },
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: Chip(
+          backgroundColor: const Color(0xFF1E3A8A),
+          avatar: const Icon(Icons.speed, color: Colors.cyanAccent, size: 20),
+          label: Text(
+            _controller.aiDifficulty.displayName,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildThemeSelectorChip() {
+    return PopupMenuButton<BoardVisualTheme>(
+      tooltip: 'Cambiar Estilo y Tema del Tablero',
+      onSelected: _controller.setBoardVisualTheme,
+      itemBuilder: (context) {
+        return [
+          for (final theme in BoardVisualTheme.values)
+            PopupMenuItem<BoardVisualTheme>(
+              value: theme,
+              child: Text(theme.displayName),
+            ),
+        ];
+      },
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: Chip(
+          backgroundColor: const Color(0xFF334155),
+          avatar: const Icon(Icons.palette_outlined, color: Colors.amber, size: 20),
+          label: Text(
+            _controller.boardVisualTheme.displayName,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );
@@ -416,6 +556,36 @@ class _BoardScreenState extends State<BoardScreen> {
     );
   }
 
+  Color _resolveBoardBorderColor() {
+    switch (_controller.boardVisualTheme) {
+      case BoardVisualTheme.classicWood:
+        return const Color(0xFF451A03);
+      case BoardVisualTheme.luxuryMarble:
+        return const Color(0xFF334155);
+      case BoardVisualTheme.cyberNeon:
+        return const Color(0xFF06B6D4);
+      case BoardVisualTheme.tuscanLeather:
+        return const Color(0xFF78350F);
+      case BoardVisualTheme.royalJade:
+        return const Color(0xFF059669);
+    }
+  }
+
+  Color _resolveBoardFrameColor() {
+    switch (_controller.boardVisualTheme) {
+      case BoardVisualTheme.classicWood:
+        return const Color(0xFF2D180B);
+      case BoardVisualTheme.luxuryMarble:
+        return const Color(0xFF0B0F19);
+      case BoardVisualTheme.cyberNeon:
+        return const Color(0xFF050811);
+      case BoardVisualTheme.tuscanLeather:
+        return const Color(0xFF321C11);
+      case BoardVisualTheme.royalJade:
+        return const Color(0xFF041F16);
+    }
+  }
+
   Widget _buildCenteredBoard() {
     final size = _controller.currentBoard.ruleset.boardSize;
     final totalSquares = _controller.currentBoard.ruleset.totalSquares;
@@ -425,8 +595,9 @@ class _BoardScreenState extends State<BoardScreen> {
         child: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFF475569), width: 3),
-            borderRadius: BorderRadius.circular(8),
+            color: _resolveBoardFrameColor(),
+            border: Border.all(color: _resolveBoardBorderColor(), width: 3.5),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -464,11 +635,18 @@ class _BoardScreenState extends State<BoardScreen> {
         child: Container(
           constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
           color: bgColor,
-          child: _buildSquareContent(
-            pos,
-            targetMove,
-            isMandatoryOrigin,
-            isHuffable,
+          child: CustomPaint(
+            painter: _TactileGrainPainter(
+              theme: _controller.boardVisualTheme,
+              isPlayable: isPlayable,
+              isSelectedOrTarget: isSelected || targetMove != null,
+            ),
+            child: _buildSquareContent(
+              pos,
+              targetMove,
+              isMandatoryOrigin,
+              isHuffable,
+            ),
           ),
         ),
       ),
@@ -480,16 +658,39 @@ class _BoardScreenState extends State<BoardScreen> {
     bool isSelected,
     bool isTarget,
   ) {
-    if (!isPlayable) {
-      return const Color(0xFFE2E8F0);
-    }
     if (isSelected) {
       return const Color(0xFF0284C7);
     }
     if (isTarget) {
       return const Color(0xFF15803D);
     }
-    return const Color(0xFF334155);
+    final theme = _controller.boardVisualTheme;
+    if (!isPlayable) {
+      switch (theme) {
+        case BoardVisualTheme.classicWood:
+          return const Color(0xFFD8B68A);
+        case BoardVisualTheme.luxuryMarble:
+          return const Color(0xFFE2E8F0);
+        case BoardVisualTheme.cyberNeon:
+          return const Color(0xFF13203C);
+        case BoardVisualTheme.tuscanLeather:
+          return const Color(0xFFD7CCC8);
+        case BoardVisualTheme.royalJade:
+          return const Color(0xFFD1FAE5);
+      }
+    }
+    switch (theme) {
+      case BoardVisualTheme.classicWood:
+        return const Color(0xFF5C3A21);
+      case BoardVisualTheme.luxuryMarble:
+        return const Color(0xFF0F172A);
+      case BoardVisualTheme.cyberNeon:
+        return const Color(0xFF090D16);
+      case BoardVisualTheme.tuscanLeather:
+        return const Color(0xFF451A03);
+      case BoardVisualTheme.royalJade:
+        return const Color(0xFF064E3B);
+    }
   }
 
   Widget _buildSquareContent(
@@ -506,6 +707,36 @@ class _BoardScreenState extends State<BoardScreen> {
       return _buildTargetIndicator(targetMove.isCapture);
     }
     return const SizedBox.shrink();
+  }
+
+  List<Color> _resolvePieceGradient(bool isWhite) {
+    final theme = _controller.boardVisualTheme;
+    if (isWhite) {
+      switch (theme) {
+        case BoardVisualTheme.classicWood:
+          return const [Color(0xFFFFFFFF), Color(0xFFF1F5F9), Color(0xFFCBD5E1)];
+        case BoardVisualTheme.luxuryMarble:
+          return const [Color(0xFFFFFFFF), Color(0xFFF8FAFC), Color(0xFFCBD5E1)];
+        case BoardVisualTheme.cyberNeon:
+          return const [Color(0xFFE0F2FE), Color(0xFF38BDF8), Color(0xFF0284C7)];
+        case BoardVisualTheme.tuscanLeather:
+          return const [Color(0xFFFFFBEB), Color(0xFFFEF3C7), Color(0xFFD97706)];
+        case BoardVisualTheme.royalJade:
+          return const [Color(0xFFECFDF5), Color(0xFFA7F3D0), Color(0xFF34D399)];
+      }
+    }
+    switch (theme) {
+      case BoardVisualTheme.classicWood:
+        return const [Color(0xFF334155), Color(0xFF1E293B), Color(0xFF090D16)];
+      case BoardVisualTheme.luxuryMarble:
+        return const [Color(0xFF1E293B), Color(0xFF090D16), Color(0xFF020617)];
+      case BoardVisualTheme.cyberNeon:
+        return const [Color(0xFF4C0519), Color(0xFF9F1239), Color(0xFF1C030B)];
+      case BoardVisualTheme.tuscanLeather:
+        return const [Color(0xFF291811), Color(0xFF180D09), Color(0xFF0A0503)];
+      case BoardVisualTheme.royalJade:
+        return const [Color(0xFF022C22), Color(0xFF064E3B), Color(0xFF011510)];
+    }
   }
 
   Widget _buildPieceToken(
@@ -526,9 +757,7 @@ class _BoardScreenState extends State<BoardScreen> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: isWhite
-              ? const [Color(0xFFFFFFFF), Color(0xFFF1F5F9), Color(0xFFCBD5E1)]
-              : const [Color(0xFF334155), Color(0xFF1E293B), Color(0xFF090D16)],
+          colors: _resolvePieceGradient(isWhite),
         ),
         boxShadow: [
           BoxShadow(
@@ -585,20 +814,7 @@ class _BoardScreenState extends State<BoardScreen> {
         ),
       );
     }
-    return Container(
-      width: 13,
-      height: 13,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: isWhite ? const Color(0xFF94A3B8) : const Color(0xFF334155),
-          width: 1.2,
-        ),
-        color: isWhite
-            ? const Color(0xFFE2E8F0).withValues(alpha: 0.6)
-            : const Color(0xFF0F172A).withValues(alpha: 0.6),
-      ),
-    );
+    return const SizedBox.shrink();
   }
 
   Color _resolvePieceBorderColor(
@@ -690,5 +906,76 @@ class _BoardScreenState extends State<BoardScreen> {
         );
       },
     );
+  }
+}
+
+class _TactileGrainPainter extends CustomPainter {
+  const _TactileGrainPainter({
+    required this.theme,
+    required this.isPlayable,
+    required this.isSelectedOrTarget,
+  });
+
+  final BoardVisualTheme theme;
+  final bool isPlayable;
+  final bool isSelectedOrTarget;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (isSelectedOrTarget) return;
+    if (theme == BoardVisualTheme.classicWood) {
+      _paintWoodGrain(canvas, size);
+      return;
+    }
+    if (theme == BoardVisualTheme.tuscanLeather) {
+      _paintLeatherGrain(canvas, size);
+      return;
+    }
+  }
+
+  void _paintWoodGrain(Canvas canvas, Size size) {
+    final stripeColor = isPlayable
+        ? const Color(0xFF241106).withValues(alpha: 0.55)
+        : const Color(0xFF8C5828).withValues(alpha: 0.35);
+    final paint = Paint()
+      ..color = stripeColor
+      ..strokeWidth = 1.6
+      ..style = PaintingStyle.stroke;
+
+    const step = 8.0;
+    final total = size.width + size.height;
+    for (double d = 0; d <= total; d += step) {
+      canvas.drawLine(Offset(d, 0), Offset(0, d), paint);
+    }
+  }
+
+  void _paintLeatherGrain(Canvas canvas, Size size) {
+    final stripeColor = isPlayable
+        ? const Color(0xFF1A0801).withValues(alpha: 0.65)
+        : const Color(0xFF6D4C41).withValues(alpha: 0.35);
+    final paint = Paint()
+      ..color = stripeColor
+      ..strokeWidth = 1.4
+      ..style = PaintingStyle.stroke;
+
+    const stepX = 7.0;
+    for (double x = 0; x <= size.width; x += stepX) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+    final crossPaint = Paint()
+      ..color = stripeColor.withValues(alpha: 0.3)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+    const stepY = 10.0;
+    for (double y = 0; y <= size.height; y += stepY) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), crossPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _TactileGrainPainter oldDelegate) {
+    return oldDelegate.theme != theme ||
+        oldDelegate.isPlayable != isPlayable ||
+        oldDelegate.isSelectedOrTarget != isSelectedOrTarget;
   }
 }

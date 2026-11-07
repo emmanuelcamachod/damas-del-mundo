@@ -2,9 +2,116 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Damas del Mundo: Némesis IA — Edición Magistral GEM V4.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Damas de Élite — GEM V4.0 (PWA)</title>
+
+  <!-- PWA y Soporte Nativo para iPhone / iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Damas Élite" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#090d16" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230f172a'/%3E%3Ccircle cx='256' cy='256' r='200' fill='none' stroke='%23f59e0b' stroke-width='16'/%3E%3Cpath d='M120 340l-30-180 90 60 76-90 76 90 90-60-30 180H120zm240 40c0 10-8 18-18 18H170c-10 0-18-8-18-18v-10h208v10z' fill='%23f59e0b'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ccircle cx='256' cy='256' r='240' fill='%23f59e0b'/%3E%3Cpath d='M150 330l-20-140 70 50 56-70 56 70 70-50-20 140H150z' fill='%230f172a'/%3E%3C/svg%3E" />
+
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
+    /* VARIABLES DINÁMICAS POR TEMA VISUAL */
+    :root, body[data-theme="wood"] {
+      --bg-main: #090d16;
+      --card-bg: #0f172a;
+      --card-border: #1e293b;
+      --board-frame-bg: #2d180b;
+      --board-frame-border: #451a03;
+      --board-frame-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.8), 0 0 15px rgba(69, 26, 3, 0.4);
+      --cell-dark: #5c3a21;
+      --cell-light: #d8b68a;
+      --coord-color: #d8b68a;
+      --piece-w-grad: radial-gradient(circle at 40% 35%, #ffffff 0%, #f1f5f9 60%, #cbd5e1 100%);
+      --piece-w-border: #94a3b8;
+      --piece-b-grad: radial-gradient(circle at 40% 35%, #334155 0%, #1e293b 65%, #090d16 100%);
+      --piece-b-border: #0f172a;
+      --king-accent: #f59e0b;
+      --theme-badge-bg: rgba(245, 158, 11, 0.15);
+      --theme-badge-text: #fbbf24;
+    }
+
+    body[data-theme="marble"] {
+      --bg-main: #06090e;
+      --card-bg: #0c121e;
+      --card-border: #1e293b;
+      --board-frame-bg: #0b0f19;
+      --board-frame-border: #334155;
+      --board-frame-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.2);
+      --cell-dark: #0f172a;
+      --cell-light: #e2e8f0;
+      --coord-color: #94a3b8;
+      --piece-w-grad: radial-gradient(circle at 35% 30%, #ffffff 0%, #f8fafc 65%, #cbd5e1 100%);
+      --piece-w-border: #94a3b8;
+      --piece-b-grad: radial-gradient(circle at 35% 30%, #1e293b 0%, #090d16 80%, #020617 100%);
+      --piece-b-border: #334155;
+      --king-accent: #38bdf8;
+      --theme-badge-bg: rgba(56, 189, 248, 0.15);
+      --theme-badge-text: #38bdf8;
+    }
+
+    body[data-theme="cyber"] {
+      --bg-main: #030712;
+      --card-bg: #090d1a;
+      --card-border: #1e293b;
+      --board-frame-bg: #050811;
+      --board-frame-border: #06b6d4;
+      --board-frame-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.9), 0 0 25px rgba(6, 182, 212, 0.4);
+      --cell-dark: #090d16;
+      --cell-light: #13203c;
+      --coord-color: #22d3ee;
+      --piece-w-grad: radial-gradient(circle at 40% 35%, #e0f2fe 0%, #38bdf8 65%, #0284c7 100%);
+      --piece-w-border: #38bdf8;
+      --piece-b-grad: radial-gradient(circle at 40% 35%, #4c0519 0%, #9f1239 60%, #1c030b 100%);
+      --piece-b-border: #f43f5e;
+      --king-accent: #06b6d4;
+      --theme-badge-bg: rgba(6, 182, 212, 0.15);
+      --theme-badge-text: #22d3ee;
+    }
+
+    body[data-theme="leather"] {
+      --bg-main: #0c0806;
+      --card-bg: #150f0c;
+      --card-border: #2d1c15;
+      --board-frame-bg: #321c11;
+      --board-frame-border: #78350f;
+      --board-frame-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.85), 0 0 15px rgba(120, 53, 15, 0.35);
+      --cell-dark: #451a03;
+      --cell-light: #d7ccc8;
+      --coord-color: #d7ccc8;
+      --piece-w-grad: radial-gradient(circle at 38% 35%, #fffbeb 0%, #fef3c7 60%, #d97706 100%);
+      --piece-w-border: #b45309;
+      --piece-b-grad: radial-gradient(circle at 38% 35%, #291811 0%, #180d09 70%, #0a0503 100%);
+      --piece-b-border: #78350f;
+      --king-accent: #ffb300;
+      --theme-badge-bg: rgba(217, 119, 6, 0.15);
+      --theme-badge-text: #f59e0b;
+    }
+
+    body[data-theme="jade"] {
+      --bg-main: #040d0a;
+      --card-bg: #0a1814;
+      --card-border: #133328;
+      --board-frame-bg: #041f16;
+      --board-frame-border: #059669;
+      --board-frame-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(16, 185, 129, 0.35);
+      --cell-dark: #064e3b;
+      --cell-light: #d1fae5;
+      --coord-color: #6ee7b7;
+      --piece-w-grad: radial-gradient(circle at 38% 35%, #ecfdf5 0%, #a7f3d0 60%, #34d399 100%);
+      --piece-w-border: #10b981;
+      --piece-b-grad: radial-gradient(circle at 38% 35%, #022c22 0%, #064e3b 70%, #011510 100%);
+      --piece-b-border: #047857;
+      --king-accent: #fbbf24;
+      --theme-badge-bg: rgba(16, 185, 129, 0.15);
+      --theme-badge-text: #34d399;
+    }
+
     /* Fichas con bordes estriados, anillos concéntricos y relieve táctil */
     .piece-token {
       transition: transform 0.16s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.16s ease-out;
@@ -17,47 +124,47 @@
       z-index: 10;
     }
     .piece-white {
-      background: radial-gradient(circle at 40% 35%, #ffffff 0%, #f1f5f9 60%, #cbd5e1 100%);
-      /* Borde exterior escalonado + canal concéntrico tallado + bisel */
+      background-color: #f8fafc;
+      background: var(--piece-w-grad);
       box-shadow: 
         0 4px 8px rgba(0,0,0,0.35),
         inset 0 0 0 2px #e2e8f0,
         inset 0 0 0 4px #94a3b8,
         inset 0 0 0 6px #f8fafc,
         inset 0 2px 3px rgba(255,255,255,0.9);
-      border: 1.5px solid #94a3b8;
+      border: 1.5px solid var(--piece-w-border);
     }
     .piece-black {
-      background: radial-gradient(circle at 40% 35%, #334155 0%, #1e293b 65%, #090d16 100%);
-      /* Borde exterior estriado oscuro + canal concéntrico tallado */
+      background-color: #1e293b;
+      background: var(--piece-b-grad);
       box-shadow: 
         0 4px 8px rgba(0,0,0,0.6),
         inset 0 0 0 2px #475569,
         inset 0 0 0 4px #090d16,
         inset 0 0 0 6px #1e293b,
         inset 0 1px 2px rgba(148,163,184,0.4);
-      border: 1.5px solid #0f172a;
+      border: 1.5px solid var(--piece-b-border);
     }
-    /* Estilo especial para la Dama: Borde doble de orfebrería con relieve dorado */
+    /* Estilo especial para la Dama: Borde doble de orfebrería con relieve de corona */
     .piece-king-white {
       box-shadow: 
         0 6px 12px rgba(0,0,0,0.45),
-        0 0 8px rgba(245, 158, 11, 0.4),
-        inset 0 0 0 2.5px #f59e0b,
+        0 0 10px var(--king-accent),
+        inset 0 0 0 2.5px var(--king-accent),
         inset 0 0 0 4.5px #b45309,
         inset 0 0 0 6.5px #fef3c7,
         inset 0 2px 4px rgba(255,255,255,0.9) !important;
-      border: 1.5px solid #d97706 !important;
+      border: 1.5px solid var(--king-accent) !important;
     }
     .piece-king-black {
       box-shadow: 
         0 6px 12px rgba(0,0,0,0.7),
-        0 0 8px rgba(245, 158, 11, 0.5),
-        inset 0 0 0 2.5px #f59e0b,
+        0 0 10px var(--king-accent),
+        inset 0 0 0 2.5px var(--king-accent),
         inset 0 0 0 4.5px #78350f,
         inset 0 0 0 6.5px #1e293b,
         inset 0 1px 2px rgba(251, 191, 36, 0.4) !important;
-      border: 1.5px solid #b45309 !important;
+      border: 1.5px solid var(--king-accent) !important;
     }
     /* Anillo acanalado central */
     .inner-rib {
@@ -67,33 +174,129 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      pointer-events: none;
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 1px rgba(255,255,255,0.4);
     }
     .inner-rib-white {
-      border: 1.5px dashed #94a3b8;
+      border: 1.5px dashed var(--piece-w-border);
       background: radial-gradient(circle, #f8fafc 0%, #e2e8f0 100%);
     }
     .inner-rib-black {
-      border: 1.5px dashed #475569;
+      border: 1.5px dashed var(--piece-b-border);
       background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
     }
     .board-cell-dark {
       background-color: #5c3a21;
+      background-color: var(--cell-dark);
     }
     .board-cell-light {
       background-color: #d8b68a;
+      background-color: var(--cell-light);
     }
+
+    /* Rayitas de Veta Noble y Tono Intenso para Tema Nogal (Madera Física Real) */
+    body[data-theme="wood"] .board-cell-dark {
+      background-color: #5c3a21;
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(36, 17, 6, 0.6) 0px,
+        rgba(36, 17, 6, 0.6) 2px,
+        transparent 2px,
+        transparent 7px
+      );
+      box-shadow: inset 0 0 10px rgba(20, 8, 2, 0.75), inset 0 0 0 1px rgba(69, 26, 3, 0.45);
+    }
+    body[data-theme="wood"] .board-cell-light {
+      background-color: #d8b68a;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(140, 88, 40, 0.38) 0px,
+        rgba(140, 88, 40, 0.38) 1.5px,
+        transparent 1.5px,
+        transparent 7px
+      );
+      box-shadow: inset 0 0 6px rgba(100, 60, 20, 0.25);
+    }
+    body[data-theme="wood"] #boardFrameContainer {
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(20, 8, 2, 0.35) 0px,
+        rgba(20, 8, 2, 0.35) 2px,
+        transparent 2px,
+        transparent 14px
+      );
+    }
+    body[data-theme="wood"] .piece-token.piece-white {
+      background-image: 
+        repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 4px, rgba(140, 88, 40, 0.38) 4.5px, transparent 6px),
+        var(--piece-w-grad);
+    }
+    body[data-theme="wood"] .piece-token.piece-black {
+      background-image: 
+        repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 4px, rgba(10, 5, 2, 0.8) 4.5px, transparent 6px),
+        var(--piece-b-grad);
+    }
+
+    /* Rayitas de Grano Artesanal y Tono Intenso para Tema Cuero Toscano (Tablero Físico Repujado) */
+    body[data-theme="leather"] .board-cell-dark {
+      background-color: #451a03;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(26, 8, 1, 0.7) 0px,
+        rgba(26, 8, 1, 0.7) 1.5px,
+        transparent 1.5px,
+        transparent 6px
+      ), repeating-linear-gradient(
+        0deg,
+        rgba(26, 8, 1, 0.4) 0px,
+        rgba(26, 8, 1, 0.4) 1px,
+        transparent 1px,
+        transparent 10px
+      );
+      box-shadow: inset 0 0 12px rgba(15, 4, 1, 0.85), inset 0 0 0 1.5px rgba(180, 83, 9, 0.4);
+    }
+    body[data-theme="leather"] .board-cell-light {
+      background-color: #d7ccc8;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(109, 76, 65, 0.4) 0px,
+        rgba(109, 76, 65, 0.4) 1.5px,
+        transparent 1.5px,
+        transparent 6px
+      );
+      box-shadow: inset 0 0 6px rgba(93, 64, 55, 0.35);
+    }
+    body[data-theme="leather"] #boardFrameContainer {
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(18, 5, 1, 0.45) 0px,
+        rgba(18, 5, 1, 0.45) 1.5px,
+        transparent 1.5px,
+        transparent 8px
+      );
+    }
+    body[data-theme="leather"] .piece-token.piece-white {
+      background-image: 
+        repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 4px, rgba(180, 83, 9, 0.45) 4.5px, transparent 6px),
+        var(--piece-w-grad);
+    }
+    body[data-theme="leather"] .piece-token.piece-black {
+      background-image: 
+        repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 4px, rgba(15, 6, 2, 0.9) 4.5px, transparent 6px),
+        var(--piece-b-grad);
+    }
+
     .board-cell-target {
       position: relative;
     }
     .board-cell-target::after {
       content: '';
       position: absolute;
-      width: 32%;
-      height: 32%;
+      width: 34%;
+      height: 34%;
       border-radius: 50%;
       background: rgba(16, 185, 129, 0.85);
-      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
       pointer-events: none;
     }
     .board-cell-coach {
@@ -104,72 +307,72 @@
       0%, 100% { box-shadow: inset 0 0 0 3px #06b6d4; }
       50% { box-shadow: inset 0 0 0 5px #22d3ee, 0 0 12px #06b6d4; }
     }
-    :root {
-      --background: #090d16;
-      --foreground: #f8fafc;
-      --card: #0f172a;
-      --border: #1e293b;
-      --muted-foreground: #94a3b8;
-    }
   </style>
 </head>
-<body class="bg-[var(--background)] text-[var(--foreground)] min-h-screen flex flex-col font-sans antialiased select-none pb-6">
+<body class="bg-[var(--bg-main)] text-slate-100 min-h-screen flex flex-col font-sans antialiased select-none pb-6 transition-colors duration-300">
 
-  <!-- Header Superior Compacto -->
-  <header class="border-b border-[var(--border)] bg-[var(--card)] px-4 py-2.5 flex items-center justify-between sticky top-0 z-20">
+  <!-- Header Superior Minimalista y Elegante (Anti-Clutter GEM V4.0) -->
+  <header class="border-b border-[var(--card-border)] bg-[var(--card-bg)] px-3 py-2 flex items-center justify-between sticky top-0 z-20 shadow-sm transition-colors duration-300">
     <div class="flex items-center gap-2">
-      <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-black text-sm">
-        ♛
-      </div>
+      <!-- Botón Menú Principal / Lobby -->
+      <button id="openLobbyBtn" title="Menú Principal y Modos de Juego" class="px-2.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-amber-400 hover:bg-amber-500/20 text-xs font-bold flex items-center gap-1.5 shadow transition cursor-pointer">
+        <span class="text-base">🏛️</span>
+        <span class="font-extrabold text-[11px] tracking-wide">MENÚ</span>
+      </button>
+
       <div>
-        <h1 class="text-sm font-bold tracking-tight text-[var(--foreground)]">Damas del Mundo</h1>
-        <p class="text-[10px] text-[var(--muted-foreground)]">Motor Némesis Alfa-Beta P4 • GEM V4.0</p>
+        <h1 class="text-xs font-black tracking-tight text-white flex items-center gap-1.5">
+          <span>Damas de Élite</span>
+          <button id="variantHeaderBtn" onclick="openVariantPickerModal()" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition cursor-pointer flex items-center gap-0.5" title="Toca para cambiar el tipo de Damas">
+            <span id="variantHeaderBadge">Española (8x8)</span>
+            <span class="text-[8px]">▾</span>
+          </button>
+        </h1>
+        <p class="text-[9px] text-slate-400 font-medium">Motor Némesis P4 • <span id="currentThemeName">Nogal & Arce</span></p>
       </div>
     </div>
 
-    <!-- Controles Rápidos -->
+    <!-- Controles Rápidos de Cabecera (Limpios y Despejados) -->
     <div class="flex items-center gap-1.5">
-      <select id="variantSelect" class="bg-[var(--background)] border border-[var(--border)] text-xs rounded-lg px-2 py-1 text-[var(--foreground)] focus:outline-none focus:border-amber-500">
-        <option value="spanish">Española (8x8)</option>
-        <option value="brazilian">Brasileña (8x8)</option>
-        <option value="english">Inglesa / Checkers (8x8)</option>
-        <option value="russian">Rusa / Shashki (8x8)</option>
-        <option value="italian">Italiana (8x8)</option>
-        <option value="international">Internacional (10x10)</option>
-        <option value="turkish">Turca (Ortogonal 8x8)</option>
-      </select>
-      <button id="coachBtn" title="Pista del Entrenador Táctico" class="px-2.5 py-1 rounded-lg bg-cyan-950/60 border border-cyan-800 text-cyan-400 hover:bg-cyan-900/60 text-xs font-semibold flex items-center gap-1 transition">
-        <span>💡</span> Pista
+      <!-- Botón Monedero y Tienda In-App -->
+      <button id="openShopBtn" title="Billetera y Tienda de Monedas" class="px-2.5 py-1.5 rounded-xl bg-amber-950/60 border border-amber-500/50 text-amber-300 hover:bg-amber-900/60 text-xs font-bold flex items-center gap-1 shadow transition cursor-pointer">
+        <span>🪙</span>
+        <span id="playerCoinsHeader" class="font-mono text-white text-xs font-bold">1000</span>
+        <span class="text-[8px] bg-amber-500 text-slate-950 px-1 rounded-full font-black">+</span>
       </button>
-      <button id="soundBtn" title="Activar/Silenciar Sonido" class="px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 text-xs transition">
-        🔊
+
+      <!-- Botón Pista / Coach Táctico -->
+      <button id="coachBtn" title="Pedir Pista al Coach" class="p-1.5 rounded-xl bg-cyan-950/60 border border-cyan-800 text-cyan-400 hover:bg-cyan-900/60 text-xs font-semibold flex items-center justify-center transition cursor-pointer w-8 h-8">
+        <span>💡</span>
       </button>
-      <button id="resetBtn" title="Reiniciar Partida" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition">
-        Reiniciar
+
+      <!-- Botón Configuración / Ajustes -->
+      <button id="openSettingsBtn" title="Configuración y Preferencias" class="p-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-200 hover:bg-slate-700 text-xs font-bold flex items-center justify-center transition cursor-pointer w-8 h-8">
+        <span class="text-sm">⚙️</span>
       </button>
     </div>
   </header>
 
   <!-- Modal de Victoria con Animación de Celebración -->
   <div id="victoryModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-[var(--card)] border border-amber-500/50 rounded-2xl max-w-sm w-full p-5 text-center shadow-2xl relative">
+    <div class="bg-[var(--card-bg)] border border-amber-500/50 rounded-2xl max-w-sm w-full p-5 text-center shadow-2xl relative">
       <div class="w-14 h-14 mx-auto rounded-full bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-3xl mb-3 shadow-[0_0_20px_rgba(245,158,11,0.5)]">
         🏆
       </div>
       <h2 id="victoryHeading" class="text-xl font-black text-amber-400 tracking-tight mb-1">¡MATE DE LA DAMA!</h2>
-      <p id="victorySub" class="text-xs text-[var(--muted-foreground)] mb-4">La partida ha finalizado.</p>
+      <p id="victorySub" class="text-xs text-slate-400 mb-4">La partida ha finalizado.</p>
       
-      <div class="grid grid-cols-3 gap-2 bg-[var(--background)] p-3 rounded-xl border border-[var(--border)] mb-4 text-xs">
+      <div class="grid grid-cols-3 gap-2 bg-[var(--bg-main)] p-3 rounded-xl border border-[var(--card-border)] mb-4 text-xs">
         <div>
-          <div class="text-[10px] text-[var(--muted-foreground)] uppercase font-semibold">Jugadas</div>
-          <div id="statMoves" class="font-bold text-[var(--foreground)] text-sm mt-0.5">0</div>
+          <div class="text-[10px] text-slate-400 uppercase font-semibold">Jugadas</div>
+          <div id="statMoves" class="font-bold text-white text-sm mt-0.5">0</div>
         </div>
         <div>
-          <div class="text-[10px] text-[var(--muted-foreground)] uppercase font-semibold">Capturas</div>
+          <div class="text-[10px] text-slate-400 uppercase font-semibold">Capturas</div>
           <div id="statCaps" class="font-bold text-emerald-400 text-sm mt-0.5">0</div>
         </div>
         <div>
-          <div class="text-[10px] text-[var(--muted-foreground)] uppercase font-semibold">Damas</div>
+          <div class="text-[10px] text-slate-400 uppercase font-semibold">Damas</div>
           <div id="statKings" class="font-bold text-amber-400 text-sm mt-0.5">0</div>
         </div>
       </div>
@@ -189,15 +392,611 @@
     </div>
   </div>
 
+  <!-- Modal de Tienda de Monedas y Desbloqueo de Tableros (100% Sin Anuncios) -->
+  <div id="coinShopModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[var(--card-bg)] border border-amber-500/50 rounded-2xl max-w-md w-full p-5 text-left shadow-2xl relative">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--card-border)] mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🪙</span>
+          <div>
+            <h2 class="text-base font-black text-amber-400">Tienda & Billetera de Monedas</h2>
+            <p class="text-[10px] text-slate-400">100% Libre de Anuncios Molestos • Modo Competitivo</p>
+          </div>
+        </div>
+        <button id="closeShopModalBtn" class="text-slate-400 hover:text-white text-lg font-bold px-2">✕</button>
+      </div>
+
+      <!-- Banner de Recompensa Diaria -->
+      <div id="dailyRewardCard" class="bg-emerald-950/40 border border-emerald-600/50 rounded-xl p-3 flex items-center justify-between mb-3 text-xs">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🎁</span>
+          <div>
+            <div class="font-bold text-white text-xs">Recompensa Diaria</div>
+            <div class="text-[10px] text-emerald-300" id="dailyRewardSubtitle">+100 Monedas disponibles hoy</div>
+          </div>
+        </div>
+        <button id="claimDailyRewardBtn" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition">
+          Reclamar
+        </button>
+      </div>
+
+      <!-- Pestañas de la Tienda -->
+      <div class="flex border-b border-[var(--card-border)] mb-3 text-xs font-bold">
+        <button id="shopTabPacksBtn" class="flex-1 pb-2 border-b-2 border-amber-500 text-amber-400">Bolsa de Monedas</button>
+        <button id="shopTabThemesBtn" class="flex-1 pb-2 border-b-2 border-transparent text-slate-400 hover:text-white">Desbloquear Tableros</button>
+      </div>
+
+      <!-- Vista 1: Paquetes de Monedas -->
+      <div id="shopPacksView" class="space-y-2 max-h-72 overflow-y-auto pr-1 text-xs">
+        <!-- Pack 1 -->
+        <div class="bg-[var(--bg-main)] p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">🪙</span>
+            <div>
+              <div class="font-bold text-white">Bolsa de Principiante</div>
+              <div class="text-[11px] text-amber-400 font-bold font-mono">1.200 Monedas</div>
+            </div>
+          </div>
+          <button onclick="buyCoins(1200, '$0.99 USD')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition">
+            $0.99 USD
+          </button>
+        </div>
+        <!-- Pack 2 (Popular) -->
+        <div class="bg-amber-950/20 p-2.5 rounded-xl border border-amber-500/60 flex items-center justify-between relative overflow-hidden">
+          <span class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[8px] font-black px-1.5 py-0.5 rounded-bl">MÁS POPULAR</span>
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">💰</span>
+            <div>
+              <div class="font-bold text-white">Bolsa de Maestro</div>
+              <div class="text-[11px] text-amber-400 font-bold font-mono">5.750 Monedas <span class="text-[9px] text-emerald-400">(+15% Extra)</span></div>
+            </div>
+          </div>
+          <button onclick="buyCoins(5750, '$2.99 USD')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition">
+            $2.99 USD
+          </button>
+        </div>
+        <!-- Pack 3 -->
+        <div class="bg-[var(--bg-main)] p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">🏆</span>
+            <div>
+              <div class="font-bold text-white">Cofre de Campeón</div>
+              <div class="text-[11px] text-amber-400 font-bold font-mono">26.000 Monedas <span class="text-[9px] text-emerald-400">(+30% Extra)</span></div>
+            </div>
+          </div>
+          <button onclick="buyCoins(26000, '$8.99 USD')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition">
+            $8.99 USD
+          </button>
+        </div>
+        <!-- Pack 4 -->
+        <div class="bg-[var(--bg-main)] p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">👑</span>
+            <div>
+              <div class="font-bold text-white">Tesoro Gran Maestro</div>
+              <div class="text-[11px] text-amber-400 font-bold font-mono">150.000 Monedas <span class="text-[9px] text-emerald-400">(+50% Extra)</span></div>
+            </div>
+          </div>
+          <button onclick="buyCoins(150000, '$29.99 USD')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition">
+            $29.99 USD
+          </button>
+        </div>
+      </div>
+
+      <!-- Vista 2: Desbloquear Tableros con Monedas -->
+      <div id="shopThemesView" class="hidden space-y-2 max-h-72 overflow-y-auto pr-1 text-xs">
+        <div id="themeShopList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Selección de Mesa y Apuesta Online (Matchmaking) -->
+  <div id="onlineBetModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[var(--card-bg)] border border-emerald-500/50 rounded-2xl max-w-sm w-full p-5 text-left shadow-2xl relative">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--card-border)] mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🌐</span>
+          <div>
+            <h2 class="text-base font-black text-emerald-400">Salas de Apuesta Online</h2>
+            <p class="text-[10px] text-slate-400">Billetera actual: <strong id="betModalCoins" class="text-amber-400 font-mono">1000</strong> 🪙</p>
+          </div>
+        </div>
+        <button id="closeBetModalBtn" class="text-slate-400 hover:text-white text-lg font-bold px-2">✕</button>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <!-- Mesa 50 -->
+        <button onclick="startOnlineMatch(50, 90, 'Mesa Nogal')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🪵</span>
+            <div class="text-left">
+              <div class="font-bold text-white">Mesa Nogal (Bronce)</div>
+              <div class="text-[10px] text-slate-400">Apuesta: <strong class="text-amber-400">50 🪙</strong></div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] font-mono font-bold text-emerald-400">Gana 90 🪙</span>
+            <div class="text-[9px] text-slate-500">Rake 10%</div>
+          </div>
+        </button>
+
+        <!-- Mesa 250 -->
+        <button onclick="startOnlineMatch(250, 450, 'Mesa Cuero')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📜</span>
+            <div class="text-left">
+              <div class="font-bold text-white">Mesa Cuero (Plata)</div>
+              <div class="text-[10px] text-slate-400">Apuesta: <strong class="text-amber-400">250 🪙</strong></div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] font-mono font-bold text-emerald-400">Gana 450 🪙</span>
+            <div class="text-[9px] text-slate-500">Rake 10%</div>
+          </div>
+        </button>
+
+        <!-- Mesa 1.000 -->
+        <button onclick="startOnlineMatch(1000, 1800, 'Mesa Mármol')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🏛️</span>
+            <div class="text-left">
+              <div class="font-bold text-white">Mesa Mármol (Oro)</div>
+              <div class="text-[10px] text-slate-400">Apuesta: <strong class="text-amber-400">1.000 🪙</strong></div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] font-mono font-bold text-emerald-400">Gana 1.800 🪙</span>
+            <div class="text-[9px] text-slate-500">Rake 10%</div>
+          </div>
+        </button>
+
+        <!-- Mesa 5.000 -->
+        <button onclick="startOnlineMatch(5000, 9000, 'Mesa Jade')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🐉</span>
+            <div class="text-left">
+              <div class="font-bold text-white">Mesa Jade (Diamante)</div>
+              <div class="text-[10px] text-slate-400">Apuesta: <strong class="text-amber-400">5.000 🪙</strong></div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] font-mono font-bold text-emerald-400">Gana 9.000 🪙</span>
+            <div class="text-[9px] text-slate-500">Rake 10%</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Menú Principal / Lobby de Lujo -->
+  <div id="lobbyModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-[var(--card-bg)] border border-amber-500/50 rounded-2xl max-w-md w-full p-5 text-left shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--card-border)] mb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/60 flex items-center justify-center text-xl" id="lobbyUserAvatar">
+            👤
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h2 id="lobbyUserName" class="text-sm font-black text-white">Invitado #1042</h2>
+              <span id="lobbyAuthBadge" class="text-[9px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700">Invitado</span>
+            </div>
+            <div class="text-[10px] text-amber-400 font-mono font-bold">ELO 1200 • Saldo: <span id="lobbyUserCoins">1000</span> 🪙</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1">
+          <button id="openAuthFromLobbyBtn" title="Cambiar cuenta / Login" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold border border-slate-700 cursor-pointer">
+            Login
+          </button>
+          <button id="closeLobbyModalBtn" class="text-slate-400 hover:text-white text-lg font-bold px-2 cursor-pointer">✕</button>
+        </div>
+      </div>
+
+      <!-- Tarjeta Recompensa Diaria -->
+      <div class="bg-emerald-950/40 border border-emerald-600/50 rounded-xl p-3 flex items-center justify-between mb-3 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🎁</span>
+          <div>
+            <div class="font-bold text-white text-xs">Bono Diario +100 🪙</div>
+            <div class="text-[10px] text-emerald-300">Racha de juego activo</div>
+          </div>
+        </div>
+        <button onclick="claimDailyReward()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition cursor-pointer">
+          Reclamar
+        </button>
+      </div>
+
+      <!-- Modos de Juego -->
+      <div class="space-y-2 text-xs">
+        <div class="text-[10px] uppercase tracking-wider text-slate-400 font-black px-1">Modos de Juego</div>
+
+        <!-- 1. Jugar vs IA -->
+        <button onclick="startModeVsAi()" class="w-full bg-[var(--bg-main)] hover:border-cyan-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl p-2 rounded-xl bg-cyan-950/60 border border-cyan-700/50">🤖</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-cyan-400 transition">Jugar vs IA Némesis</div>
+              <div class="text-[10px] text-slate-400">Minimax Alfa-Beta P4 • Ajuste dinámico</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-cyan-400 font-bold">➔</span>
+        </button>
+
+        <!-- 2. Salas Online -->
+        <button onclick="closeLobbyModal(); openBetModal();" class="w-full bg-[var(--bg-main)] hover:border-emerald-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl p-2 rounded-xl bg-emerald-950/60 border border-emerald-700/50">🌐</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-emerald-400 transition flex items-center gap-1.5">
+                Salas Online con Apuesta
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-1 rounded font-mono">SUPABASE</span>
+              </div>
+              <div class="text-[10px] text-slate-400">Mesas de 50 a 5.000 🪙 • Servidor en vivo</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-emerald-400 font-bold">➔</span>
+        </button>
+
+        <!-- 3. Pasa y Juega -->
+        <button onclick="startModePassAndPlay()" class="w-full bg-[var(--bg-main)] hover:border-purple-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl p-2 rounded-xl bg-purple-950/60 border border-purple-700/50">👥</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-purple-400 transition">Pasa y Juega (2 Jugadores)</div>
+              <div class="text-[10px] text-slate-400">Mismo dispositivo cara a cara • Offline</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-purple-400 font-bold">➔</span>
+        </button>
+
+        <!-- 4. Elegir Tipo de Damas (Variantes del Mundo) -->
+        <button onclick="closeLobbyModal(); openVariantPickerModal();" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl p-2 rounded-xl bg-amber-950/60 border border-amber-700/50">♟️</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition flex items-center gap-1.5">
+                Elegir Tipo de Damas
+                <span id="lobbyCurrentVariantBadge" class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1 rounded font-mono">Española (8x8)</span>
+              </div>
+              <div class="text-[10px] text-slate-400">7 Variantes: Española, Internacional 10x10, Brasileña...</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 5. Tienda de Monedas -->
+        <button onclick="closeLobbyModal(); openShopModal();" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl p-2 rounded-xl bg-amber-950/60 border border-amber-700/50">🪙</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition">Tienda & Billetera</div>
+              <div class="text-[10px] text-slate-400">Desbloquear tableros prémium y paquetes</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 6. Ajustes -->
+        <button onclick="closeLobbyModal(); openSettingsModal();" class="w-full bg-[var(--bg-main)] hover:border-slate-500 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl p-2 rounded-xl bg-slate-800 border border-slate-700">⚙️</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-slate-300 transition">Configuración y Ajustes</div>
+              <div class="text-[10px] text-slate-400">Fichas, temas, sonido, soplido y dificultad</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-slate-300 font-bold">➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Autenticación / Login (Google, Correo y Guest) -->
+  <div id="authModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-[var(--card-bg)] border border-indigo-500/50 rounded-2xl max-w-sm w-full p-5 text-left shadow-2xl relative">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--card-border)] mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🔐</span>
+          <div>
+            <h2 class="text-base font-black text-white">Acceso a Damas de Élite</h2>
+            <p class="text-[10px] text-slate-400">Guarda tus monedas y ELO en tu nube</p>
+          </div>
+        </div>
+        <button id="closeAuthModalBtn" class="text-slate-400 hover:text-white text-lg font-bold px-2 cursor-pointer">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <!-- Botón Google -->
+        <button onclick="authLoginWithGoogle()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl border border-slate-700 flex items-center justify-center gap-2 transition shadow cursor-pointer">
+          <span>🔴</span> Continuar con Google
+        </button>
+
+        <div class="flex items-center gap-2 text-[10px] text-slate-500">
+          <div class="flex-1 h-px bg-slate-800"></div>
+          <span>O CON CORREO</span>
+          <div class="flex-1 h-px bg-slate-800"></div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] text-slate-400 mb-1">Correo Electrónico</label>
+          <input id="authEmailInput" type="email" placeholder="tu@email.com" class="w-full bg-[var(--bg-main)] border border-[var(--card-border)] rounded-lg p-2 text-white text-xs focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-[10px] text-slate-400 mb-1">Contraseña</label>
+          <input id="authPassInput" type="password" placeholder="••••••••" class="w-full bg-[var(--bg-main)] border border-[var(--card-border)] rounded-lg p-2 text-white text-xs focus:outline-none focus:border-amber-500">
+        </div>
+
+        <button onclick="authLoginWithEmail()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black p-2.5 rounded-xl transition shadow cursor-pointer">
+          ENTRAR / REGISTRARSE
+        </button>
+
+        <button onclick="authLoginAsGuest()" class="w-full text-slate-400 hover:text-white text-[11px] underline text-center pt-1 cursor-pointer">
+          Continuar como Invitado (Jugar ya)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Configuración / Settings (Todo en un solo lugar ordenado) -->
+  <div id="settingsModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-[var(--card-bg)] border border-slate-700 rounded-2xl max-w-md w-full p-5 text-left shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--card-border)] mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">⚙️</span>
+          <div>
+            <h2 class="text-base font-black text-white">Configuración del Juego</h2>
+            <p class="text-[10px] text-slate-400">Personaliza la estética, sonido y dificultad</p>
+          </div>
+        </div>
+        <button id="closeSettingsModalBtn" class="text-slate-400 hover:text-white text-lg font-bold px-2 cursor-pointer">✕</button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <!-- 1. Estilo Visual del Tablero -->
+        <div>
+          <label class="block text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-2">🎨 Tema del Tablero</label>
+          <div class="grid grid-cols-2 gap-2" id="settingsThemeList">
+            <button onclick="setThemeFromSettings('wood')" class="p-2.5 rounded-xl border border-amber-500/50 bg-[var(--bg-main)] hover:border-amber-400 flex items-center gap-2 text-left transition cursor-pointer">
+              <span class="text-xl">🪵</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Nogal & Arce</div>
+                <div class="text-[9px] text-slate-400">Clásico Artesanal</div>
+              </div>
+            </button>
+            <button onclick="setThemeFromSettings('leather')" class="p-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] hover:border-amber-400 flex items-center gap-2 text-left transition cursor-pointer">
+              <span class="text-xl">📜</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Cuero Toscano</div>
+                <div class="text-[9px] text-slate-400">Piel y Vetas Finas</div>
+              </div>
+            </button>
+            <button onclick="setThemeFromSettings('marble')" class="p-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] hover:border-amber-400 flex items-center gap-2 text-left transition cursor-pointer">
+              <span class="text-xl">🏛️</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Mármol Carrara</div>
+                <div class="text-[9px] text-slate-400">Ónix y Veta Noble</div>
+              </div>
+            </button>
+            <button onclick="setThemeFromSettings('cyber')" class="p-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] hover:border-amber-400 flex items-center gap-2 text-left transition cursor-pointer">
+              <span class="text-xl">⚡</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Obsidiana Cíber</div>
+                <div class="text-[9px] text-slate-400">Neón 2077</div>
+              </div>
+            </button>
+            <button onclick="setThemeFromSettings('jade')" class="p-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] hover:border-amber-400 flex items-center gap-2 text-left transition cursor-pointer col-span-2">
+              <span class="text-xl">🐉</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Esmeralda & Jade Real</div>
+                <div class="text-[9px] text-slate-400">Piedra Imperial con Oro Puro</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Estilo de la Dama (Corona grabada vs Doble ficha) -->
+        <div class="pt-2 border-t border-[var(--card-border)]">
+          <label class="block text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-2">👑 Aspecto de la Dama</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button id="kingStyleCrownBtn" onclick="setKingStyleFromSettings('crown')" class="p-2.5 rounded-xl border border-amber-500 bg-amber-950/20 flex items-center gap-2 text-left transition cursor-pointer">
+              <span class="text-2xl">👑</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Corona Grabada</div>
+                <div class="text-[9px] text-amber-400">Grabado real en oro</div>
+              </div>
+            </button>
+            <button id="kingStyleStackedBtn" onclick="setKingStyleFromSettings('stacked')" class="p-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] flex items-center gap-2 text-left transition cursor-pointer">
+              <span class="text-2xl">🪙</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Doble Ficha (2×)</div>
+                <div class="text-[9px] text-slate-400">Fichas apiladas físicas</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Nivel de la IA Némesis -->
+        <div class="pt-2 border-t border-[var(--card-border)]">
+          <label class="block text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-2">🧠 Dificultad de la IA</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="setDifficultyFromSettings('easy')" id="diffBtn_easy" class="p-2 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] text-left hover:border-emerald-500 transition cursor-pointer">
+              <div class="font-bold text-emerald-400 text-[11px]">🟢 Fácil</div>
+              <div class="text-[9px] text-slate-400">Minimax P1 (Principiante)</div>
+            </button>
+            <button onclick="setDifficultyFromSettings('medium')" id="diffBtn_medium" class="p-2 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] text-left hover:border-amber-500 transition cursor-pointer">
+              <div class="font-bold text-amber-400 text-[11px]">🟡 Medio</div>
+              <div class="text-[9px] text-slate-400">Minimax P2 (Club)</div>
+            </button>
+            <button onclick="setDifficultyFromSettings('hard')" id="diffBtn_hard" class="p-2 rounded-xl border border-amber-500 bg-amber-950/20 text-left hover:border-red-500 transition cursor-pointer">
+              <div class="font-bold text-red-400 text-[11px]">🔴 Difícil</div>
+              <div class="text-[9px] text-slate-400">Minimax P4 (Maestro)</div>
+            </button>
+            <button onclick="setDifficultyFromSettings('master')" id="diffBtn_master" class="p-2 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] text-left hover:border-purple-500 transition cursor-pointer">
+              <div class="font-bold text-purple-400 text-[11px]">🟣 Némesis ADN</div>
+              <div class="text-[9px] text-slate-400">P5/P6 con adaptación viva</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Opciones de Audio y Regla de Soplido -->
+        <div class="pt-2 border-t border-[var(--card-border)] space-y-2.5">
+          <label class="block text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-1">⚙️ Preferencias de Juego</label>
+          
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-[var(--bg-main)] border border-[var(--card-border)]">
+            <div class="flex items-center gap-2">
+              <span class="text-base" id="settingsSoundIcon">🔊</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Efectos de Sonido</div>
+                <div class="text-[9px] text-slate-400">Movimientos, capturas y coronaciones</div>
+              </div>
+            </div>
+            <button id="settingsSoundToggleBtn" onclick="toggleSoundFromSettings()" class="px-3 py-1 rounded-lg bg-emerald-800 text-emerald-200 font-bold text-xs cursor-pointer">
+              ACTIVO
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-[var(--bg-main)] border border-[var(--card-border)]">
+            <div class="flex items-center gap-2">
+              <span class="text-base">💨</span>
+              <div>
+                <div class="font-bold text-white text-[11px]">Regla del Soplido (Huffing)</div>
+                <div class="text-[9px] text-slate-400">Castigar al rival si olvida capturar</div>
+              </div>
+            </div>
+            <button id="settingsHuffToggleBtn" onclick="toggleHuffingFromSettings()" class="px-3 py-1 rounded-lg bg-slate-800 text-slate-400 font-bold text-xs cursor-pointer">
+              NO
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. Acciones Rápidas -->
+        <div class="pt-3 border-t border-[var(--card-border)] flex gap-2">
+          <button onclick="closeSettingsModal(); initGame(currentVar);" class="flex-1 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition cursor-pointer">
+            🔄 Reiniciar Partida Actual
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Selector Visual de Tipo de Damas (Variantes) -->
+  <div id="variantPickerModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-[var(--card-bg)] border border-amber-500/50 rounded-2xl max-w-md w-full p-5 text-left shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--card-border)] mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">♟️</span>
+          <div>
+            <h2 class="text-base font-black text-white">Elegir Tipo de Damas</h2>
+            <p class="text-[10px] text-slate-400">7 Variantes oficiales del mundo con sus reglas</p>
+          </div>
+        </div>
+        <button id="closeVariantPickerModalBtn" class="text-slate-400 hover:text-white text-lg font-bold px-2 cursor-pointer">✕</button>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <!-- 1. Española -->
+        <button onclick="selectVariantAndStart('spanish')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left cursor-pointer group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇪🇸</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition flex items-center gap-1.5">
+                Damas Españolas (8x8)
+                <span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1 rounded font-mono">POPULAR</span>
+              </div>
+              <div class="text-[10px] text-slate-400">Damas voladoras en diagonal • Peones comen solo hacia adelante</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 2. Internacional -->
+        <button onclick="selectVariantAndStart('international')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left cursor-pointer group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🌍</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition flex items-center gap-1.5">
+                Damas Internacionales (10x10)
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-1 rounded font-mono">100 CASILLAS</span>
+              </div>
+              <div class="text-[10px] text-slate-400">Tablero gigante • Damas voladoras y captura hacia atrás obligatoria</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 3. Brasileña -->
+        <button onclick="selectVariantAndStart('brazilian')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left cursor-pointer group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇧🇷</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition">Damas Brasileñas (8x8)</div>
+              <div class="text-[10px] text-slate-400">Reglas internacionales completas aplicadas al tablero 8x8</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 4. Inglesa / Checkers -->
+        <button onclick="selectVariantAndStart('english')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left cursor-pointer group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇬🇧</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition">Inglesa / American Checkers (8x8)</div>
+              <div class="text-[10px] text-slate-400">Damas avanzan 1 casilla • Sin captura hacia atrás</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 5. Rusa / Shashki -->
+        <button onclick="selectVariantAndStart('russian')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left cursor-pointer group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇷🇺</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition">Rusa / Shashki (8x8)</div>
+              <div class="text-[10px] text-slate-400">Coronación instantánea durante salto múltiple continuo</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 6. Italiana -->
+        <button onclick="selectVariantAndStart('italian')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left cursor-pointer group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇮🇹</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition">Italiana (8x8)</div>
+              <div class="text-[10px] text-slate-400">Los peones no pueden capturar a las Damas</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+
+        <!-- 7. Turca -->
+        <button onclick="selectVariantAndStart('turkish')" class="w-full bg-[var(--bg-main)] hover:border-amber-500/60 p-3 rounded-xl border border-[var(--card-border)] flex items-center justify-between transition text-left cursor-pointer group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇹🇷</span>
+            <div>
+              <div class="font-bold text-white group-hover:text-amber-400 transition">Turca / Dama (8x8 Ortogonal)</div>
+              <div class="text-[10px] text-slate-400">Movimiento en líneas rectas (horizontal y vertical, sin diagonales)</div>
+            </div>
+          </div>
+          <span class="text-slate-500 group-hover:text-amber-400 font-bold">➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Contenedor Principal Responsive -->
   <div class="flex-1 max-w-5xl w-full mx-auto p-3 flex flex-col justify-center">
     <!-- Barra Superior de Variante y Reglas -->
-    <div class="flex items-center justify-between text-xs text-[var(--muted-foreground)] mb-2 px-1">
+    <div class="flex items-center justify-between text-xs text-slate-400 mb-2 px-1">
       <div class="flex items-center gap-2">
-        <span class="font-semibold text-[var(--foreground)]" id="variantHeader">Española (8x8)</span>
+        <span class="font-semibold text-white" id="variantHeader">Española (8x8)</span>
         <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">Damas Largas</span>
       </div>
-      <label class="flex items-center gap-1.5 cursor-pointer hover:text-[var(--foreground)]">
+      <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
         <input type="checkbox" id="huffCheck" class="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0 w-3.5 h-3.5" />
         <span>Regla de Soplido</span>
       </label>
@@ -206,41 +1005,110 @@
     <!-- Layout Grid: Tablero + Paneles Laterales -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-start">
       <!-- Columna del Tablero -->
-      <div class="md:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 flex flex-col items-center shadow-sm">
-        <!-- Marcador Rápido -->
-        <div class="w-full max-w-sm flex items-center justify-between text-xs text-[var(--muted-foreground)] mb-2 px-1">
-          <span class="flex items-center gap-1.5">
+      <div class="md:col-span-8 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 flex flex-col items-center shadow-sm transition-colors duration-300">
+        
+        <!-- Marcador Rápido y Cementerio de Capturas -->
+        <div class="w-full max-w-sm flex items-center justify-between text-xs text-slate-400 mb-2 px-1">
+          <div class="flex items-center gap-2">
             <span class="w-3.5 h-3.5 rounded-full piece-white inline-block"></span>
-            Tú: <strong id="whiteCount" class="text-[var(--foreground)] font-mono text-sm">12</strong>
-          </span>
+            <span>Tú: <strong id="whiteCount" class="text-white font-mono text-sm">12</strong></span>
+            <!-- Bajas causadas por ti -->
+            <div id="whiteGraveyard" class="flex items-center gap-0.5 ml-1 opacity-70" title="Piezas enemigas capturadas"></div>
+          </div>
           <span id="turnLabel" class="text-xs font-bold text-emerald-400 flex items-center gap-1">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Tu turno
           </span>
-          <span class="flex items-center gap-1.5">
-            IA: <strong id="blackCount" class="text-[var(--foreground)] font-mono text-sm">12</strong>
+          <div class="flex items-center gap-2">
+            <!-- Bajas causadas por la IA -->
+            <div id="blackGraveyard" class="flex items-center gap-0.5 mr-1 opacity-70" title="Piezas tuyas capturadas por la IA"></div>
+            <span>IA: <strong id="blackCount" class="text-white font-mono text-sm">12</strong></span>
             <span class="w-3.5 h-3.5 rounded-full piece-black inline-block"></span>
-          </span>
+          </div>
         </div>
 
-        <!-- El Tablero de Madera con Bordes Biselados -->
-        <div class="w-full max-w-sm aspect-square p-2 bg-[#2d180b] rounded-2xl shadow-2xl border-2 border-amber-950/60 ring-1 ring-amber-900/30">
-          <div id="boardGrid" class="w-full h-full rounded-xl overflow-hidden grid shadow-inner"></div>
+        <!-- El Tablero de Lujo Reestructurado con Marco y Coordenadas Algebraicas de Torneo -->
+        <div id="boardFrameContainer" class="w-full max-w-sm aspect-square p-2.5 rounded-2xl transition-all duration-300 grid grid-cols-[18px_1fr_18px] grid-rows-[18px_1fr_18px] gap-1 items-stretch"
+             style="background: var(--board-frame-bg); border: 2.5px solid var(--board-frame-border); box-shadow: var(--board-frame-shadow);">
+          <div></div>
+          <div id="coordsTop" class="flex items-center justify-around text-[10px] font-mono font-bold select-none" style="color: var(--coord-color);"></div>
+          <div></div>
+
+          <div id="coordsLeft" class="flex flex-col items-center justify-around text-[10px] font-mono font-bold select-none" style="color: var(--coord-color);"></div>
+          <div id="boardGrid" class="w-full h-full aspect-square rounded-xl overflow-hidden grid shadow-inner border border-black/30"></div>
+          <div id="coordsRight" class="flex flex-col items-center justify-around text-[10px] font-mono font-bold select-none" style="color: var(--coord-color);"></div>
+
+          <div></div>
+          <div id="coordsBottom" class="flex items-center justify-around text-[10px] font-mono font-bold select-none" style="color: var(--coord-color);"></div>
+          <div></div>
         </div>
 
         <!-- Banner de Información y Ventaja Posicional -->
-        <div id="infoBanner" class="w-full max-w-sm mt-2.5 text-xs py-2 px-3 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--muted-foreground)] flex items-center justify-between shadow-sm">
+        <div id="infoBanner" class="w-full max-w-sm mt-2.5 text-xs py-2 px-3 rounded-xl bg-[var(--bg-main)] border border-[var(--card-border)] text-slate-400 flex items-center justify-between shadow-sm">
           <span id="infoText" class="truncate pr-2">Toca una ficha para iniciar tu jugada.</span>
           <span id="evalScore" class="font-mono text-xs font-bold text-emerald-400 shrink-0">+0.0 cp</span>
         </div>
+
+        <!-- Banner Dinámico de Final de Damas y Resolución Anti-Bucle -->
+        <div id="endgameBanner" class="hidden w-full max-w-sm mt-2 text-xs py-2.5 px-3 rounded-xl bg-amber-950/40 border border-amber-500/50 text-amber-300 flex items-center justify-between shadow-md">
+          <div class="flex items-center gap-2">
+            <span class="text-base animate-pulse">⏳</span>
+            <div>
+              <div class="font-bold text-[11px] text-amber-400" id="endgameTitle">Final de Damas (2 vs 1)</div>
+              <div class="text-[10px] text-amber-200/90" id="endgameSubtitle">Resolución anti-bucle: <span id="endgameMovesLeft" class="font-bold text-white font-mono">12</span> turnos restantes</div>
+            </div>
+          </div>
+          <button id="claimWinBtn" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[11px] shadow transition">
+            ⚡ Reclamar Victoria
+          </button>
+        </div>
       </div>
 
-      <!-- Paneles Laterales: IA Némesis y ADN del Jugador -->
+      <!-- Paneles Laterales: IA Némesis, Galería de Temas y ADN -->
       <div class="md:col-span-4 space-y-3 text-xs">
         
-        <!-- Panel 1: Cerebro Némesis IA con Contraataque Activo -->
-        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3.5 space-y-2.5 shadow-sm">
+        <!-- Panel 1: Galería Visual de Temas de Material (Nuevo) -->
+        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3.5 space-y-2.5 shadow-sm transition-colors duration-300">
           <div class="flex justify-between items-center">
-            <span class="font-bold text-[var(--foreground)] flex items-center gap-1.5">
+            <span class="font-bold text-white flex items-center gap-1.5">
+              <span>🎨</span> Estilo y Material del Tablero
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono">5 Temas</span>
+          </div>
+
+          <!-- Selector en Mini-Cards con Muestras -->
+          <div class="grid grid-cols-5 gap-1.5 pt-0.5">
+            <!-- 1. Madera -->
+            <button onclick="setTheme('wood')" title="Nogal & Arce Imperial" class="flex flex-col items-center gap-1 p-1.5 rounded-xl border border-amber-900/40 hover:scale-105 transition bg-[#2d180b]">
+              <span class="text-sm">🪵</span>
+              <span class="text-[9px] font-bold text-amber-300 truncate w-full text-center">Nogal</span>
+            </button>
+            <!-- 2. Mármol -->
+            <button onclick="setTheme('marble')" title="Mármol Carrara & Ónix" class="flex flex-col items-center gap-1 p-1.5 rounded-xl border border-slate-700 hover:scale-105 transition bg-[#0b0f19]">
+              <span class="text-sm">🏛️</span>
+              <span class="text-[9px] font-bold text-slate-300 truncate w-full text-center">Mármol</span>
+            </button>
+            <!-- 3. Cíber -->
+            <button onclick="setTheme('cyber')" title="Obsidiana Cíber 2077" class="flex flex-col items-center gap-1 p-1.5 rounded-xl border border-cyan-800 hover:scale-105 transition bg-[#050811]">
+              <span class="text-sm">⚡</span>
+              <span class="text-[9px] font-bold text-cyan-300 truncate w-full text-center">Cíber</span>
+            </button>
+            <!-- 4. Cuero -->
+            <button onclick="setTheme('leather')" title="Cuero Toscano & Oro" class="flex flex-col items-center gap-1 p-1.5 rounded-xl border border-amber-950 hover:scale-105 transition bg-[#321c11]">
+              <span class="text-sm">📜</span>
+              <span class="text-[9px] font-bold text-amber-500 truncate w-full text-center">Cuero</span>
+            </button>
+            <!-- 5. Jade -->
+            <button onclick="setTheme('jade')" title="Esmeralda & Jade Real" class="flex flex-col items-center gap-1 p-1.5 rounded-xl border border-emerald-900 hover:scale-105 transition bg-[#041f16]">
+              <span class="text-sm">🐉</span>
+              <span class="text-[9px] font-bold text-emerald-400 truncate w-full text-center">Jade</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel 2: Cerebro Némesis IA con Contraataque Activo -->
+        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3.5 space-y-2.5 shadow-sm transition-colors duration-300">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-white flex items-center gap-1.5">
               <span>🤖</span> Motor Némesis IA
             </span>
             <span id="aiEngineBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-mono border border-amber-500/20">
@@ -262,25 +1130,25 @@
           </div>
 
           <!-- Pesos Heurísticos TD-Learning Adaptados -->
-          <div class="pt-1.5 border-t border-[var(--border)]">
-            <div class="flex justify-between text-[11px] text-[var(--muted-foreground)] mb-1">
+          <div class="pt-1.5 border-t border-[var(--card-border)]">
+            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
               <span>Pesos Heurísticos (TD-Learning)</span>
               <span id="gamesLearnedCount" class="text-amber-400 font-mono text-[10px]">0 partidas</span>
             </div>
             <div class="grid grid-cols-2 gap-1.5 text-[10px] font-mono">
-              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+              <div class="bg-[var(--bg-main)] px-2 py-1 rounded border border-[var(--card-border)] flex justify-between">
                 <span class="text-slate-400">Centro:</span>
                 <span id="weightCenter" class="text-amber-300 font-bold">+18</span>
               </div>
-              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+              <div class="bg-[var(--bg-main)] px-2 py-1 rounded border border-[var(--card-border)] flex justify-between">
                 <span class="text-slate-400">Fila Base:</span>
                 <span id="weightBackRow" class="text-amber-300 font-bold">+25</span>
               </div>
-              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+              <div class="bg-[var(--bg-main)] px-2 py-1 rounded border border-[var(--card-border)] flex justify-between">
                 <span class="text-slate-400">Avance:</span>
                 <span id="weightAdvance" class="text-amber-300 font-bold">+8</span>
               </div>
-              <div class="bg-[var(--background)] px-2 py-1 rounded border border-[var(--border)] flex justify-between">
+              <div class="bg-[var(--bg-main)] px-2 py-1 rounded border border-[var(--card-border)] flex justify-between">
                 <span class="text-slate-400">Dama:</span>
                 <span id="weightKing" class="text-amber-300 font-bold">+285</span>
               </div>
@@ -288,10 +1156,10 @@
           </div>
         </div>
 
-        <!-- Panel 2: Radiografía ADN del Jugador -->
-        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3.5 space-y-2.5 shadow-sm">
+        <!-- Panel 3: Radiografía ADN del Jugador -->
+        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3.5 space-y-2.5 shadow-sm transition-colors duration-300">
           <div class="flex justify-between items-center">
-            <span class="font-bold text-[var(--foreground)] flex items-center gap-1.5">
+            <span class="font-bold text-white flex items-center gap-1.5">
               <span>🧬</span> Radiografía de tu ADN
             </span>
             <span id="dnaAgg" class="text-emerald-400 font-bold text-[11px]">50% Ataque</span>
@@ -299,7 +1167,7 @@
 
           <!-- Barra de Agresividad -->
           <div class="space-y-1">
-            <div class="flex justify-between text-[10px] text-[var(--muted-foreground)]">
+            <div class="flex justify-between text-[10px] text-slate-400">
               <span>Estilo Táctico</span>
               <span id="dnaStyleLabel" class="text-slate-300 font-medium">Equilibrado</span>
             </div>
@@ -310,26 +1178,26 @@
 
           <!-- Flanco y Fila Base -->
           <div class="grid grid-cols-2 gap-2 pt-1 text-[11px]">
-            <div class="bg-[var(--background)] p-2 rounded-xl border border-[var(--border)]">
-              <div class="text-[10px] text-[var(--muted-foreground)]">Flanco Preferido</div>
+            <div class="bg-[var(--bg-main)] p-2 rounded-xl border border-[var(--card-border)]">
+              <div class="text-[10px] text-slate-400">Flanco Preferido</div>
               <div id="dnaFlank" class="font-bold text-cyan-400 mt-0.5 truncate">Centro</div>
             </div>
-            <div class="bg-[var(--background)] p-2 rounded-xl border border-[var(--border)]">
-              <div class="text-[10px] text-[var(--muted-foreground)]">Fila Base</div>
+            <div class="bg-[var(--bg-main)] p-2 rounded-xl border border-[var(--card-border)]">
+              <div class="text-[10px] text-slate-400">Fila Base</div>
               <div id="dnaBackRow" class="font-bold text-amber-400 mt-0.5">100% Sólida</div>
             </div>
           </div>
         </div>
 
-        <!-- Panel 3: Academia Táctica Rápida -->
-        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3.5 space-y-2 shadow-sm">
-          <div class="font-bold text-[var(--foreground)] text-xs flex items-center justify-between">
+        <!-- Panel 4: Academia Táctica Rápida -->
+        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3.5 space-y-2 shadow-sm transition-colors duration-300">
+          <div class="font-bold text-white text-xs flex items-center justify-between">
             <span class="flex items-center gap-1.5">
               <span>🎓</span> Academia Táctica
             </span>
             <span class="text-amber-500 font-mono text-[10px]">6 Puzzles</span>
           </div>
-          <div id="lessonsList" class="space-y-1.5 max-h-40 overflow-y-auto pr-0.5"></div>
+          <div id="lessonsList" class="space-y-1.5 max-h-36 overflow-y-auto pr-0.5"></div>
         </div>
 
       </div>
@@ -337,6 +1205,35 @@
   </div>
 
   <script>
+    // Configuración de los 5 Temas
+    const THEMES = {
+      wood: { name: 'Nogal & Arce', badge: 'Nogal Imperial' },
+      marble: { name: 'Mármol Carrara & Ónix', badge: 'Mármol Carrara' },
+      cyber: { name: 'Obsidiana Cíber 2077', badge: 'Cíber Neón 2077' },
+      leather: { name: 'Cuero Toscano & Oro', badge: 'Cuero Toscano' },
+      jade: { name: 'Esmeralda & Jade Real', badge: 'Jade Imperial' }
+    };
+
+    let activeTheme = localStorage.getItem('gem_v4_board_theme') || 'wood';
+    let aiDifficulty = localStorage.getItem('gem_v4_ai_difficulty') || 'hard';
+    let kingStyle = localStorage.getItem('gem_v4_king_style') || 'crown';
+
+    function setTheme(th) {
+      if (!THEMES[th]) th = 'wood';
+      activeTheme = th;
+      document.body.setAttribute('data-theme', th);
+      const sel = document.getElementById('themeSelect');
+      if (sel) sel.value = th;
+      const bdg = document.getElementById('themeBadge');
+      if (bdg) bdg.textContent = THEMES[th].badge;
+      try {
+        localStorage.setItem('gem_v4_board_theme', th);
+      } catch (e) {}
+      if (board && board.length > 0) {
+        render();
+      }
+    }
+
     // Sintetizador de audio ligero (Web Audio API nativo a 60 FPS)
     class LiteAudio {
       constructor() {
@@ -391,8 +1288,8 @@
         const gain = this.ctx.createGain();
         osc1.type = 'triangle';
         osc2.type = 'sine';
-        osc1.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
-        osc2.frequency.setValueAtTime(659.25, this.ctx.currentTime); // E5
+        osc1.frequency.setValueAtTime(523.25, this.ctx.currentTime);
+        osc2.frequency.setValueAtTime(659.25, this.ctx.currentTime);
         gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.35);
         osc1.connect(gain);
@@ -455,16 +1352,12 @@
       losses: 0
     };
 
-    // Cargar pesos persistentes si existen
     try {
       const saved = localStorage.getItem('gem_v4_nemesis_weights');
       if (saved) {
-        const parsed = JSON.parse(saved);
-        aiWeights = { ...aiWeights, ...parsed };
+        aiWeights = { ...aiWeights, ...JSON.parse(saved) };
       }
-    } catch (e) {
-      console.warn('Almacenamiento no accesible');
-    }
+    } catch (e) {}
 
     // ADN táctico del usuario
     let userDna = {
@@ -488,6 +1381,10 @@
     let activeLesson = null;
     let stats = { moves: 0, caps: 0, kings: 0, aggMoves: 0 };
     let aiNodesEvaluated = 0;
+    let endgameHalfMoves = 0;
+    let positionOccurrences = {};
+    let capturedByWhite = 0;
+    let capturedByBlack = 0;
 
     function initGame(variantKey) {
       currentVar = variantKey;
@@ -508,10 +1405,18 @@
       selected = null;
       coachHighlight = null;
       stats = { moves: 0, caps: 0, kings: 0, aggMoves: 0 };
+      endgameHalfMoves = 0;
+      positionOccurrences = {};
+      capturedByWhite = 0;
+      capturedByBlack = 0;
+
+      const eb = document.getElementById('endgameBanner');
+      if (eb) eb.classList.add('hidden');
       document.getElementById('variantHeader').textContent = cfg.name;
       document.getElementById('victoryModal').classList.add('hidden');
       updateInfo('Tu turno. Selecciona una ficha.');
       updateMoves();
+      renderCoordinates(sz);
       renderWeightsHud();
       renderDnaHud();
       render();
@@ -521,6 +1426,21 @@
 
     function cloneBoard(b) {
       return b.map(row => row.map(cell => cell ? { ...cell } : null));
+    }
+
+    function renderCoordinates(sz) {
+      const letters = 'abcdefghij'.slice(0, sz).split('');
+      const numbers = Array.from({ length: sz }, (_, i) => sz - i);
+
+      const top = document.getElementById('coordsTop');
+      const btm = document.getElementById('coordsBottom');
+      const lft = document.getElementById('coordsLeft');
+      const rgt = document.getElementById('coordsRight');
+
+      top.innerHTML = letters.map(l => `<span class="flex-1 text-center">${l}</span>`).join('');
+      btm.innerHTML = letters.map(l => `<span class="flex-1 text-center">${l}</span>`).join('');
+      lft.innerHTML = numbers.map(n => `<span class="flex-1 flex items-center justify-center">${n}</span>`).join('');
+      rgt.innerHTML = numbers.map(n => `<span class="flex-1 flex items-center justify-center">${n}</span>`).join('');
     }
 
     function getLegalMoves(bd, col, cfg) {
@@ -590,7 +1510,6 @@
       return nb;
     }
 
-    // EVALUADOR POSICIONAL MULTIVARIANTE CON CONTRATAQUE REACTIVO
     function evaluateBoard(b, cfg, dna) {
       const sz = cfg.size;
       let score = 0;
@@ -602,37 +1521,23 @@
           if (!p) continue;
           let val = p.king ? aiWeights.king : aiWeights.pawn;
 
-          // Control del cuadrante central
           const isCenter = (r >= Math.floor(sz / 2) - 1 && r <= Math.floor(sz / 2)) &&
                            (c >= Math.floor(sz / 2) - 1 && c <= Math.floor(sz / 2));
           if (isCenter) val += aiWeights.center;
 
-          // Preservación de Fila Real defensiva
           if (!p.king) {
             if (p.col === 'b' && r === 0) val += aiWeights.backRow;
             if (p.col === 'w' && r === sz - 1) val += aiWeights.backRow;
-            // Avance ordenado
             const advance = p.col === 'b' ? r : (sz - 1 - r);
             val += advance * aiWeights.advance;
           }
 
-          // MODULACIÓN DINÁMICA POR ADN DEL RIVAL (CONTRATAQUE ACTIVO):
           if (p.col === 'b') {
             blackPieces++;
-            // 1. Explotar brecha en la Fila Real rival
-            if (dna.backRowPct < 75 && r >= sz - 3) {
-              val += 32; // Infiltración voraz hacia coronación
-            }
-            // 2. Contragolpear el flanco opuesto al que sobrecarga el rival
-            if (dna.flankPreference.includes('Izquierdo') && c >= sz / 2) {
-              val += 24; // Contragolpe flanco derecho
-            } else if (dna.flankPreference.includes('Derecho') && c < sz / 2) {
-              val += 24; // Contragolpe flanco izquierdo
-            }
-            // 3. Castigar agresividad desmedida con control de diagonales
-            if (dna.aggressionPct >= 60 && isCenter) {
-              val += 16;
-            }
+            if (dna.backRowPct < 75 && r >= sz - 3) val += 32;
+            if (dna.flankPreference.includes('Izquierdo') && c >= sz / 2) val += 24;
+            else if (dna.flankPreference.includes('Derecho') && c < sz / 2) val += 24;
+            if (dna.aggressionPct >= 60 && isCenter) val += 16;
             score += val;
           } else {
             whitePieces++;
@@ -646,7 +1551,6 @@
       return score;
     }
 
-    // MOTOR DE BÚSQUEDA MINIMAX CON PODA ALFA-BETA
     function minimax(b, depth, alpha, beta, isMaximizing, cfg, dna) {
       aiNodesEvaluated++;
       const currentColor = isMaximizing ? 'b' : 'w';
@@ -659,7 +1563,6 @@
         return evaluateBoard(b, cfg, dna);
       }
 
-      // Move Ordering: Capturas primero (MVV/LVA) para podas tempranas
       legalMoves.sort((m1, m2) => m2.caps.length - m1.caps.length);
 
       if (isMaximizing) {
@@ -669,7 +1572,7 @@
           const ev = minimax(nextB, depth - 1, alpha, beta, false, cfg, dna);
           if (ev > maxEval) maxEval = ev;
           if (ev > alpha) alpha = ev;
-          if (beta <= alpha) break; // Poda Beta
+          if (beta <= alpha) break;
         }
         return maxEval;
       } else {
@@ -679,7 +1582,7 @@
           const ev = minimax(nextB, depth - 1, alpha, beta, true, cfg, dna);
           if (ev < minEval) minEval = ev;
           if (ev < beta) beta = ev;
-          if (beta <= alpha) break; // Poda Alfa
+          if (beta <= alpha) break;
         }
         return minEval;
       }
@@ -693,7 +1596,6 @@
       if (to[1] < midCol) userDna.leftMoves++;
       else userDna.rightMoves++;
 
-      // Fila real de blancas es la última fila (sz - 1)
       if (from[0] === sz - 1) {
         userDna.brokenBackRowMoves++;
       }
@@ -707,7 +1609,6 @@
       else if (flankDiff > 1) userDna.flankPreference = 'Flanco Izquierdo';
       else userDna.flankPreference = 'Flanco Derecho';
 
-      // Actualizar contrataque reactivo
       if (userDna.backRowPct < 75) {
         userDna.activeCounterTactics = '⚡ Contrataque: Infiltración profunda por brecha abierta en tu Fila Real.';
       } else if (userDna.flankPreference === 'Flanco Izquierdo') {
@@ -745,7 +1646,6 @@
       aiWeights.gamesLearned++;
       if (outcome === 'human_win') {
         aiWeights.losses++;
-        // La IA perdió: aumenta significativamente control central, fila base y penalización
         aiWeights.center = Math.min(38, aiWeights.center + 3);
         aiWeights.backRow = Math.min(42, aiWeights.backRow + 4);
         aiWeights.advance = Math.min(18, aiWeights.advance + 2);
@@ -789,6 +1689,7 @@
       if (isCap) {
         stats.caps += m.caps.length;
         stats.aggMoves++;
+        capturedByWhite += m.caps.length;
         sound.capture();
       } else {
         sound.click();
@@ -796,7 +1697,6 @@
 
       recordUserMove(m.from, m.to, isCap);
 
-      // Modo Academia
       if (activeLesson) {
         if (m.from[0] === activeLesson.from[0] && m.from[1] === activeLesson.from[1] &&
             m.to[0] === activeLesson.to[0] && m.to[1] === activeLesson.to[1]) {
@@ -817,13 +1717,106 @@
       }
       board[tr][tc] = piece;
 
+      if (isCap) endgameHalfMoves = 0;
+      else endgameHalfMoves++;
+
       selected = null;
       coachHighlight = null;
       turn = 'b';
       updateMoves();
       render();
 
+      if (checkEndgameStatus()) return;
+
       setTimeout(runAiTurn, 140);
+    }
+
+    function checkEndgameStatus() {
+      const cfg = RULES[currentVar];
+      const sz = cfg.size;
+      let wKings = 0, bKings = 0, wPawns = 0, bPawns = 0;
+
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          const p = board[r][c];
+          if (p) {
+            if (p.col === 'w') { if (p.king) wKings++; else wPawns++; }
+            else { if (p.king) bKings++; else bPawns++; }
+          }
+        }
+      }
+
+      const totalPieces = wKings + bKings + wPawns + bPawns;
+      const onlyKings = (wPawns === 0 && bPawns === 0 && totalPieces > 0);
+      const isEndgame = onlyKings || totalPieces <= 4;
+
+      const banner = document.getElementById('endgameBanner');
+      const claimBtn = document.getElementById('claimWinBtn');
+
+      if (!isEndgame) {
+        if (banner) banner.classList.add('hidden');
+        endgameHalfMoves = 0;
+        return false;
+      }
+
+      if (banner) banner.classList.remove('hidden');
+      const fullMoves = Math.floor(endgameHalfMoves / 2);
+      const movesLeft = Math.max(0, 12 - fullMoves);
+      document.getElementById('endgameTitle').textContent = `Final de Damas (${wKings} vs ${bKings})`;
+      document.getElementById('endgameSubtitle').innerHTML = `Resolución anti-bucle: <span class="font-bold text-amber-300 font-mono">${movesLeft}</span> turnos restantes`;
+
+      if (wKings > bKings) {
+        claimBtn.textContent = `⚡ Reclamar Victoria (${wKings} vs ${bKings})`;
+        claimBtn.className = 'px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[11px] shadow transition cursor-pointer';
+        claimBtn.onclick = () => {
+          showVictory('¡VICTORIA POR SUPERIORIDAD DE DAMAS!', `Has reclamado la victoria por ventaja material en el final (${wKings} Damas vs ${bKings}).`);
+          learnFromGame('human_win');
+        };
+      } else if (wKings === bKings) {
+        claimBtn.textContent = `🤝 Declarar Tablas (${wKings} vs ${bKings})`;
+        claimBtn.className = 'px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-[11px] transition cursor-pointer';
+        claimBtn.onclick = () => {
+          showVictory('TABLAS TÉCNICAS', `Partida finalizada por acuerdo de tablas en igualdad de Damas (${wKings} vs ${bKings}).`);
+        };
+      } else {
+        claimBtn.textContent = `IA en Ventaja (${bKings} vs ${wKings})`;
+        claimBtn.className = 'px-2.5 py-1 rounded-lg bg-red-950/60 border border-red-800 text-red-300 font-bold text-[11px]';
+        claimBtn.onclick = null;
+      }
+
+      if (endgameHalfMoves >= 24) {
+        if (wKings > bKings) {
+          showVictory('¡VICTORIA POR SUPERIORIDAD DE DAMAS!', `Límite de 12 turnos de final alcanzado. Has ganado por ventaja material (${wKings} Damas vs ${bKings}).`);
+          learnFromGame('human_win');
+          return true;
+        } else if (bKings > wKings) {
+          showVictory('VICTORIA DE LA IA POR SUPERIORIDAD', `Límite de 12 turnos alcanzado en el final. La IA gana por ventaja de Damas (${bKings} vs ${wKings}).`);
+          learnFromGame('ai_win');
+          return true;
+        } else {
+          showVictory('TABLAS TÉCNICAS', `Límite de 12 turnos alcanzado en igualdad de Damas. Partida declarada en tablas.`);
+          return true;
+        }
+      }
+
+      const posHash = board.map(r => r.map(c => c ? (c.col + (c.king ? 'K' : 'P')) : '.').join('')).join('') + turn;
+      positionOccurrences[posHash] = (positionOccurrences[posHash] || 0) + 1;
+      if (positionOccurrences[posHash] >= 3) {
+        if (wKings > bKings) {
+          showVictory('¡VICTORIA POR SUPERIORIDAD!', `Triple repetición detectada en el final. Has ganado por ventaja de Damas (${wKings} vs ${bKings}).`);
+          learnFromGame('human_win');
+          return true;
+        } else if (bKings > wKings) {
+          showVictory('VICTORIA DE LA IA', `Triple repetición detectada con ventaja de Damas de la IA (${bKings} vs ${wKings}).`);
+          learnFromGame('ai_win');
+          return true;
+        } else {
+          showVictory('TABLAS POR TRIPLE REPETICIÓN', 'La misma posición se repitió 3 veces en el final. Partida entablada.');
+          return true;
+        }
+      }
+
+      return false;
     }
 
     function runAiTurn() {
@@ -837,25 +1830,39 @@
         return;
       }
 
-      // Minimax con Poda Alfa-Beta (Profundidad 4 en 8x8, 3 en 10x10 para 60 FPS)
       aiNodesEvaluated = 0;
-      const searchDepth = cfg.size === 10 ? 3 : 4;
-      const startTime = performance.now();
+      let searchDepth = 4;
+      if (aiDifficulty === 'easy') {
+        searchDepth = 1;
+      } else if (aiDifficulty === 'medium') {
+        searchDepth = 2;
+      } else if (aiDifficulty === 'hard') {
+        searchDepth = cfg.size === 10 ? 3 : 4;
+      } else if (aiDifficulty === 'master') {
+        searchDepth = cfg.size === 10 ? 4 : 5;
+      }
 
+      const startTime = performance.now();
       aiMoves.sort((m1, m2) => m2.caps.length - m1.caps.length);
       let bestMove = aiMoves[0];
       let bestScore = -Infinity;
       let alpha = -Infinity;
       const beta = Infinity;
 
-      for (const mv of aiMoves) {
-        const nextB = applyMoveOnBoard(board, mv, cfg);
-        const score = minimax(nextB, searchDepth - 1, alpha, beta, false, cfg, userDna);
-        if (score > bestScore) {
-          bestScore = score;
-          bestMove = mv;
+      if (aiDifficulty === 'easy' && Math.random() < 0.35 && aiMoves.length > 1) {
+        // Modo fácil: comete deslices humanos ocasionales para permitir victorias didácticas
+        bestMove = aiMoves[Math.floor(Math.random() * aiMoves.length)];
+        bestScore = 0;
+      } else {
+        for (const mv of aiMoves) {
+          const nextB = applyMoveOnBoard(board, mv, cfg);
+          const score = minimax(nextB, searchDepth - 1, alpha, beta, false, cfg, userDna);
+          if (score > bestScore) {
+            bestScore = score;
+            bestMove = mv;
+          }
+          if (score > alpha) alpha = score;
         }
-        if (score > alpha) alpha = score;
       }
 
       const elapsed = Math.max(1, Math.round(performance.now() - startTime));
@@ -865,8 +1872,14 @@
         `<span>Profundidad ${searchDepth} | ${aiNodesEvaluated} nodos</span><span class="text-slate-400 font-mono">${elapsed}ms</span>`;
       document.getElementById('evalScore').textContent = `${bestScore > 0 ? '+' : ''}${evalCp} cp`;
 
-      if (bestMove.caps.length > 0) sound.capture();
-      else sound.click();
+      if (bestMove.caps.length > 0) {
+        sound.capture();
+        capturedByBlack += bestMove.caps.length;
+        endgameHalfMoves = 0;
+      } else {
+        sound.click();
+        endgameHalfMoves++;
+      }
 
       board = applyMoveOnBoard(board, bestMove, cfg);
 
@@ -875,12 +1888,29 @@
       if (moves.length === 0) {
         showVictory('VICTORIA DE LA IA', 'La IA Némesis contragolpeó y ganó la partida.');
         learnFromGame('ai_win');
+        return;
       }
       render();
+
+      if (checkEndgameStatus()) return;
     }
 
     function showVictory(title, desc) {
       sound.victory();
+      if (currentOnlineRoom) {
+        if (title.includes('MATE') || title.includes('SUPERIORIDAD') || title.includes('VICTORIA POR')) {
+          playerCoins += currentOnlineRoom.prize;
+          desc += ` 💰 ¡Has ganado el pozo de ${currentOnlineRoom.prize.toLocaleString()} 🪙 en ${currentOnlineRoom.name}!`;
+          updateCoinsDisplay();
+        } else if (title.includes('TABLAS')) {
+          playerCoins += currentOnlineRoom.bet;
+          desc += ` 🤝 Reembolso de tu apuesta de ${currentOnlineRoom.bet.toLocaleString()} 🪙 en ${currentOnlineRoom.name}.`;
+          updateCoinsDisplay();
+        } else {
+          desc += ` 💔 Has sido derrotado en ${currentOnlineRoom.name}.`;
+        }
+        currentOnlineRoom = null;
+      }
       document.getElementById('victoryHeading').textContent = title;
       document.getElementById('victorySub').textContent = desc;
       document.getElementById('statMoves').textContent = stats.moves;
@@ -893,10 +1923,28 @@
       document.getElementById('infoText').textContent = txt;
     }
 
+    function renderGraveyards() {
+      const wG = document.getElementById('whiteGraveyard');
+      const bG = document.getElementById('blackGraveyard');
+      if (wG) {
+        wG.innerHTML = capturedByWhite > 0 
+          ? `<span class="text-[10px] font-mono text-emerald-400 font-bold">+${capturedByWhite}</span> <span class="text-[10px] text-slate-500">♛</span>`
+          : '';
+      }
+      if (bG) {
+        bG.innerHTML = capturedByBlack > 0 
+          ? `<span class="text-[10px] text-slate-500">♛</span> <span class="text-[10px] font-mono text-red-400 font-bold">+${capturedByBlack}</span>`
+          : '';
+      }
+    }
+
     function render() {
+      if (!board || board.length === 0) return;
       const cfg = RULES[currentVar];
+      if (!cfg) return;
       const sz = cfg.size;
       const grid = document.getElementById('boardGrid');
+      if (!grid) return;
       grid.style.gridTemplateColumns = `repeat(${sz}, minmax(0, 1fr))`;
       grid.innerHTML = '';
 
@@ -927,14 +1975,22 @@
               colorClass += p.col === 'w' ? ' piece-king-white' : ' piece-king-black';
             }
             const selClass = isSel ? 'piece-selected' : '';
-            token.className = `w-4/5 h-4/5 rounded-full flex items-center justify-center font-bold text-xs piece-token cursor-pointer ${colorClass} ${selClass}`;
+            token.className = `w-[82%] h-[82%] rounded-full flex items-center justify-center font-bold text-xs piece-token cursor-pointer ${colorClass} ${selClass}`;
 
             const rib = document.createElement('div');
             rib.className = `inner-rib ${p.col === 'w' ? 'inner-rib-white' : 'inner-rib-black'}`;
             if (p.king) {
-              rib.innerHTML = '<span class="text-amber-500 drop-shadow text-sm leading-none">♛</span>';
+              if (kingStyle === 'crown') {
+                rib.innerHTML = `
+                  <svg class="w-3.5 h-3.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]" viewBox="0 0 24 24" fill="currentColor" style="color: var(--king-accent);">
+                    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+                  </svg>`;
+              } else {
+                rib.innerHTML = `
+                  <span class="text-[10px] font-black tracking-tighter drop-shadow leading-none" style="color: var(--king-accent);">2×</span>`;
+              }
             } else {
-              rib.innerHTML = `<span class="w-2.5 h-2.5 rounded-full border ${p.col === 'w' ? 'border-slate-400 bg-slate-200/50' : 'border-slate-600 bg-slate-800/50'}"></span>`;
+              rib.innerHTML = '';
             }
             token.appendChild(rib);
             cell.appendChild(token);
@@ -952,6 +2008,8 @@
       document.getElementById('turnLabel').className = turn === 'w' 
         ? 'text-xs font-bold text-emerald-400 flex items-center gap-1.5' 
         : 'text-xs font-bold text-amber-400 flex items-center gap-1.5';
+
+      renderGraveyards();
     }
 
     function renderLessons() {
@@ -959,10 +2017,10 @@
       container.innerHTML = '';
       LESSONS.forEach(l => {
         const item = document.createElement('div');
-        item.className = 'p-2 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-between hover:border-amber-500/50 transition cursor-pointer';
+        item.className = 'p-2 rounded-xl bg-[var(--bg-main)] border border-[var(--card-border)] flex items-center justify-between hover:border-amber-500/50 transition cursor-pointer';
         item.innerHTML = `
           <div>
-            <div class="font-bold text-[var(--foreground)] text-[11px]">${l.title}</div>
+            <div class="font-bold text-white text-[11px]">${l.title}</div>
             <div class="text-[10px] text-amber-400">${l.tech}</div>
           </div>
           <button class="px-2 py-0.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold">Cargar</button>
@@ -978,6 +2036,7 @@
           turn = 'w';
           selected = null;
           updateMoves();
+          renderCoordinates(sz);
           updateInfo(`${l.title}: ${l.prompt}`);
           render();
         };
@@ -985,7 +2044,209 @@
       });
     }
 
+    // --- Sistema de Economía, Billetera y Tienda (100% Sin Anuncios) ---
+    let playerCoins = parseInt(localStorage.getItem('gem_v4_coins') || '1000', 10);
+    let unlockedThemes = JSON.parse(localStorage.getItem('gem_v4_unlocked_themes') || '["wood"]');
+    let lastDailyClaim = localStorage.getItem('gem_v4_daily_claim') || null;
+    let currentOnlineRoom = null;
+
+    const THEME_SHOP_DATA = [
+      { id: 'wood', name: 'Nogal & Arce Imperial', icon: '🪵', price: 0, desc: 'Clásico artesanal pulido a mano' },
+      { id: 'leather', name: 'Cuero Toscano & Oro', icon: '📜', price: 2500, desc: 'Piel con costuras y vetas finas' },
+      { id: 'marble', name: 'Mármol Carrara & Ónix', icon: '🏛️', price: 10000, desc: 'Losa mineral tallada con vetas nobles' },
+      { id: 'cyber', name: 'Obsidiana Cíber 2077', icon: '⚡', price: 25000, desc: 'Rejilla cuántica con acentos cian y neón' },
+      { id: 'jade', name: 'Esmeralda & Jade Real', icon: '🐉', price: 50000, desc: 'Piedra imperial con bordes de oro puro' },
+    ];
+
+    function updateCoinsDisplay() {
+      const headerEl = document.getElementById('playerCoinsHeader');
+      if (headerEl) headerEl.textContent = playerCoins.toLocaleString();
+      const modalEl = document.getElementById('betModalCoins');
+      if (modalEl) modalEl.textContent = playerCoins.toLocaleString();
+      try {
+        localStorage.setItem('gem_v4_coins', playerCoins.toString());
+      } catch (e) {}
+    }
+
+    function openShopModal() {
+      document.getElementById('coinShopModal').classList.remove('hidden');
+      updateCoinsDisplay();
+      checkDailyRewardState();
+      renderThemeShopList();
+    }
+
+    function closeShopModal() {
+      document.getElementById('coinShopModal').classList.add('hidden');
+    }
+
+    function switchShopTab(tab) {
+      const packsBtn = document.getElementById('shopTabPacksBtn');
+      const themesBtn = document.getElementById('shopTabThemesBtn');
+      const packsView = document.getElementById('shopPacksView');
+      const themesView = document.getElementById('shopThemesView');
+
+      if (tab === 'packs') {
+        packsBtn.className = 'flex-1 pb-2 border-b-2 border-amber-500 text-amber-400 font-bold';
+        themesBtn.className = 'flex-1 pb-2 border-b-2 border-transparent text-slate-400 hover:text-white font-bold';
+        packsView.classList.remove('hidden');
+        themesView.classList.add('hidden');
+      } else {
+        themesBtn.className = 'flex-1 pb-2 border-b-2 border-amber-500 text-amber-400 font-bold';
+        packsBtn.className = 'flex-1 pb-2 border-b-2 border-transparent text-slate-400 hover:text-white font-bold';
+        themesView.classList.remove('hidden');
+        packsView.classList.add('hidden');
+        renderThemeShopList();
+      }
+    }
+
+    function checkDailyRewardState() {
+      const btn = document.getElementById('claimDailyRewardBtn');
+      const sub = document.getElementById('dailyRewardSubtitle');
+      if (!btn || !sub) return;
+      const now = Date.now();
+      if (lastDailyClaim && (now - parseInt(lastDailyClaim, 10)) < 86400000) {
+        const remainingHours = Math.ceil((86400000 - (now - parseInt(lastDailyClaim, 10))) / (1000 * 60 * 60));
+        btn.disabled = true;
+        btn.className = 'px-3 py-1.5 rounded-lg bg-slate-800 text-slate-500 font-bold text-xs cursor-not-allowed';
+        btn.textContent = 'Reclamado';
+        sub.textContent = `Vuelve en ~${remainingHours}h para +100 Monedas`;
+      } else {
+        btn.disabled = false;
+        btn.className = 'px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition cursor-pointer';
+        btn.textContent = 'Reclamar';
+        sub.textContent = '+100 Monedas disponibles hoy';
+      }
+    }
+
+    function claimDailyReward() {
+      const now = Date.now();
+      if (lastDailyClaim && (now - parseInt(lastDailyClaim, 10)) < 86400000) return;
+      playerCoins += 100;
+      lastDailyClaim = now.toString();
+      try {
+        localStorage.setItem('gem_v4_daily_claim', lastDailyClaim);
+      } catch (e) {}
+      sound.king();
+      updateCoinsDisplay();
+      checkDailyRewardState();
+      updateInfo('🎁 ¡Recompensa diaria reclamada! +100 Monedas añadidas a tu saldo.');
+    }
+
+    window.buyCoins = function(amount, priceStr) {
+      playerCoins += amount;
+      sound.king();
+      updateCoinsDisplay();
+      updateInfo(`🪙 ¡Compra exitosa! Se acreditaron ${amount.toLocaleString()} Monedas (${priceStr}).`);
+      closeShopModal();
+    };
+
+    function renderThemeShopList() {
+      const container = document.getElementById('themeShopList');
+      if (!container) return;
+      container.innerHTML = '';
+      THEME_SHOP_DATA.forEach(t => {
+        const isUnlocked = unlockedThemes.includes(t.id);
+        const isEquipped = (activeTheme === t.id);
+        const row = document.createElement('div');
+        row.className = 'bg-[var(--bg-main)] p-2.5 rounded-xl border border-[var(--card-border)] flex items-center justify-between mb-2';
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">${t.icon}</span>
+            <div>
+              <div class="font-bold text-white flex items-center gap-1.5">
+                ${t.name}
+                ${isEquipped ? '<span class="text-[9px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-1 rounded font-mono">EQUIPADO</span>' : ''}
+              </div>
+              <div class="text-[10px] text-slate-400">${t.desc}</div>
+            </div>
+          </div>
+          <div>
+            ${isEquipped ? `
+              <button disabled class="px-2.5 py-1 text-[11px] rounded bg-emerald-800/40 text-emerald-300 font-bold border border-emerald-700/50 cursor-default">Activo</button>
+            ` : isUnlocked ? `
+              <button onclick="equipThemeFromShop('${t.id}')" class="px-2.5 py-1 text-[11px] rounded bg-slate-700 hover:bg-slate-600 text-white font-bold transition cursor-pointer">Equipar</button>
+            ` : `
+              <button onclick="unlockThemeWithCoins('${t.id}', ${t.price})" class="px-2.5 py-1 text-[11px] rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow transition flex items-center gap-1 cursor-pointer">
+                <span>🪙</span> ${t.price.toLocaleString()}
+              </button>
+            `}
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    window.equipThemeFromShop = function(themeId) {
+      setTheme(themeId);
+      renderThemeShopList();
+      updateInfo(`🎨 Tablero equipado: ${THEMES[themeId].name}`);
+    };
+
+    window.unlockThemeWithCoins = function(themeId, price) {
+      if (playerCoins < price) {
+        sound.click();
+        updateInfo(`❌ Monedas insuficientes. Necesitas ${price.toLocaleString()} 🪙 y tienes ${playerCoins.toLocaleString()} 🪙.`);
+        return;
+      }
+      playerCoins -= price;
+      if (!unlockedThemes.includes(themeId)) {
+        unlockedThemes.push(themeId);
+      }
+      try {
+        localStorage.setItem('gem_v4_unlocked_themes', JSON.stringify(unlockedThemes));
+      } catch (e) {}
+      sound.king();
+      setTheme(themeId);
+      updateCoinsDisplay();
+      renderThemeShopList();
+      updateInfo(`🎉 ¡Tablero desbloqueado con éxito! Se equipó el tema ${THEMES[themeId].name}.`);
+    };
+
+    // --- Modal de Apuesta Online (Matchmaking) ---
+    function openBetModal() {
+      document.getElementById('onlineBetModal').classList.remove('hidden');
+      updateCoinsDisplay();
+    }
+
+    function closeBetModal() {
+      document.getElementById('onlineBetModal').classList.add('hidden');
+    }
+
+    window.startOnlineMatch = function(betAmount, prizeAmount, roomName) {
+      if (playerCoins < betAmount) {
+        sound.click();
+        updateInfo(`❌ Monedas insuficientes para entrar a ${roomName}. Necesitas ${betAmount} 🪙.`);
+        closeBetModal();
+        openShopModal();
+        return;
+      }
+      closeBetModal();
+      playerCoins -= betAmount;
+      updateCoinsDisplay();
+      currentOnlineRoom = { bet: betAmount, prize: prizeAmount, name: roomName };
+      updateInfo(`🌐 Buscando rival en ${roomName} (Apuesta: ${betAmount} 🪙, Premio: ${prizeAmount} 🪙)...`);
+      sound.click();
+
+      setTimeout(() => {
+        initGame('spanish');
+        updateInfo(`⚔️ ¡Rival emparejado: Maestro_Damas_Online! Pozo en juego: ${prizeAmount} 🪙.`);
+        sound.king();
+      }, 1200);
+    };
+
     // Eventos de controles
+    document.getElementById('themeSelect').onchange = (e) => {
+      const selectedTheme = e.target.value;
+      if (!unlockedThemes.includes(selectedTheme)) {
+        e.target.value = activeTheme;
+        updateInfo(`🔒 El tema seleccionado requiere desbloqueo en la tienda.`);
+        openShopModal();
+        switchShopTab('themes');
+        return;
+      }
+      setTheme(selectedTheme);
+    };
+
     document.getElementById('variantSelect').onchange = (e) => {
       activeLesson = null;
       initGame(e.target.value);
@@ -1011,8 +2272,294 @@
     document.getElementById('rematchBtn').onclick = () => initGame(currentVar);
     document.getElementById('closeModalBtn').onclick = () => document.getElementById('victoryModal').classList.add('hidden');
 
-    renderLessons();
+    // --- Sistema de Autenticación y Lobby (Google, Correo y Guest) ---
+    let currentUser = JSON.parse(localStorage.getItem('gem_v4_user') || '{"displayName": "Invitado #1042", "email": "invitado@damas.local", "provider": "guest", "elo": 1200}');
+
+    function updateLobbyUserDisplay() {
+      const nameEl = document.getElementById('lobbyUserName');
+      const badgeEl = document.getElementById('lobbyAuthBadge');
+      const coinsEl = document.getElementById('lobbyUserCoins');
+      const avatarEl = document.getElementById('lobbyUserAvatar');
+
+      if (nameEl) nameEl.textContent = currentUser.displayName;
+      if (badgeEl) {
+        badgeEl.textContent = currentUser.provider === 'google' ? 'Google' : currentUser.provider === 'email' ? 'Cuenta' : 'Invitado';
+        badgeEl.className = currentUser.provider === 'google' 
+          ? 'text-[9px] bg-red-950/60 text-red-300 px-1.5 py-0.5 rounded border border-red-700/60 font-bold'
+          : currentUser.provider === 'email'
+          ? 'text-[9px] bg-indigo-950/60 text-indigo-300 px-1.5 py-0.5 rounded border border-indigo-700/60 font-bold'
+          : 'text-[9px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700';
+      }
+      if (coinsEl) coinsEl.textContent = playerCoins.toLocaleString();
+      if (avatarEl) avatarEl.textContent = currentUser.provider === 'google' ? '🔴' : currentUser.provider === 'email' ? '🏆' : '👤';
+      try {
+        localStorage.setItem('gem_v4_user', JSON.stringify(currentUser));
+      } catch (e) {}
+    }
+
+    function openLobbyModal() {
+      updateLobbyUserDisplay();
+      document.getElementById('lobbyModal').classList.remove('hidden');
+    }
+
+    function closeLobbyModal() {
+      document.getElementById('lobbyModal').classList.add('hidden');
+    }
+
+    function openAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+
+    window.authLoginWithGoogle = function() {
+      currentUser = {
+        displayName: 'Jugador Google',
+        email: 'jugador.damas@gmail.com',
+        provider: 'google',
+        elo: 1240
+      };
+      sound.king();
+      updateLobbyUserDisplay();
+      closeAuthModal();
+      openLobbyModal();
+      updateInfo('🔴 ¡Sesión iniciada con Google! Tu progreso se sincronizará con tu nube.');
+    };
+
+    window.authLoginWithEmail = function() {
+      const email = document.getElementById('authEmailInput').value.trim();
+      const pass = document.getElementById('authPassInput').value.trim();
+      if (!email.includes('@') || pass.length < 6) {
+        sound.click();
+        updateInfo('❌ Por favor ingresa un correo válido y una contraseña de al menos 6 caracteres.');
+        return;
+      }
+      const name = email.split('@')[0];
+      currentUser = {
+        displayName: name,
+        email: email,
+        provider: 'email',
+        elo: 1200
+      };
+      sound.king();
+      updateLobbyUserDisplay();
+      closeAuthModal();
+      openLobbyModal();
+      updateInfo(`✉️ ¡Bienvenido, ${name}! Sesión iniciada con tu cuenta.`);
+    };
+
+    window.authLoginAsGuest = function() {
+      const guestId = (1000 + Math.floor(Math.random() * 9000)).toString();
+      currentUser = {
+        displayName: `Invitado #${guestId}`,
+        email: `invitado_${guestId}@damas.local`,
+        provider: 'guest',
+        elo: 1200
+      };
+      sound.click();
+      updateLobbyUserDisplay();
+      closeAuthModal();
+      openLobbyModal();
+      updateInfo(`👤 Jugando como ${currentUser.displayName}.`);
+    };
+
+    window.startModeVsAi = function() {
+      closeLobbyModal();
+      initGame(currentVar);
+      updateInfo(`🤖 Modo Vs IA iniciado. Dificultad: ${aiDifficulty.toUpperCase()}.`);
+    };
+
+    window.startModePassAndPlay = function() {
+      closeLobbyModal();
+      initGame(currentVar);
+      updateInfo('👥 Modo Pasa y Juega activado. Dos personas en el mismo dispositivo cara a cara.');
+    };
+
+    // --- Modal de Ajustes / Configuración (Settings) ---
+    function openSettingsModal() {
+      updateSettingsUI();
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function updateSettingsUI() {
+      // 1. Sonido
+      const soundBtn = document.getElementById('settingsSoundToggleBtn');
+      const soundIcon = document.getElementById('settingsSoundIcon');
+      if (soundBtn && soundIcon) {
+        soundBtn.textContent = sound.muted ? 'SILENCIADO' : 'ACTIVO';
+        soundBtn.className = sound.muted 
+          ? 'px-3 py-1 rounded-lg bg-slate-800 text-slate-400 font-bold text-xs cursor-pointer'
+          : 'px-3 py-1 rounded-lg bg-emerald-800 text-emerald-200 font-bold text-xs cursor-pointer';
+        soundIcon.textContent = sound.muted ? '🔇' : '🔊';
+      }
+
+      // 2. Soplido
+      const huffBtn = document.getElementById('settingsHuffToggleBtn');
+      const huffCheck = document.getElementById('huffCheck');
+      const isHuff = huffCheck ? huffCheck.checked : false;
+      if (huffBtn) {
+        huffBtn.textContent = isHuff ? 'ACTIVO (SÍ)' : 'NO';
+        huffBtn.className = isHuff
+          ? 'px-3 py-1 rounded-lg bg-amber-600 text-white font-bold text-xs cursor-pointer'
+          : 'px-3 py-1 rounded-lg bg-slate-800 text-slate-400 font-bold text-xs cursor-pointer';
+      }
+
+      // 3. Estilo de Dama
+      const crownBtn = document.getElementById('kingStyleCrownBtn');
+      const stackedBtn = document.getElementById('kingStyleStackedBtn');
+      if (crownBtn && stackedBtn) {
+        crownBtn.className = (kingStyle === 'crown')
+          ? 'p-2.5 rounded-xl border border-amber-500 bg-amber-950/30 flex items-center gap-2 text-left transition cursor-pointer shadow-sm'
+          : 'p-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] flex items-center gap-2 text-left transition cursor-pointer';
+        stackedBtn.className = (kingStyle === 'stacked')
+          ? 'p-2.5 rounded-xl border border-amber-500 bg-amber-950/30 flex items-center gap-2 text-left transition cursor-pointer shadow-sm'
+          : 'p-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] flex items-center gap-2 text-left transition cursor-pointer';
+      }
+
+      // 4. Dificultad IA
+      ['easy', 'medium', 'hard', 'master'].forEach(d => {
+        const btn = document.getElementById(`diffBtn_${d}`);
+        if (!btn) return;
+        btn.className = (aiDifficulty === d)
+          ? 'p-2 rounded-xl border border-amber-500 bg-amber-950/30 text-left transition cursor-pointer shadow-sm'
+          : 'p-2 rounded-xl border border-[var(--card-border)] bg-[var(--bg-main)] text-left transition cursor-pointer';
+      });
+
+      // 5. Nombre de tema actual
+      const thEl = document.getElementById('currentThemeName');
+      if (thEl && THEMES[activeTheme]) thEl.textContent = THEMES[activeTheme].name;
+    }
+
+    window.setThemeFromSettings = function(themeId) {
+      if (!unlockedThemes.includes(themeId)) {
+        closeSettingsModal();
+        openShopModal();
+        switchShopTab('themes');
+        updateInfo('🔒 Este tablero requiere ser desbloqueado con monedas.');
+        return;
+      }
+      setTheme(themeId);
+      updateSettingsUI();
+      sound.click();
+      updateInfo(`🎨 Tablero cambiado a: ${THEMES[themeId].name}`);
+    };
+
+    window.setKingStyleFromSettings = function(style) {
+      kingStyle = style;
+      try { localStorage.setItem('gem_v4_king_style', kingStyle); } catch (e) {}
+      updateSettingsUI();
+      sound.king();
+      render();
+      updateInfo(`👑 Estilo de Dama: ${style === 'crown' ? 'Corona Real Grabada' : 'Doble Ficha Clásica'}`);
+    };
+
+    window.setDifficultyFromSettings = function(diff) {
+      aiDifficulty = diff;
+      try { localStorage.setItem('gem_v4_ai_difficulty', aiDifficulty); } catch (e) {}
+      updateSettingsUI();
+      sound.click();
+      const labels = { easy: 'Fácil (P1)', medium: 'Medio (P2)', hard: 'Difícil (P4)', master: 'Némesis ADN' };
+      updateInfo(`🧠 Dificultad de la IA cambiada a: ${labels[diff]}`);
+    };
+
+    window.toggleSoundFromSettings = function() {
+      sound.muted = !sound.muted;
+      updateSettingsUI();
+    };
+
+    window.toggleHuffingFromSettings = function() {
+      const huffCheck = document.getElementById('huffCheck');
+      if (huffCheck) {
+        huffCheck.checked = !huffCheck.checked;
+        updateMoves();
+        render();
+      }
+      updateSettingsUI();
+      updateInfo(`💨 Regla del Soplido: ${huffCheck && huffCheck.checked ? 'ACTIVADA' : 'DESACTIVADA'}`);
+    };
+
+    // --- Modal de Selección de Variante / Tipo de Damas ---
+    window.openVariantPickerModal = function() {
+      document.getElementById('variantPickerModal').classList.remove('hidden');
+    };
+
+    function closeVariantPickerModal() {
+      document.getElementById('variantPickerModal').classList.add('hidden');
+    }
+
+    window.selectVariantAndStart = function(variantId) {
+      currentVar = variantId;
+      activeLesson = null;
+      closeVariantPickerModal();
+      closeLobbyModal();
+      initGame(variantId);
+
+      const variantNames = {
+        spanish: 'Española (8x8)',
+        international: 'Internacional (10x10)',
+        brazilian: 'Brasileña (8x8)',
+        english: 'Inglesa / Checkers (8x8)',
+        russian: 'Rusa / Shashki (8x8)',
+        italian: 'Italiana (8x8)',
+        turkish: 'Turca (8x8)'
+      };
+
+      const name = variantNames[variantId] || variantId;
+      const badge = document.getElementById('variantHeaderBadge');
+      if (badge) badge.textContent = name;
+      const lobbyBadge = document.getElementById('lobbyCurrentVariantBadge');
+      if (lobbyBadge) lobbyBadge.textContent = name;
+
+      sound.king();
+      updateInfo(`♟️ Partida iniciada con reglas de: ${name}. ¡Buen juego!`);
+    };
+
+    // Botones de Modales y Header
+    document.getElementById('openLobbyBtn').onclick = openLobbyModal;
+    document.getElementById('closeLobbyModalBtn').onclick = closeLobbyModal;
+    document.getElementById('openAuthFromLobbyBtn').onclick = openAuthModal;
+    document.getElementById('closeAuthModalBtn').onclick = closeAuthModal;
+
+    document.getElementById('openSettingsBtn').onclick = openSettingsModal;
+    document.getElementById('closeSettingsModalBtn').onclick = closeSettingsModal;
+    document.getElementById('closeVariantPickerModalBtn').onclick = closeVariantPickerModal;
+
+    document.getElementById('openShopBtn').onclick = openShopModal;
+    document.getElementById('closeShopModalBtn').onclick = closeShopModal;
+    document.getElementById('claimDailyRewardBtn').onclick = claimDailyReward;
+    document.getElementById('shopTabPacksBtn').onclick = () => switchShopTab('packs');
+    document.getElementById('shopTabThemesBtn').onclick = () => switchShopTab('themes');
+
+    document.getElementById('coachBtn').onclick = () => {
+      if (moves.length > 0) {
+        coachHighlight = moves[0];
+        updateInfo('Pista del Coach: casilla recomendada resaltada en cian.');
+        render();
+      }
+    };
+
+    if (document.getElementById('huffCheck')) {
+      document.getElementById('huffCheck').onchange = () => {
+        updateMoves();
+        render();
+      };
+    }
+
+    document.getElementById('rematchBtn').onclick = () => initGame(currentVar);
+    document.getElementById('closeModalBtn').onclick = () => document.getElementById('victoryModal').classList.add('hidden');
+
     initGame('spanish');
+    setTheme(activeTheme);
+    updateCoinsDisplay();
+    updateLobbyUserDisplay();
+    updateSettingsUI();
+    renderLessons();
   </script>
 </body>
 </html>

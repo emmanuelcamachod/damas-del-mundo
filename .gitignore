@@ -9,4 +9,3 @@ build/
 .idea/
 .vscode/
 coverage/
-build_artifacts/

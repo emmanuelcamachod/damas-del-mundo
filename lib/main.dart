@@ -1,7 +1,6 @@
-// Punto de entrada de la aplicación Flutter — Juego de Damas Españolas 8x8.
-
 import 'package:flutter/material.dart';
-import 'ui/board_screen.dart';
+import 'auth/auth.dart';
+import 'ui/auth_screen.dart';
 
 void main() {
   runApp(const CheckersApp());
@@ -13,16 +12,17 @@ class CheckersApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Juego de Damas Españolas 8x8',
+      title: 'Damas de Élite • GEM V4.0',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF0284C7),
+          seedColor: const Color(0xFFF59E0B),
           brightness: Brightness.dark,
         ),
+        scaffoldBackgroundColor: const Color(0xFF090D16),
         useMaterial3: true,
       ),
-      home: const BoardScreen(),
+      home: AuthScreen(authService: SupabaseAuthService()),
     );
   }
 }
