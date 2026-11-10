@@ -618,20 +618,20 @@
       <main class="p-4 space-y-4">
 
         <!-- Banner de Recompensa Diaria -->
-        <div id="lobbyDailyBanner" onclick="openModal('modalDailyReward')" class="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border border-emerald-500/50 flex items-center justify-between shadow-lg cursor-pointer active:scale-98 transition">
+        <div id="lobbyDailyBanner" onclick="tryOpenDailyModal()" class="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border border-emerald-500/50 flex items-center justify-between shadow-lg cursor-pointer active:scale-98 transition">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl animate-bounce">
+            <div id="lobbyDailyIcon" class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl animate-bounce">
               🎁
             </div>
             <div>
               <div class="text-xs font-black text-white flex items-center gap-1.5">
-                <span>¡Recompensa Diaria Lista!</span>
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="lobbyDailyTitle">¡Recompensa Diaria Lista!</span>
+                <span id="lobbyDailyDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               </div>
-              <p class="text-[10px] text-emerald-300 font-medium">Toca para reclamar +250 🪙 de monedas gratis</p>
+              <p id="lobbyDailySub" class="text-[10px] text-emerald-300 font-medium">Toca para reclamar +250 🪙 de monedas gratis</p>
             </div>
           </div>
-          <button class="px-3 py-1.5 bg-emerald-500 text-slate-950 font-black text-xs rounded-xl shadow-md">
+          <button id="lobbyDailyBtn" class="px-3 py-1.5 bg-emerald-500 text-slate-950 font-black text-xs rounded-xl shadow-md">
             Abrir
           </button>
         </div>
@@ -889,15 +889,15 @@
       </header>
 
       <main class="p-4 space-y-4">
-        <div onclick="openModal('modalDailyReward')" class="p-3 rounded-2xl bg-gradient-to-r from-emerald-950/70 to-slate-900 border border-emerald-500/40 flex items-center justify-between cursor-pointer">
+        <div id="shopDailyBanner" onclick="tryOpenDailyModal()" class="p-3 rounded-2xl bg-gradient-to-r from-emerald-950/70 to-slate-900 border border-emerald-500/40 flex items-center justify-between cursor-pointer transition">
           <div class="flex items-center gap-2.5">
-            <span class="text-2xl">🎁</span>
+            <span id="shopDailyIcon" class="text-2xl">🎁</span>
             <div>
-              <div class="text-xs font-black text-white">Bono Diario Gratis</div>
-              <div class="text-[10px] text-emerald-400">+250 Monedas hoy</div>
+              <div id="shopDailyTitle" class="text-xs font-black text-white">Bono Diario Gratis</div>
+              <div id="shopDailySub" class="text-[10px] text-emerald-400">+250 Monedas hoy</div>
             </div>
           </div>
-          <button class="px-3 py-1 bg-emerald-500 text-slate-950 text-xs font-black rounded-lg">Reclamar</button>
+          <button id="shopDailyBtn" class="px-3 py-1 bg-emerald-500 text-slate-950 text-xs font-black rounded-lg">Reclamar</button>
         </div>
 
         <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1">Paquetes de Monedas</h3>
@@ -1240,7 +1240,7 @@
           </div>
         </div>
 
-        <button onclick="claimDailyRewardModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black text-sm shadow-[0_0_20px_rgba(245,158,11,0.5)] active:scale-95 transition cursor-pointer">
+        <button id="modalClaimDailyBtn" onclick="claimDailyRewardModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black text-sm shadow-[0_0_20px_rgba(245,158,11,0.5)] active:scale-95 transition cursor-pointer">
           ¡RECLAMAR 250 MONEDAS!
         </button>
         <button onclick="closeModal('modalDailyReward')" class="mt-2 text-xs font-semibold text-slate-400 hover:text-white py-1">
@@ -1552,7 +1552,10 @@
       navigateTo('screenLobby');
 
       setTimeout(() => {
-        openModal('modalDailyReward');
+        if (!hasClaimedDailyRewardToday()) {
+          openModal('modalDailyReward');
+        }
+        updateDailyRewardUI();
       }, 500);
     }
 
@@ -1604,18 +1607,93 @@
       if (pGameName) pGameName.textContent = `${currentUser.name} (Tú)`;
     }
 
+    function getTodayDateKey() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    }
+
+    function hasClaimedDailyRewardToday() {
+      try {
+        const lastClaim = localStorage.getItem('gem_v4_daily_claim_date');
+        return lastClaim === getTodayDateKey();
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function tryOpenDailyModal() {
+      updateDailyRewardUI();
+      if (hasClaimedDailyRewardToday()) {
+        showCoinToast('⏳ Ya reclamaste tu bono de hoy. ¡Vuelve mañana!');
+        sound.click();
+        return;
+      }
+      openModal('modalDailyReward');
+    }
+
+    function updateDailyRewardUI() {
+      const claimed = hasClaimedDailyRewardToday();
+      
+      // 1. Actualizar Banner del Lobby
+      const lBanner = document.getElementById('lobbyDailyBanner');
+      const lIcon = document.getElementById('lobbyDailyIcon');
+      const lTitle = document.getElementById('lobbyDailyTitle');
+      const lDot = document.getElementById('lobbyDailyDot');
+      const lSub = document.getElementById('lobbyDailySub');
+      const lBtn = document.getElementById('lobbyDailyBtn');
+
+      if (lBanner && claimed) {
+        lBanner.className = 'p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center justify-between opacity-75 cursor-not-allowed transition';
+        if (lIcon) { lIcon.className = 'w-11 h-11 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl'; lIcon.textContent = '✅'; }
+        if (lTitle) lTitle.textContent = 'Bono Diario Reclamado';
+        if (lDot) lDot.style.display = 'none';
+        if (lSub) { lSub.textContent = 'Disponible nuevamente mañana'; lSub.className = 'text-[10px] text-slate-400 font-medium'; }
+        if (lBtn) { lBtn.textContent = 'Listo ✓'; lBtn.className = 'px-3 py-1.5 bg-slate-800 text-slate-400 font-bold text-xs rounded-xl'; }
+      }
+
+      // 2. Actualizar Banner de la Tienda (Coins)
+      const sBanner = document.getElementById('shopDailyBanner');
+      const sIcon = document.getElementById('shopDailyIcon');
+      const sTitle = document.getElementById('shopDailyTitle');
+      const sSub = document.getElementById('shopDailySub');
+      const sBtn = document.getElementById('shopDailyBtn');
+
+      if (sBanner && claimed) {
+        sBanner.className = 'p-3 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center justify-between opacity-75 cursor-not-allowed transition';
+        if (sIcon) sIcon.textContent = '✅';
+        if (sTitle) sTitle.textContent = 'Bono Diario Reclamado';
+        if (sSub) { sSub.textContent = 'Próximo bono disponible en 24h'; sSub.className = 'text-[10px] text-slate-400'; }
+        if (sBtn) { sBtn.textContent = 'Reclamado ✓'; sBtn.className = 'px-3 py-1 bg-slate-800 text-slate-400 text-xs font-bold rounded-lg'; }
+      }
+
+      // 3. Actualizar Botón del Modal
+      const mBtn = document.getElementById('modalClaimDailyBtn');
+      if (mBtn && claimed) {
+        mBtn.textContent = '✓ YA RECLAMADO HOY (VUELVE MAÑANA)';
+        mBtn.disabled = true;
+        mBtn.className = 'w-full py-3.5 rounded-2xl bg-slate-800 text-slate-400 font-bold text-xs cursor-not-allowed';
+      }
+    }
+
     function claimDailyRewardModal() {
+      if (hasClaimedDailyRewardToday()) {
+        showCoinToast('⏳ Ya reclamaste tu recompensa diaria hoy.');
+        closeModal('modalDailyReward');
+        updateDailyRewardUI();
+        return;
+      }
+
+      try {
+        localStorage.setItem('gem_v4_daily_claim_date', getTodayDateKey());
+      } catch (e) {}
+
       currentUser.coins += 250;
       saveUserToStorage();
       updateUserDisplays();
+      updateDailyRewardUI();
       sound.victory();
       closeModal('modalDailyReward');
       showCoinToast('+250 🪙 ¡Recompensa Diaria Reclamada!');
-      const banner = document.getElementById('lobbyDailyBanner');
-      if (banner) {
-        banner.style.opacity = '0.6';
-        banner.onclick = null;
-      }
     }
 
     function buyCoins(amount, price) {
@@ -2021,6 +2099,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       document.body.setAttribute('data-theme', 'wood');
       loadUserFromStorage();
+      updateDailyRewardUI();
       if (currentUser && currentUser.isAuth) {
         updateUserDisplays();
         navigateTo('screenLobby');
