@@ -327,6 +327,36 @@
       50% { box-shadow: inset 0 0 0 5px #34d399, 0 0 15px rgba(16, 185, 129, 0.7); }
     }
 
+    /* FICHA FANTASMA PARA ANIMACIÓN DEMOSTRATIVA DE LA ACADEMIA */
+    .demo-ghost-token {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 50;
+      transition: transform 420ms cubic-bezier(0.34, 1.45, 0.64, 1), opacity 250ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      will-change: transform, opacity;
+    }
+    .demo-ghost-halo {
+      width: 82%;
+      height: 82%;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fef3c7 40%, #f59e0b 100%);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.95), 0 0 50px rgba(6, 182, 212, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+      border: 2.5px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: ghost-pulse 1.1s infinite alternate ease-in-out;
+    }
+    @keyframes ghost-pulse {
+      0% { transform: scale(1); filter: brightness(1); }
+      100% { transform: scale(1.1); filter: brightness(1.3); }
+    }
+
   
 
     /* ESTILOS DE ERGONOMÍA MÓVIL Y DOCK */
@@ -1127,20 +1157,20 @@
 
           <!-- Acciones Rápidas del Dojo de Maestros -->
           <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-800/80">
-            <button onclick="requestCoachHint()" class="flex-1 py-1 px-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
-              <span>💡</span> <span>Pista Magistral</span>
+            <button onclick="animateAcademyRecommendation()" class="flex-1 py-1 px-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
+              <span>🎬</span> <span>Ver Jugada Animada</span>
             </button>
             <button onclick="restartAcademyPosition(true)" class="flex-1 py-1 px-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
               <span>🔄</span> <span>Reiniciar</span>
             </button>
-            <button onclick="showAcademySolution()" class="flex-1 py-1 px-1.5 rounded-lg bg-amber-950/40 hover:bg-amber-900/40 border border-amber-500/40 text-amber-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
-              <span>👁️</span> <span>Solución</span>
+            <button onclick="requestCoachHint()" class="flex-1 py-1 px-1.5 rounded-lg bg-amber-950/40 hover:bg-amber-900/40 border border-amber-500/40 text-amber-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
+              <span>💡</span> <span>Pista Magistral</span>
             </button>
           </div>
         </div>
 
         <div id="boardFrameContainer" class="w-full max-w-[400px] aspect-square rounded-2xl p-2.5 relative shadow-2xl transition-all" style="background-color: var(--board-frame-bg); border: 4px solid var(--board-frame-border);">
-          <div id="boardGrid" class="w-full h-full grid rounded-xl overflow-hidden border border-black/50 shadow-inner">
+          <div id="boardGrid" class="w-full h-full grid rounded-xl overflow-hidden border border-black/50 shadow-inner relative">
             <!-- Celdas renderizadas dinámicamente -->
           </div>
         </div>
@@ -1681,7 +1711,25 @@
       return ACADEMY_BELTS.find(b => lvl >= b.minLevel && lvl <= b.maxLevel) || ACADEMY_BELTS[ACADEMY_BELTS.length - 1];
     }
 
+    let isDemoAnimating = false;
+    let activeDemoTimers = [];
+
+    function stopAcademyDemoAnimation() {
+      activeDemoTimers.forEach(t => clearTimeout(t));
+      activeDemoTimers = [];
+      const ghost = document.getElementById('academyGhostToken');
+      if (ghost) ghost.remove();
+      const grid = document.getElementById('boardGrid');
+      if (grid) {
+        Array.from(grid.children).forEach(c => {
+          c.style.opacity = '1';
+        });
+      }
+      isDemoAnimating = false;
+    }
+
     function restartAcademyPosition(showToastMsg = true) {
+      stopAcademyDemoAnimation();
       if (!isAcademyMode || !academyInitialBoard) return;
       board = JSON.parse(JSON.stringify(academyInitialBoard));
       academyCurrentStepIndex = 0;
@@ -1695,17 +1743,92 @@
       }
     }
 
-    function showAcademySolution() {
+    function animateAcademyRecommendation() {
       if (!isAcademyMode || !currentAcademyLesson) return;
+      if (isDemoAnimating) {
+        stopAcademyDemoAnimation();
+        return;
+      }
+
       const les = currentAcademyLesson;
       const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
-      const nextStep = path[academyCurrentStepIndex];
-      if (nextStep) {
-        showCoinToast(`👁️ Jugada Maestra: Salta o mueve hacia (${nextStep.r + 1}, ${nextStep.c + 1})`);
-        selectedCell = academyCurrentStepIndex === 0 ? les.expectedFrom : (path[academyCurrentStepIndex - 1] || les.expectedFrom);
-        legalMoves = getMovesForPiece(selectedCell.r, selectedCell.c);
-        renderBoard();
+      if (!path || path.length === 0) return;
+
+      const fromPt = academyCurrentStepIndex === 0 ? les.expectedFrom : (path[academyCurrentStepIndex - 1] || les.expectedFrom);
+      const remainingSteps = path.slice(academyCurrentStepIndex);
+      if (remainingSteps.length === 0) return;
+
+      const grid = document.getElementById('boardGrid');
+      if (!grid) return;
+
+      stopAcademyDemoAnimation();
+      isDemoAnimating = true;
+
+      const cfg = RULES[currentVar] || RULES.spanish;
+      const sz = cfg.size || 8;
+      const stepPct = 100 / sz;
+
+      const ghost = document.createElement('div');
+      ghost.id = 'academyGhostToken';
+      ghost.className = 'demo-ghost-token';
+      ghost.style.width = `${stepPct}%`;
+      ghost.style.height = `${stepPct}%`;
+      ghost.style.transform = `translate3d(${fromPt.c * 100}%, ${fromPt.r * 100}%, 0)`;
+
+      const halo = document.createElement('div');
+      halo.className = 'demo-ghost-halo';
+      const p = (board[fromPt.r] && board[fromPt.r][fromPt.c]) || { col: 'w', king: false };
+      if (p.king) {
+        halo.innerHTML = `<svg class="w-5 h-5 drop-shadow text-amber-950" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>`;
+      } else {
+        halo.innerHTML = `<span class="text-xs font-black text-amber-950">⚪</span>`;
       }
+      ghost.appendChild(halo);
+      grid.appendChild(ghost);
+
+      // Atenuar celda origen
+      const originIdx = fromPt.r * sz + fromPt.c;
+      if (grid.children[originIdx]) {
+        grid.children[originIdx].style.opacity = '0.35';
+      }
+
+      showCoinToast(`🎬 Demostrando: ${les.technique}`);
+      if (sound && sound.click) sound.click();
+
+      const stepDuration = 450;
+      remainingSteps.forEach((step, idx) => {
+        const timer = setTimeout(() => {
+          if (!isDemoAnimating) return;
+          ghost.style.transform = `translate3d(${step.c * 100}%, ${step.r * 100}%, 0) scale(1.18)`;
+          if (sound && sound.move) sound.move();
+          const landTimer = setTimeout(() => {
+            if (!isDemoAnimating) return;
+            ghost.style.transform = `translate3d(${step.c * 100}%, ${step.r * 100}%, 0) scale(1)`;
+          }, 200);
+          activeDemoTimers.push(landTimer);
+        }, (idx + 1) * stepDuration);
+        activeDemoTimers.push(timer);
+      });
+
+      const finalDelay = (remainingSteps.length + 1) * stepDuration + 200;
+      const finishTimer = setTimeout(() => {
+        if (!isDemoAnimating) return;
+        ghost.style.opacity = '0';
+        const cleanupTimer = setTimeout(() => {
+          stopAcademyDemoAnimation();
+          selectedCell = { r: fromPt.r, c: fromPt.c };
+          legalMoves = getMovesForPiece(fromPt.r, fromPt.c);
+          renderBoard();
+          showCoinToast('⚡ ¡Tu turno! Ejecuta la jugada demostrada.');
+        }, 250);
+        activeDemoTimers.push(cleanupTimer);
+      }, finalDelay);
+      activeDemoTimers.push(finishTimer);
+    }
+
+    function showAcademySolution() {
+      if (!isAcademyMode || !currentAcademyLesson) return;
+      animateAcademyRecommendation();
     }
 
     function generateProceduralLevel(lvl) {
@@ -2033,6 +2156,7 @@
     }
 
     function startAcademyLesson(idx) {
+      stopAcademyDemoAnimation();
       closeModal('modalAcademy');
       closeModal('modalLessonCompleted');
 
@@ -2232,6 +2356,7 @@
     }
 
     function confirmLeaveGame() {
+      stopAcademyDemoAnimation();
       closeModal('modalLeaveGame');
 
       if (!isPassAndPlay && !isAcademyMode) {
@@ -2629,6 +2754,9 @@
     }
 
     function handleCellClick(r, c) {
+      if (isDemoAnimating) {
+        stopAcademyDemoAnimation();
+      }
       if (!isPassAndPlay && turn !== 'w') return;
 
       const p = board[r][c];
@@ -3064,13 +3192,7 @@
         const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
         if (les) {
           showCoinToast(`🥋 Gran Maestro: ${les.hint}`);
-          const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
-          const fromPt = academyCurrentStepIndex === 0 ? les.expectedFrom : (path[academyCurrentStepIndex - 1] || les.expectedFrom);
-          if (fromPt) {
-            selectedCell = { r: fromPt.r, c: fromPt.c };
-            legalMoves = getMovesForPiece(fromPt.r, fromPt.c);
-            renderBoard();
-          }
+          animateAcademyRecommendation();
           return;
         }
       }
