@@ -1101,12 +1101,41 @@
 
       <!-- ÁREA CENTRAL: TABLERO DE DAMAS DE NOGAL -->
       <div class="flex-1 flex flex-col items-center justify-center p-2 relative my-auto">
-        <!-- BANNER DEL MAESTRO DE LA ACADEMIA -->
-        <div id="academyCoachBanner" class="hidden w-full max-w-[400px] mb-2 p-2.5 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-slate-900/90 to-cyan-950/80 border border-cyan-500/50 shadow-lg flex items-start gap-2.5">
-          <span class="text-2xl">🧙‍♂️</span>
-          <div class="flex-1">
-            <div id="academyLessonTitle" class="text-xs font-black text-cyan-300">Lección 1: El Paso Diagonal</div>
-            <div id="academyCoachText" class="text-[11px] text-slate-200 leading-snug mt-0.5">Toca tu peón blanco (resaltado en dorado) y avanza un paso diagonal hacia la casilla verde.</div>
+        <!-- BANNER DEL DOJO DE MAESTROS DE LA ACADEMIA -->
+        <div id="academyCoachBanner" class="hidden w-full max-w-[400px] mb-2 p-2.5 rounded-2xl bg-gradient-to-r from-slate-900 via-amber-950/40 to-slate-900 border border-amber-500/50 shadow-xl flex flex-col gap-2">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-lg shadow-sm">
+                🥋
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span id="academyLessonBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">DOJO PROFESIONAL</span>
+                  <span id="academyTacticalCategory" class="text-[9px] font-mono text-cyan-400 font-bold">GOLPE REAL</span>
+                </div>
+                <h4 id="academyLessonTitle" class="text-xs font-black text-white mt-0.5">Lección 1: El Paso Diagonal</h4>
+              </div>
+            </div>
+            <div id="academyStreakBadge" class="px-2 py-1 rounded-xl bg-slate-950/90 border border-amber-500/40 text-amber-300 text-[10px] font-black font-mono flex items-center gap-1 shadow">
+              <span>🔥</span> <span id="academyStreakCount">0</span>
+            </div>
+          </div>
+
+          <div id="academyCoachText" class="text-[11px] text-slate-200 leading-snug bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+            Toca tu peón blanco (resaltado en dorado) y avanza un paso diagonal hacia la casilla verde.
+          </div>
+
+          <!-- Acciones Rápidas del Dojo de Maestros -->
+          <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-800/80">
+            <button onclick="requestCoachHint()" class="flex-1 py-1 px-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
+              <span>💡</span> <span>Pista Magistral</span>
+            </button>
+            <button onclick="restartAcademyPosition(true)" class="flex-1 py-1 px-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
+              <span>🔄</span> <span>Reiniciar</span>
+            </button>
+            <button onclick="showAcademySolution()" class="flex-1 py-1 px-1.5 rounded-lg bg-amber-950/40 hover:bg-amber-900/40 border border-amber-500/40 text-amber-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
+              <span>👁️</span> <span>Solución</span>
+            </button>
           </div>
         </div>
 
@@ -1523,12 +1552,17 @@
     let huffingEnabled = false;
     let isAcademyMode = false;
     let currentAcademyLessonIdx = 0;
+    let currentAcademyLesson = null;
+    let academyCurrentStepIndex = 0;
+    let academyInitialBoard = null;
+    let academyTacticalStreak = 0;
     let academyProgress = {};
 
     const ACADEMY_LESSONS = [
       {
         id: 0,
         badge: "PASO 1",
+        category: "FUNDAMENTO BÁSICO",
         title: "1. El Paso Diagonal",
         technique: "Movimiento Básico",
         desc: "Las fichas solo avanzan en diagonal hacia adelante sobre las casillas oscuras.",
@@ -1538,12 +1572,14 @@
         white: [{ r: 5, c: 2, king: false }],
         black: [],
         expectedFrom: { r: 5, c: 2 },
+        path: [{ r: 4, c: 1 }],
         expectedTo: [{ r: 4, c: 1 }, { r: 4, c: 3 }],
         successMsg: "¡Bravísimo! Los peones avanzan siempre un paso diagonal hacia el frente."
       },
       {
         id: 1,
         badge: "PASO 2",
+        category: "SALTO SIMPLE",
         title: "2. ¡Tu Primera Captura!",
         technique: "El Salto Simple",
         desc: "Si un peón rival está en tu diagonal y la casilla posterior está libre, ¡salta sobre él!",
@@ -1553,12 +1589,14 @@
         white: [{ r: 5, c: 2, king: false }],
         black: [{ r: 4, c: 3, king: false }],
         expectedFrom: { r: 5, c: 2 },
+        path: [{ r: 3, c: 4 }],
         expectedTo: [{ r: 3, c: 4 }],
         successMsg: "¡Captura perfecta! La ficha enemiga ha sido retirada del tablero."
       },
       {
         id: 2,
         badge: "PASO 3",
+        category: "CAPTURA OBLIGATORIA",
         title: "3. La Captura es Obligatoria",
         technique: "Regla Sagrada",
         desc: "En las damas nunca puedes ignorar una captura. Si puedes comer, estás obligado.",
@@ -1568,27 +1606,31 @@
         white: [{ r: 5, c: 2, king: false }, { r: 6, c: 5, king: false }],
         black: [{ r: 4, c: 3, king: false }],
         expectedFrom: { r: 5, c: 2 },
+        path: [{ r: 3, c: 4 }],
         expectedTo: [{ r: 3, c: 4 }],
         successMsg: "¡Exacto! Aunque tengas otras piezas libres, comer es siempre obligatorio."
       },
       {
         id: 3,
         badge: "PASO 4",
+        category: "DOBLE SALTO EN CADENA",
         title: "4. Salto Doble en Cadena",
         technique: "El Combo Encadenado",
         desc: "Si al aterrizar de una captura tienes otra pieza enemiga para comer, ¡continúa saltando!",
-        coachMsg: "¡Combo! Salta la primera ficha y, en el mismo turno, salta la segunda ficha para completar el barrido.",
+        coachMsg: "¡Combo! Salta la primera ficha hacia (3,4) y, en el mismo turno, salta la segunda hasta g7 (1,6).",
         hint: "Salta sobre la primera ficha negra y continúa comiendo la segunda hasta g7.",
         sz: 8,
         white: [{ r: 5, c: 2, king: false }],
         black: [{ r: 4, c: 3, king: false }, { r: 2, c: 5, king: false }],
         expectedFrom: { r: 5, c: 2 },
+        path: [{ r: 3, c: 4 }, { r: 1, c: 6 }],
         expectedTo: [{ r: 1, c: 6 }],
         successMsg: "¡Impresionante barrido doble! Has ejecutado una captura encadenada completa."
       },
       {
         id: 4,
         badge: "PASO 5",
+        category: "CORONACIÓN DE DAMA",
         title: "5. La Coronación",
         technique: "Nacimiento de la Reina",
         desc: "Cuando un peón llega a la última fila enemiga, se convierte en Dama.",
@@ -1598,12 +1640,14 @@
         white: [{ r: 1, c: 2, king: false }],
         black: [{ r: 1, c: 6, king: false }],
         expectedFrom: { r: 1, c: 2 },
+        path: [{ r: 0, c: 1 }],
         expectedTo: [{ r: 0, c: 1 }, { r: 0, c: 3 }],
         successMsg: "¡Viva la Reina! Tu peón ha sido coronado como Dama con poderes especiales."
       },
       {
         id: 5,
         badge: "PASO 6",
+        category: "DAMA DE LARGO ALCANCE",
         title: "6. El Vuelo de la Dama",
         technique: "Dama de Largo Alcance",
         desc: "La Dama puede volar a cualquier distancia a lo largo de las diagonales.",
@@ -1613,6 +1657,7 @@
         white: [{ r: 7, c: 0, king: true }],
         black: [{ r: 4, c: 3, king: false }],
         expectedFrom: { r: 7, c: 0 },
+        path: [{ r: 3, c: 4 }],
         expectedTo: [{ r: 3, c: 4 }, { r: 2, c: 5 }, { r: 1, c: 6 }, { r: 0, c: 7 }],
         successMsg: "¡Magistral! La Dama Voladora es el arma definitiva en el tablero de Damas."
       }
@@ -1636,124 +1681,206 @@
       return ACADEMY_BELTS.find(b => lvl >= b.minLevel && lvl <= b.maxLevel) || ACADEMY_BELTS[ACADEMY_BELTS.length - 1];
     }
 
-    function pseudoRandom(seed) {
-      let s = Math.sin(seed * 9973 + 12345) * 10000;
-      return s - Math.floor(s);
+    function restartAcademyPosition(showToastMsg = true) {
+      if (!isAcademyMode || !academyInitialBoard) return;
+      board = JSON.parse(JSON.stringify(academyInitialBoard));
+      academyCurrentStepIndex = 0;
+      turn = 'w';
+      selectedCell = null;
+      legalMoves = [];
+      stats = { moves: 0, caps: 0, kings: 0 };
+      renderBoard();
+      if (showToastMsg) {
+        showCoinToast('🔄 Posición reiniciada. ¡Calcula tu jugada!');
+      }
+    }
+
+    function showAcademySolution() {
+      if (!isAcademyMode || !currentAcademyLesson) return;
+      const les = currentAcademyLesson;
+      const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
+      const nextStep = path[academyCurrentStepIndex];
+      if (nextStep) {
+        showCoinToast(`👁️ Jugada Maestra: Salta o mueve hacia (${nextStep.r + 1}, ${nextStep.c + 1})`);
+        selectedCell = academyCurrentStepIndex === 0 ? les.expectedFrom : (path[academyCurrentStepIndex - 1] || les.expectedFrom);
+        legalMoves = getMovesForPiece(selectedCell.r, selectedCell.c);
+        renderBoard();
+      }
     }
 
     function generateProceduralLevel(lvl) {
-      const seed = lvl * 7919;
       const belt = getBeltForLevel(lvl);
-      const archetype = (lvl <= 15) ? 0 : (lvl <= 40) ? 1 : (lvl <= 80) ? 2 : (lvl <= 140) ? 3 : (lvl <= 220) ? 4 : (lvl <= 350) ? 5 : (lvl <= 500) ? 6 : ((lvl % 5) + 1);
+      const archetype = (lvl - 1) % 10;
 
       if (archetype === 0) {
-        const validOrigins = [
-          { r: 5, c: 0 }, { r: 5, c: 2 }, { r: 5, c: 4 }, { r: 5, c: 6 },
-          { r: 4, c: 1 }, { r: 4, c: 3 }, { r: 4, c: 5 }
-        ];
-        const pick = validOrigins[Math.floor(pseudoRandom(seed) * validOrigins.length)];
-        const dir = (pick.c <= 1) ? 1 : (pick.c >= 6) ? -1 : (pseudoRandom(seed + 1) > 0.5 ? 1 : -1);
-        const mid = { r: pick.r - 1, c: pick.c + dir };
-        const land = { r: pick.r - 2, c: pick.c + dir * 2 };
         return {
           id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
-          title: `${lvl}. Salto Táctico`, technique: "Precisión Diagonal",
-          desc: "Captura la pieza enemiga desprotegida.",
-          coachMsg: "¡El enemigo ha dejado una brecha! Salta sobre él y consolida tu posición.",
-          hint: `Mueve tu ficha blanca en fila ${pick.r + 1} hacia adelante.`,
+          category: '⚔️ GOLPE REAL',
+          title: `${lvl}. El Golpe Real de Gran Maestro`,
+          technique: 'Barrido en Gran Diagonal (Dama Voladora)',
+          desc: 'La Dama cruza toda la Gran Diagonal a1-h8 capturando piezas rivales distantes.',
+          coachMsg: '¡La Gran Diagonal está despejada para el Golpe Real! Vuela con tu Dama y barre las dos piezas negras.',
+          hint: 'Selecciona tu Dama en (7,0) y barre hasta (1,6).',
           sz: 8,
-          white: [{ r: pick.r, c: pick.c, king: false }],
-          black: [{ r: mid.r, c: mid.c, king: false }],
-          expectedFrom: pick,
-          expectedTo: [land],
-          successMsg: `¡Excelente lectura! Has superado el Nivel ${lvl}.`
+          white: [{ r: 7, c: 0, king: true }],
+          black: [{ r: 5, c: 2, king: false }, { r: 2, c: 5, king: false }],
+          expectedFrom: { r: 7, c: 0 },
+          path: [{ r: 4, c: 3 }, { r: 1, c: 6 }],
+          expectedTo: [{ r: 1, c: 6 }, { r: 0, c: 7 }],
+          successMsg: `¡Golpe Real ejecutado a la perfección! Has superado el Nivel ${lvl}.`
         };
-      } else if (archetype === 1 || archetype === 5) {
-        const combos = [
-          { start: { r: 5, c: 0 }, mid1: { r: 4, c: 1 }, hop1: { r: 3, c: 2 }, mid2: { r: 2, c: 3 }, end: { r: 1, c: 4 } },
-          { start: { r: 5, c: 0 }, mid1: { r: 4, c: 1 }, hop1: { r: 3, c: 2 }, mid2: { r: 2, c: 1 }, end: { r: 1, c: 0 } },
-          { start: { r: 5, c: 2 }, mid1: { r: 4, c: 3 }, hop1: { r: 3, c: 4 }, mid2: { r: 2, c: 5 }, end: { r: 1, c: 6 } },
-          { start: { r: 5, c: 2 }, mid1: { r: 4, c: 3 }, hop1: { r: 3, c: 4 }, mid2: { r: 2, c: 3 }, end: { r: 1, c: 2 } },
-          { start: { r: 5, c: 4 }, mid1: { r: 4, c: 3 }, hop1: { r: 3, c: 2 }, mid2: { r: 2, c: 1 }, end: { r: 1, c: 0 } },
-          { start: { r: 5, c: 4 }, mid1: { r: 4, c: 5 }, hop1: { r: 3, c: 6 }, mid2: { r: 2, c: 5 }, end: { r: 1, c: 4 } },
-          { start: { r: 5, c: 6 }, mid1: { r: 4, c: 5 }, hop1: { r: 3, c: 4 }, mid2: { r: 2, c: 3 }, end: { r: 1, c: 2 } }
-        ];
-        const c = combos[Math.floor(pseudoRandom(seed) * combos.length)];
+      } else if (archetype === 1) {
         return {
           id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
-          title: `${lvl}. Salto Doble Encadenado`, technique: "El Combo Táctico",
-          desc: "Encadena dos saltos en el mismo turno para barrer las piezas enemigas.",
-          coachMsg: "¡Doble captura a la vista! Salta la primera ficha y continúa inmediatamente con la segunda.",
-          hint: `Inicia el salto desde la fila ${c.start.r + 1} y sigue la diagonal.`,
+          category: '👑 GOLPE POLACO',
+          title: `${lvl}. El Golpe Polaco (Coup Polonais)`,
+          technique: 'Barrido en Zigzag de 3 Capturas',
+          desc: 'Combinación clásica de torneo: 3 saltos en zigzag culminando en coronación.',
+          coachMsg: '¡Coup Polonais! Salta sobre (5,2) a (4,3), continúa a (2,5) y remata coronando en (0,7).',
+          hint: 'Inicia el salto desde b2 (6,1) y sigue la cadena de 3 capturas.',
           sz: 8,
-          white: [{ r: c.start.r, c: c.start.c, king: false }],
-          black: [{ r: c.mid1.r, c: c.mid1.c, king: false }, { r: c.mid2.r, c: c.mid2.c, king: false }],
-          expectedFrom: c.start,
-          expectedTo: [c.end],
-          step1To: c.hop1,
-          successMsg: `¡Barrido doble impecable! Has superado el Nivel ${lvl}.`
+          white: [{ r: 6, c: 1, king: false }],
+          black: [{ r: 5, c: 2, king: false }, { r: 3, c: 4, king: false }, { r: 1, c: 6, king: false }],
+          expectedFrom: { r: 6, c: 1 },
+          path: [{ r: 4, c: 3 }, { r: 2, c: 5 }, { r: 0, c: 7 }],
+          expectedTo: [{ r: 0, c: 7 }],
+          successMsg: `¡Magistral Coup Polonais! Has superado el Nivel ${lvl}.`
         };
       } else if (archetype === 2) {
-        const crowns = [
-          { start: { r: 1, c: 2 }, end: [{ r: 0, c: 1 }, { r: 0, c: 3 }], black: [{ r: 1, c: 6, king: false }] },
-          { start: { r: 1, c: 4 }, end: [{ r: 0, c: 3 }, { r: 0, c: 5 }], black: [{ r: 1, c: 0, king: false }] },
-          { start: { r: 2, c: 3 }, mid: { r: 1, c: 4 }, end: [{ r: 0, c: 5 }] },
-          { start: { r: 2, c: 5 }, mid: { r: 1, c: 4 }, end: [{ r: 0, c: 3 }] }
-        ];
-        const cr = crowns[Math.floor(pseudoRandom(seed) * crowns.length)];
-        const blacks = cr.mid ? [{ r: cr.mid.r, c: cr.mid.c, king: false }] : cr.black;
         return {
           id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
-          title: `${lvl}. Carrera de Coronación`, technique: "Nacimiento de la Dama",
-          desc: "Alcanza la fila 0 para transformar tu peón en una Dama con plenos poderes.",
-          coachMsg: "¡El pasillo está abierto! Avanza a la última fila enemiga y corónate.",
-          hint: `Avanza con tu peón hasta la primera fila para recibir tu corona.`,
+          category: '⚔️ GOLPE DE TALÓN',
+          title: `${lvl}. El Golpe de Talón`,
+          technique: 'Apertura Violenta de Fila Base',
+          desc: 'Salta al talón de la formación enemiga para desarticular su defensa.',
+          coachMsg: '¡Golpea el talón! Salta la primera ficha hacia (3,2) y continúa inmediatamente a (1,4).',
+          hint: 'Comienza el asalto desde e3 (5,4) saltando sobre (4,3).',
           sz: 8,
-          white: [{ r: cr.start.r, c: cr.start.c, king: false }],
-          black: blacks,
-          expectedFrom: cr.start,
-          expectedTo: cr.end,
-          successMsg: `¡Corona conseguida! Has dominado la técnica del Nivel ${lvl}.`
+          white: [{ r: 5, c: 4, king: false }],
+          black: [{ r: 4, c: 3, king: false }, { r: 2, c: 3, king: false }],
+          expectedFrom: { r: 5, c: 4 },
+          path: [{ r: 3, c: 2 }, { r: 1, c: 4 }],
+          expectedTo: [{ r: 1, c: 4 }],
+          successMsg: `¡Golpe de talón fulminante! Has superado el Nivel ${lvl}.`
         };
       } else if (archetype === 3) {
-        const kingFlights = [
-          { start: { r: 7, c: 0 }, enemy: { r: 4, c: 3 }, lands: [{ r: 3, c: 4 }, { r: 2, c: 5 }, { r: 1, c: 6 }, { r: 0, c: 7 }] },
-          { start: { r: 7, c: 6 }, enemy: { r: 4, c: 3 }, lands: [{ r: 3, c: 2 }, { r: 2, c: 1 }, { r: 1, c: 0 }] },
-          { start: { r: 6, c: 7 }, enemy: { r: 3, c: 4 }, lands: [{ r: 2, c: 3 }, { r: 1, c: 2 }, { r: 0, c: 1 }] }
-        ];
-        const kf = kingFlights[Math.floor(pseudoRandom(seed) * kingFlights.length)];
         return {
           id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
-          title: `${lvl}. El Vuelo de la Reina`, technique: "Dama de Largo Alcance",
-          desc: "Usa el alcance ilimitado de tu Dama para saltar sobre el enemigo a distancia.",
-          coachMsg: "Tu Dama gobierna toda la diagonal. ¡Salta la ficha enemiga y aterriza al otro lado!",
-          hint: `Vuela con tu Dama por la gran diagonal y elige tu casilla de aterrizaje.`,
+          category: '🧠 ESTRATEGIA POSICIONAL',
+          title: `${lvl}. La Horquilla Táctica`,
+          technique: 'Doble Amenaza y Tenaza Central',
+          desc: 'Avanza a la casilla neurálgica d4 (4,3) para crear una doble amenaza letal.',
+          coachMsg: 'Toma el centro neurálgico en d4 (4,3). Tus dos diagonales amenazarán a los peones negros simultáneamente.',
+          hint: 'Mueve tu peón de c3 (5,2) a d4 (4,3).',
           sz: 8,
-          white: [{ r: kf.start.r, c: kf.start.c, king: true }],
-          black: [{ r: kf.enemy.r, c: kf.enemy.c, king: false }],
-          expectedFrom: kf.start,
-          expectedTo: kf.lands,
-          successMsg: `¡Precisión milimétrica! Dama voladora triunfal en el Nivel ${lvl}.`
+          white: [{ r: 5, c: 2, king: false }],
+          black: [{ r: 3, c: 2, king: false }, { r: 3, c: 4, king: false }],
+          expectedFrom: { r: 5, c: 2 },
+          path: [{ r: 4, c: 3 }],
+          expectedTo: [{ r: 4, c: 3 }],
+          successMsg: `¡Horquilla impecable! Has superado el Nivel ${lvl}.`
+        };
+      } else if (archetype === 4) {
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          category: '👑 LA ESCALERA',
+          title: `${lvl}. La Escalera de Maestros (1-por-3)`,
+          technique: 'Barrido Cascada en Zigzag',
+          desc: 'Aprovecha la disposición escalonada para barrer 3 piezas en una sola jugada.',
+          coachMsg: '¡Escalera abierta! Salta a (5,4), luego a (3,6) y remata en (1,4) barriendo 3 fichas.',
+          hint: 'Inicia el salto desde c1 (7,2).',
+          sz: 8,
+          white: [{ r: 7, c: 2, king: false }],
+          black: [{ r: 6, c: 3, king: false }, { r: 4, c: 5, king: false }, { r: 2, c: 5, king: false }],
+          expectedFrom: { r: 7, c: 2 },
+          path: [{ r: 5, c: 4 }, { r: 3, c: 6 }, { r: 1, c: 4 }],
+          expectedTo: [{ r: 1, c: 4 }],
+          successMsg: `¡Escalera de maestro completada! Has superado el Nivel ${lvl}.`
+        };
+      } else if (archetype === 5) {
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          category: '🏆 TRIÁNGULO DE PETROV',
+          title: `${lvl}. El Triángulo de Petrov (Final 3v1)`,
+          technique: 'Caza y Cierre de Dama Solitaria',
+          desc: 'Final clásico de campeonato: captura la Dama rival atrapada en la red.',
+          coachMsg: '¡La red del Triángulo de Petrov está cerrada! Captura la Dama rival en d4 (4,3) saltando desde b2 (6,1).',
+          hint: 'Salta con tu Dama de (6,1) sobre (4,3) y aterriza en (3,4).',
+          sz: 8,
+          white: [{ r: 6, c: 1, king: true }, { r: 5, c: 4, king: true }, { r: 7, c: 4, king: true }],
+          black: [{ r: 4, c: 3, king: true }],
+          expectedFrom: { r: 6, c: 1 },
+          path: [{ r: 3, c: 4 }],
+          expectedTo: [{ r: 3, c: 4 }],
+          successMsg: `¡Triángulo de Petrov resuelto con maestría! Has superado el Nivel ${lvl}.`
+        };
+      } else if (archetype === 6) {
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          category: '🔒 ZUGZWANG & OPOSICIÓN',
+          title: `${lvl}. Zugzwang y Oposición Directa`,
+          technique: 'Compulsión de Movimiento',
+          desc: 'Avanza para ganar la oposición y dejar al rival en Zugzwang absoluto.',
+          coachMsg: 'Gana la oposición avanzando a e5 (3,4). El peón negro no tendrá ninguna casilla segura.',
+          hint: 'Mueve de d4 (4,3) a e5 (3,4).',
+          sz: 8,
+          white: [{ r: 4, c: 3, king: false }],
+          black: [{ r: 2, c: 5, king: false }],
+          expectedFrom: { r: 4, c: 3 },
+          path: [{ r: 3, c: 4 }],
+          expectedTo: [{ r: 3, c: 4 }],
+          successMsg: `¡Oposición ganada y rival en Zugzwang! Has superado el Nivel ${lvl}.`
+        };
+      } else if (archetype === 7) {
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          category: '🔒 CANDADO DE BANDA',
+          title: `${lvl}. El Candado de Banda (1 frena a 2)`,
+          technique: 'Inmovilización de Flanco',
+          desc: 'Un solo peón bien ubicado neutraliza por completo a dos peones enemigos en la banda.',
+          coachMsg: 'Avanza a c5 (3,2). Desde esa casilla paralizarás los dos peones rivales en la banda.',
+          hint: 'Avanza tu peón de b4 (4,1) a c5 (3,2).',
+          sz: 8,
+          white: [{ r: 4, c: 1, king: false }],
+          black: [{ r: 2, c: 1, king: false }, { r: 3, c: 0, king: false }],
+          expectedFrom: { r: 4, c: 1 },
+          path: [{ r: 3, c: 2 }],
+          expectedTo: [{ r: 3, c: 2 }],
+          successMsg: `¡Candado de banda perfecto! Has superado el Nivel ${lvl}.`
+        };
+      } else if (archetype === 8) {
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          category: '⚔️ CELADA DE CORONACIÓN',
+          title: `${lvl}. Celada de Coronación Falsa`,
+          technique: 'Emboscada de Coronación',
+          desc: 'Caza a la pieza enemiga en el momento exacto en que intenta penetrar tu defensa.',
+          coachMsg: '¡Emboscada lista! Salta con tu Dama sobre el peón infiltrado en (1,2) hacia (0,3).',
+          hint: 'Salta de (2,1) sobre (1,2) aterrizando en (0,3).',
+          sz: 8,
+          white: [{ r: 2, c: 1, king: true }],
+          black: [{ r: 1, c: 2, king: false }],
+          expectedFrom: { r: 2, c: 1 },
+          path: [{ r: 0, c: 3 }],
+          expectedTo: [{ r: 0, c: 3 }],
+          successMsg: `¡Celada completada con éxito! Has superado el Nivel ${lvl}.`
         };
       } else {
-        const triples = [
-          { start: { r: 7, c: 2 }, m1: { r: 6, c: 3 }, h1: { r: 5, c: 4 }, m2: { r: 4, c: 5 }, h2: { r: 3, c: 6 }, m3: { r: 2, c: 5 }, end: [{ r: 1, c: 4 }] },
-          { start: { r: 7, c: 4 }, m1: { r: 6, c: 3 }, h1: { r: 5, c: 2 }, m2: { r: 4, c: 1 }, h2: { r: 3, c: 0 }, m3: { r: 2, c: 1 }, end: [{ r: 1, c: 2 }] },
-          { start: { r: 6, c: 1 }, m1: { r: 5, c: 2 }, h1: { r: 4, c: 3 }, m2: { r: 3, c: 4 }, h2: { r: 2, c: 5 }, m3: { r: 1, c: 4 }, end: [{ r: 0, c: 3 }] }
-        ];
-        const tr = triples[Math.floor(pseudoRandom(seed) * triples.length)];
         return {
           id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
-          title: `${lvl}. El Golpe Maestro`, technique: "Triple Barrido Táctico",
-          desc: "Ejecuta un devastador triple salto encadenado.",
-          coachMsg: "¡El golpe definitivo! Encadena tres capturas consecutivas y limpia el tablero.",
-          hint: `Comienza el triple salto desde (${tr.start.r}, ${tr.start.c}).`,
+          category: '👑 BARRIDO EN CRUCE',
+          title: `${lvl}. Red de Captura en Cruce (Ángulo Recto)`,
+          technique: 'Giro de 90 Grados con Dama Voladora',
+          desc: 'Tu Dama gira en ángulo recto tras cada captura para limpiar 3 piezas enemigas.',
+          coachMsg: '¡Triple barrido cruzado! Salta a (2,3), gira 90° hacia (4,5) y remata en (6,3).',
+          hint: 'Inicia el salto desde b8 (0,1) sobre (1,2).',
           sz: 8,
-          white: [{ r: tr.start.r, c: tr.start.c, king: false }],
-          black: [{ r: tr.m1.r, c: tr.m1.c, king: false }, { r: tr.m2.r, c: tr.m2.c, king: false }, { r: tr.m3.r, c: tr.m3.c, king: false }],
-          expectedFrom: tr.start,
-          expectedTo: tr.end,
-          successMsg: `¡Increíble golpe maestro! Nivel ${lvl} completado con maestría.`
+          white: [{ r: 0, c: 1, king: true }],
+          black: [{ r: 1, c: 2, king: false }, { r: 3, c: 4, king: false }, { r: 5, c: 4, king: false }],
+          expectedFrom: { r: 0, c: 1 },
+          path: [{ r: 2, c: 3 }, { r: 4, c: 5 }, { r: 6, c: 3 }],
+          expectedTo: [{ r: 6, c: 3 }],
+          successMsg: `¡Barrido en cruce devastador! Has superado el Nivel ${lvl}.`
         };
       }
     }
@@ -1861,9 +1988,10 @@
               ${icon}
             </div>
             <div>
-              <div class="flex items-center gap-1.5">
+              <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="text-xs font-black ${isCurrent ? 'text-amber-300' : 'text-white'}">${les.title}</span>
                 <span class="text-[9px] font-bold px-1.5 py-0.2 rounded ${isCurrent ? 'bg-amber-500 text-slate-950' : 'bg-slate-700 text-amber-300'}">${les.badge}</span>
+                ${les.category ? `<span class="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-cyan-950/70 border border-cyan-500/30 text-cyan-300">${les.category}</span>` : ''}
               </div>
               <div class="text-[10px] text-slate-400 leading-tight mt-0.5">${les.desc}</div>
             </div>
@@ -1911,22 +2039,37 @@
       isAcademyMode = true;
       isPassAndPlay = false;
       currentAcademyLessonIdx = idx;
-      const les = getAcademyLesson(idx);
+      currentAcademyLesson = getAcademyLesson(idx);
+      academyCurrentStepIndex = 0;
+      const les = currentAcademyLesson;
 
       currentVar = 'spanish';
       currentMatchBet = 0;
 
-      // Actualizar Header y rival en screenGame
-      document.getElementById('gameActiveVariantBadge').textContent = `🎓 ${les.title}`;
-      document.getElementById('rivalName').textContent = 'Maestro Mentor';
-      document.getElementById('rivalAvatar').textContent = '🧙‍♂️';
+      // Actualizar Header y rival en screenGame (Ambiente Profesional de Torneo)
+      const variantBadge = document.getElementById('gameActiveVariantBadge');
+      if (variantBadge) {
+        variantBadge.innerHTML = `<span class="text-amber-400 font-black">🥋 ${les.badge}</span> <span class="text-slate-300 font-semibold">• ${les.technique}</span>`;
+      }
+      const rName = document.getElementById('rivalName');
+      if (rName) rName.textContent = 'Gran Maestro Némesis';
+      const rAvatar = document.getElementById('rivalAvatar');
+      if (rAvatar) rAvatar.textContent = '🧙‍♂️';
+      const rSub = document.querySelector('#screenGame .text-slate-400.font-medium');
+      if (rSub) rSub.textContent = 'Negras • ELO 2550 (Gran Maestro)';
 
-      // Mostrar Banner del Coach de la Academia
+      // Mostrar Banner del Dojo de la Academia
       const banner = document.getElementById('academyCoachBanner');
       if (banner) {
         banner.classList.remove('hidden');
-        document.getElementById('academyLessonTitle').textContent = `${les.badge}: ${les.technique}`;
-        document.getElementById('academyCoachText').textContent = les.coachMsg;
+        const titleEl = document.getElementById('academyLessonTitle');
+        if (titleEl) titleEl.textContent = les.title;
+        const coachEl = document.getElementById('academyCoachText');
+        if (coachEl) coachEl.textContent = les.coachMsg;
+        const catEl = document.getElementById('academyTacticalCategory');
+        if (catEl) catEl.textContent = les.category || 'TÁCTICA DE MAESTRO';
+        const streakEl = document.getElementById('academyStreakCount');
+        if (streakEl) streakEl.textContent = String(academyTacticalStreak || 0);
       }
 
       // Inicializar tablero con las piezas específicas de la lección
@@ -1944,6 +2087,9 @@
         board[p.r][p.c] = { col: 'b', king: p.king };
       });
 
+      // Guardar copia snapshot determinista para reinicio instantáneo
+      academyInitialBoard = JSON.parse(JSON.stringify(board));
+
       turn = 'w';
       selectedCell = null;
       legalMoves = [];
@@ -1956,7 +2102,7 @@
       navigateTo('screenGame');
 
       sound.login();
-      showCoinToast(`🎓 ${les.title}: ${les.technique}`);
+      showCoinToast(`🥋 ${les.title}: ${les.technique}`);
     }
 
     function nextAcademyLesson() {
@@ -2427,32 +2573,17 @@
           let hintOrigin = false;
           let hintTarget = false;
           if (isAcademyMode && currentAcademyLessonIdx !== null) {
-            const les = getAcademyLesson(currentAcademyLessonIdx);
+            const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
             if (les) {
+              const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
+              const currentStep = path[academyCurrentStepIndex];
+              const prevStep = academyCurrentStepIndex > 0 ? path[academyCurrentStepIndex - 1] : les.expectedFrom;
+
               const currentLvl = (les.levelNum || (les.id + 1));
-              const autoTarget = currentLvl <= 15;
-              if (les.id === 3) {
-                const hasPawnAtStart = board[5] && board[5][2];
-                if (hasPawnAtStart) {
-                  hintOrigin = !selectedCell && r === 5 && c === 2;
-                  hintTarget = (!!selectedCell || autoTarget) && r === 3 && c === 4;
-                } else {
-                  hintOrigin = !selectedCell && r === 3 && c === 4;
-                  hintTarget = (!!selectedCell || autoTarget) && r === 1 && c === 6;
-                }
-              } else if (les.step1To) {
-                const atOrigin = board[les.expectedFrom.r] && board[les.expectedFrom.r][les.expectedFrom.c];
-                if (atOrigin) {
-                  hintOrigin = !selectedCell && r === les.expectedFrom.r && c === les.expectedFrom.c;
-                  hintTarget = (!!selectedCell || autoTarget) && r === les.step1To.r && c === les.step1To.c;
-                } else {
-                  hintOrigin = !selectedCell && r === les.step1To.r && c === les.step1To.c;
-                  hintTarget = (!!selectedCell || autoTarget) && les.expectedTo.some(t => t.r === r && t.c === c);
-                }
-              } else {
-                hintOrigin = !selectedCell && les.expectedFrom && les.expectedFrom.r === r && les.expectedFrom.c === c;
-                hintTarget = (!!selectedCell || autoTarget) && les.expectedTo && les.expectedTo.some(t => t.r === r && t.c === c);
-              }
+              const autoTarget = currentLvl <= 25; // Asistencia visual inicial
+
+              hintOrigin = !selectedCell && prevStep && prevStep.r === r && prevStep.c === c;
+              hintTarget = (!!selectedCell || autoTarget) && currentStep && currentStep.r === r && currentStep.c === c;
             }
           }
 
@@ -2717,27 +2848,41 @@
       stats.moves++;
 
       if (isAcademyMode) {
-        const les = getAcademyLesson(currentAcademyLessonIdx);
+        const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
         if (les) {
-          const moreCaps = getMovesForPiece(m.toR, m.toC).filter(mv => mv.cap);
-          if (moreCaps.length > 0) {
-            showCoinToast('⚡ ¡Gran salto! Continúa la cadena de capturas...');
-            selectedCell = { r: m.toR, c: m.toC };
-            legalMoves = moreCaps;
-            renderBoard();
-            return;
-          }
+          const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
+          const targetStep = path[academyCurrentStepIndex];
+          const isCorrectStep = targetStep && (targetStep.r === m.toR && targetStep.c === m.toC);
 
-          const isSuccess = les.expectedTo.some(t => t.r === m.toR && t.c === m.toC);
-          if (isSuccess) {
+          if (isCorrectStep) {
+            academyCurrentStepIndex++;
+            if (academyCurrentStepIndex < path.length) {
+              // Paso intermedio completado con éxito: continuar la cadena
+              const nextStep = path[academyCurrentStepIndex];
+              showCoinToast(`⚡ ¡Gran golpe! Siguiente salto hacia fila ${nextStep.r + 1}, columna ${nextStep.c + 1}...`);
+              selectedCell = { r: m.toR, c: m.toC };
+              const moreCaps = getMovesForPiece(m.toR, m.toC).filter(mv => mv.cap);
+              legalMoves = moreCaps.length > 0 ? moreCaps : getMovesForPiece(m.toR, m.toC);
+              renderBoard();
+              return;
+            }
+
+            // ¡Combinación completada con éxito!
+            academyTacticalStreak = (academyTacticalStreak || 0) + 1;
+            const streakBonus = Math.min(25, academyTacticalStreak * 2);
+            const totalCoinsWon = 15 + streakBonus;
+
             academyProgress[les.id] = 3;
             if ((les.id + 2) > (academyMaxLevel || 1)) {
               academyMaxLevel = les.id + 2;
             }
-            currentUser.coins = (currentUser.coins || 0) + 15;
+            currentUser.coins = (currentUser.coins || 0) + totalCoinsWon;
             saveAcademyProgress();
             saveUserToStorage();
             updateUserDisplays();
+
+            const streakEl = document.getElementById('academyStreakCount');
+            if (streakEl) streakEl.textContent = String(academyTacticalStreak);
 
             setTimeout(() => {
               const belt = getBeltForLevel(les.levelNum || (les.id + 1));
@@ -2747,14 +2892,23 @@
                 <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold mb-1">
                   <span>${belt.icon}</span> <span>${belt.name}</span>
                 </div>
-                <div class="text-[11px] text-emerald-400 font-bold mt-1">+15 🪙 Monedas Ganadas</div>
+                <div class="text-[11px] text-emerald-400 font-bold mt-1">+${totalCoinsWon} 🪙 Monedas (+${streakBonus} racha 🔥 x${academyTacticalStreak})</div>
               `;
               sound.victory();
               openModal('modalLessonCompleted');
-            }, 350);
+              try { confetti({ particleCount: 75, spread: 65, origin: { y: 0.6 } }); } catch(e) {}
+            }, 300);
             return;
           } else {
-            showCoinToast('💡 ¡Casi! Sigue las casillas iluminadas para cumplir la lección.');
+            // Jugada errónea: reiniciar limpiamente sin trabas ni estados huérfanos
+            academyTacticalStreak = 0;
+            const streakEl = document.getElementById('academyStreakCount');
+            if (streakEl) streakEl.textContent = '0';
+            showCoinToast(`⚠️ ${les.hint || 'Jugada incorrecta. Observa la diagonal clave.'}`);
+            setTimeout(() => {
+              restartAcademyPosition(false);
+            }, 650);
+            return;
           }
         }
         return;
@@ -2907,9 +3061,16 @@
 
     function requestCoachHint() {
       if (isAcademyMode && currentAcademyLessonIdx !== null) {
-        const les = getAcademyLesson(currentAcademyLessonIdx);
+        const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
         if (les) {
-          showCoinToast(`💡 Mentor: ${les.hint}`);
+          showCoinToast(`🥋 Gran Maestro: ${les.hint}`);
+          const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
+          const fromPt = academyCurrentStepIndex === 0 ? les.expectedFrom : (path[academyCurrentStepIndex - 1] || les.expectedFrom);
+          if (fromPt) {
+            selectedCell = { r: fromPt.r, c: fromPt.c };
+            legalMoves = getMovesForPiece(fromPt.r, fromPt.c);
+            renderBoard();
+          }
           return;
         }
       }
