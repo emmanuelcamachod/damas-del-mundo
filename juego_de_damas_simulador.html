@@ -1157,8 +1157,8 @@
 
           <!-- Acciones Rápidas del Dojo de Maestros -->
           <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-800/80">
-            <button onclick="animateAcademyRecommendation()" class="flex-1 py-1.5 px-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 text-[11px] font-black flex items-center justify-center gap-1 shadow-md hover:brightness-110 transition active:scale-95">
-              <span>🎬</span> <span>Ver Jugada Animada</span>
+            <button onclick="demonstrateAcademyLesson()" class="flex-1 py-1.5 px-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 text-[11px] font-black flex items-center justify-center gap-1 shadow-md hover:brightness-110 transition active:scale-95">
+              <span>👀</span> <span>Demostrar Jugada</span>
             </button>
             <button onclick="restartAcademyPosition(true)" class="py-1.5 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
               <span>🔄</span> <span>Reiniciar</span>
@@ -1712,25 +1712,87 @@
       return ACADEMY_BELTS.find(b => lvl >= b.minLevel && lvl <= b.maxLevel) || ACADEMY_BELTS[ACADEMY_BELTS.length - 1];
     }
 
-    let isDemoAnimating = false;
-    let activeDemoTimers = [];
+    let isAcademyObserving = false;
+    let academyDemoSequenceTimers = [];
 
-    function stopAcademyDemoAnimation() {
-      activeDemoTimers.forEach(t => clearTimeout(t));
-      activeDemoTimers = [];
-      const ghost = document.getElementById('academyGhostToken');
-      if (ghost) ghost.remove();
-      const grid = document.getElementById('boardGrid');
-      if (grid) {
-        Array.from(grid.children).forEach(c => {
-          c.style.opacity = '1';
-        });
+    function stopAcademyObservation(restoreBoard = false) {
+      academyDemoSequenceTimers.forEach(t => clearTimeout(t));
+      academyDemoSequenceTimers = [];
+      const wasObserving = isAcademyObserving;
+      isAcademyObserving = false;
+
+      if ((restoreBoard || wasObserving) && isAcademyMode && academyInitialBoard) {
+        board = JSON.parse(JSON.stringify(academyInitialBoard));
+        academyCurrentStepIndex = 0;
+        selectedCell = null;
+        legalMoves = [];
+        renderBoard();
       }
-      isDemoAnimating = false;
+    }
+
+    function demonstrateAcademyLesson() {
+      if (!isAcademyMode || !currentAcademyLesson || !academyInitialBoard) return;
+
+      stopAcademyObservation(true);
+      isAcademyObserving = true;
+
+      const les = currentAcademyLesson;
+      const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
+      if (!path || path.length === 0) {
+        isAcademyObserving = false;
+        return;
+      }
+
+      selectedCell = null;
+      legalMoves = [];
+      renderBoard();
+
+      showCoinToast(`👀 Observa: El Gran Maestro ejecuta ${les.technique}...`);
+      if (sound && sound.click) sound.click();
+
+      let curPos = { r: les.expectedFrom.r, c: les.expectedFrom.c };
+      const stepDelay = 700;
+
+      path.forEach((targetStep, idx) => {
+        const timer = setTimeout(() => {
+          if (!isAcademyObserving) return;
+
+          const moves = getMovesForPiece(curPos.r, curPos.c);
+          const targetMove = moves.find(m => m.toR === targetStep.r && m.toC === targetStep.c)
+            || { fromR: curPos.r, fromC: curPos.c, toR: targetStep.r, toC: targetStep.c, cap: null };
+
+          executeMove(targetMove);
+          renderBoard();
+          curPos = { r: targetStep.r, c: targetStep.c };
+        }, (idx + 1) * stepDelay);
+        academyDemoSequenceTimers.push(timer);
+      });
+
+      const finishDelay = (path.length + 1) * stepDelay + 400;
+      const finishTimer = setTimeout(() => {
+        if (!isAcademyObserving) return;
+        showCoinToast('✨ ¡Así se hace! Preparando el tablero para ti...');
+
+        const resetTimer = setTimeout(() => {
+          if (!isAcademyObserving) return;
+          board = JSON.parse(JSON.stringify(academyInitialBoard));
+          academyCurrentStepIndex = 0;
+          isAcademyObserving = false;
+
+          selectedCell = { r: les.expectedFrom.r, c: les.expectedFrom.c };
+          legalMoves = getMovesForPiece(les.expectedFrom.r, les.expectedFrom.c);
+          renderBoard();
+
+          showCoinToast('⚡ ¡Ahora hazlo tú! Ejecuta la misma jugada.');
+          if (sound && sound.login) sound.login();
+        }, 1200);
+        academyDemoSequenceTimers.push(resetTimer);
+      }, finishDelay);
+      academyDemoSequenceTimers.push(finishTimer);
     }
 
     function restartAcademyPosition(showToastMsg = true) {
-      stopAcademyDemoAnimation();
+      stopAcademyObservation(true);
       if (!isAcademyMode || !academyInitialBoard) return;
       board = JSON.parse(JSON.stringify(academyInitialBoard));
       academyCurrentStepIndex = 0;
@@ -1740,108 +1802,13 @@
       stats = { moves: 0, caps: 0, kings: 0 };
       renderBoard();
       if (showToastMsg) {
-        showCoinToast('🔄 Posición reiniciada. ¡Observa la jugada!');
+        showCoinToast('🔄 Posición reiniciada. ¡A jugar!');
       }
-      setTimeout(() => {
-        if (isAcademyMode) {
-          animateAcademyRecommendation();
-        }
-      }, 350);
-    }
-
-    function animateAcademyRecommendation() {
-      if (!isAcademyMode || !currentAcademyLesson) return;
-      if (isDemoAnimating) {
-        stopAcademyDemoAnimation();
-        return;
-      }
-
-      const les = currentAcademyLesson;
-      const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
-      if (!path || path.length === 0) return;
-
-      const fromPt = academyCurrentStepIndex === 0 ? les.expectedFrom : (path[academyCurrentStepIndex - 1] || les.expectedFrom);
-      const remainingSteps = path.slice(academyCurrentStepIndex);
-      if (remainingSteps.length === 0) return;
-
-      const overlay = document.getElementById('boardAnimationOverlay');
-      const grid = document.getElementById('boardGrid');
-      const container = overlay || grid;
-      if (!container) return;
-
-      stopAcademyDemoAnimation();
-      isDemoAnimating = true;
-
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const sz = cfg.size || 8;
-      const stepPct = 100 / sz;
-
-      const ghost = document.createElement('div');
-      ghost.id = 'academyGhostToken';
-      ghost.className = 'demo-ghost-token';
-      ghost.style.width = `${stepPct}%`;
-      ghost.style.height = `${stepPct}%`;
-      ghost.style.transform = `translate3d(${fromPt.c * 100}%, ${fromPt.r * 100}%, 0)`;
-
-      const halo = document.createElement('div');
-      halo.className = 'demo-ghost-halo';
-      const p = (board[fromPt.r] && board[fromPt.r][fromPt.c]) || { col: 'w', king: false };
-      if (p.king) {
-        halo.innerHTML = `<svg class="w-5 h-5 drop-shadow text-amber-950" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>`;
-      } else {
-        halo.innerHTML = `<span class="text-sm font-black text-amber-950">⚪</span>`;
-      }
-      ghost.appendChild(halo);
-      container.appendChild(ghost);
-
-      // Forzar reflujo para fijar la coordenada inicial
-      ghost.getBoundingClientRect();
-
-      // Atenuar pieza en celda origen
-      if (grid) {
-        const originIdx = fromPt.r * sz + fromPt.c;
-        if (grid.children[originIdx]) {
-          grid.children[originIdx].style.opacity = '0.2';
-        }
-      }
-
-      showCoinToast(`🎬 Demostrando: ${les.technique}`);
-      if (sound && sound.click) sound.click();
-
-      const stepDuration = 650;
-      remainingSteps.forEach((step, idx) => {
-        const timer = setTimeout(() => {
-          if (!isDemoAnimating) return;
-          ghost.style.transform = `translate3d(${step.c * 100}%, ${step.r * 100}%, 0) scale(1.15)`;
-          if (sound && sound.move) sound.move();
-          const landTimer = setTimeout(() => {
-            if (!isDemoAnimating) return;
-            ghost.style.transform = `translate3d(${step.c * 100}%, ${step.r * 100}%, 0) scale(1)`;
-          }, 280);
-          activeDemoTimers.push(landTimer);
-        }, (idx + 1) * stepDuration);
-        activeDemoTimers.push(timer);
-      });
-
-      const finalDelay = (remainingSteps.length + 1) * stepDuration + 250;
-      const finishTimer = setTimeout(() => {
-        if (!isDemoAnimating) return;
-        ghost.style.opacity = '0';
-        const cleanupTimer = setTimeout(() => {
-          stopAcademyDemoAnimation();
-          selectedCell = { r: fromPt.r, c: fromPt.c };
-          legalMoves = getMovesForPiece(fromPt.r, fromPt.c);
-          renderBoard();
-          showCoinToast('⚡ ¡Tu turno! Ejecuta la jugada demostrada.');
-        }, 300);
-        activeDemoTimers.push(cleanupTimer);
-      }, finalDelay);
-      activeDemoTimers.push(finishTimer);
     }
 
     function showAcademySolution() {
       if (!isAcademyMode || !currentAcademyLesson) return;
-      animateAcademyRecommendation();
+      demonstrateAcademyLesson();
     }
 
     function generateProceduralLevel(lvl) {
@@ -2169,7 +2136,7 @@
     }
 
     function startAcademyLesson(idx) {
-      stopAcademyDemoAnimation();
+      stopAcademyObservation(true);
       closeModal('modalAcademy');
       closeModal('modalLessonCompleted');
 
@@ -2241,10 +2208,10 @@
       sound.login();
       showCoinToast(`🥋 ${les.title}: ${les.technique}`);
 
-      // Demostración cinemática automática de la jugada recomendada al entrar
+      // Demostración física automática de la jugada al entrar
       setTimeout(() => {
         if (isAcademyMode && currentAcademyLessonIdx === idx) {
-          animateAcademyRecommendation();
+          demonstrateAcademyLesson();
         }
       }, 500);
     }
@@ -2376,7 +2343,7 @@
     }
 
     function confirmLeaveGame() {
-      stopAcademyDemoAnimation();
+      stopAcademyObservation(true);
       closeModal('modalLeaveGame');
 
       if (!isPassAndPlay && !isAcademyMode) {
@@ -2774,8 +2741,9 @@
     }
 
     function handleCellClick(r, c) {
-      if (isDemoAnimating) {
-        stopAcademyDemoAnimation();
+      if (isAcademyObserving) {
+        stopAcademyObservation(true);
+        return;
       }
       if (!isPassAndPlay && turn !== 'w') return;
 
@@ -2973,8 +2941,10 @@
         board[m.cap.r][m.cap.c] = null;
         if (p.col === 'w') {
           capturedWhite++;
-          stats.caps++;
-          currentUser.captures = (currentUser.captures || 0) + 1;
+          if (!isAcademyObserving) {
+            stats.caps++;
+            currentUser.captures = (currentUser.captures || 0) + 1;
+          }
         } else {
           capturedBlack++;
         }
@@ -2986,14 +2956,18 @@
       const cfg = RULES[currentVar];
       if (p.col === 'w' && m.toR === 0 && !p.king) {
         p.king = true;
-        stats.kings++;
+        if (!isAcademyObserving) stats.kings++;
         sound.king();
       } else if (p.col === 'b' && m.toR === (cfg ? cfg.size - 1 : 7) && !p.king) {
         p.king = true;
         sound.king();
       }
 
-      stats.moves++;
+      if (!isAcademyObserving) stats.moves++;
+
+      // BLINDAJE ANTIAUTOCOMPLETADO (Directiva D-01):
+      // En modo demostración/observación solo muta el tablero físico y retorna de inmediato
+      if (isAcademyObserving) return;
 
       if (isAcademyMode) {
         const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
@@ -3212,7 +3186,7 @@
         const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
         if (les) {
           showCoinToast(`🥋 Gran Maestro: ${les.hint}`);
-          animateAcademyRecommendation();
+          demonstrateAcademyLesson();
           return;
         }
       }
