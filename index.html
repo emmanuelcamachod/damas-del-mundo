@@ -310,6 +310,23 @@
       0%, 100% { box-shadow: inset 0 0 0 3px #06b6d4; }
       50% { box-shadow: inset 0 0 0 5px #22d3ee, 0 0 12px #06b6d4; }
     }
+    .board-cell-hint-origin {
+      box-shadow: inset 0 0 0 3px #f59e0b !important;
+      animation: pulse-hint-origin 1.4s infinite ease-in-out;
+    }
+    @keyframes pulse-hint-origin {
+      0%, 100% { box-shadow: inset 0 0 0 3px #f59e0b; }
+      50% { box-shadow: inset 0 0 0 5px #fbbf24, 0 0 15px rgba(245, 158, 11, 0.7); }
+    }
+    .board-cell-hint-target {
+      box-shadow: inset 0 0 0 3px #10b981 !important;
+      animation: pulse-hint-target 1.4s infinite ease-in-out;
+    }
+    @keyframes pulse-hint-target {
+      0%, 100% { box-shadow: inset 0 0 0 3px #10b981; }
+      50% { box-shadow: inset 0 0 0 5px #34d399, 0 0 15px rgba(16, 185, 129, 0.7); }
+    }
+
   
 
     /* ESTILOS DE ERGONOMÍA MÓVIL Y DOCK */
@@ -706,14 +723,14 @@
               </div>
             </div>
 
-            <div onclick="startMatchWithBet(currentVar, 50)" class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
+            <div onclick="openModal('modalAcademy')" class="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900 via-amber-950/20 to-slate-900 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-2xl">🎓</span>
-                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">PUZZLES</span>
+                <span class="text-2xl">🥋</span>
+                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">INFINITO</span>
               </div>
               <div>
-                <div class="text-xs font-black text-white">Academia Táctica</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Resuelve jugadas de campeonato</div>
+                <div class="text-xs font-black text-white">Academia del Maestro</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Nivel 1 a ∞: Puzzles & Cinturones</div>
               </div>
             </div>
           </div>
@@ -1084,6 +1101,15 @@
 
       <!-- ÁREA CENTRAL: TABLERO DE DAMAS DE NOGAL -->
       <div class="flex-1 flex flex-col items-center justify-center p-2 relative my-auto">
+        <!-- BANNER DEL MAESTRO DE LA ACADEMIA -->
+        <div id="academyCoachBanner" class="hidden w-full max-w-[400px] mb-2 p-2.5 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-slate-900/90 to-cyan-950/80 border border-cyan-500/50 shadow-lg flex items-start gap-2.5">
+          <span class="text-2xl">🧙‍♂️</span>
+          <div class="flex-1">
+            <div id="academyLessonTitle" class="text-xs font-black text-cyan-300">Lección 1: El Paso Diagonal</div>
+            <div id="academyCoachText" class="text-[11px] text-slate-200 leading-snug mt-0.5">Toca tu peón blanco (resaltado en dorado) y avanza un paso diagonal hacia la casilla verde.</div>
+          </div>
+        </div>
+
         <div id="boardFrameContainer" class="w-full max-w-[400px] aspect-square rounded-2xl p-2.5 relative shadow-2xl transition-all" style="background-color: var(--board-frame-bg); border: 4px solid var(--board-frame-border);">
           <div id="boardGrid" class="w-full h-full grid rounded-xl overflow-hidden border border-black/50 shadow-inner">
             <!-- Celdas renderizadas dinámicamente -->
@@ -1140,6 +1166,109 @@
         <span>Perfil</span>
       </div>
     </nav>
+
+
+    <!-- ========================================================
+         MODAL: ACADEMIA INFINITA (DOJO DEL MAESTRO TÁCTICO)
+         ======================================================== -->
+    <div id="modalAcademy" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3">
+      <div class="bg-slate-900 border border-amber-500/60 rounded-3xl max-w-sm w-full p-4 text-center shadow-2xl relative max-h-[92vh] flex flex-col">
+        <button onclick="closeModal('modalAcademy')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">✕</button>
+
+        <!-- Cabecera Dojo -->
+        <div class="flex items-center gap-2.5 mb-2.5 text-left">
+          <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-2xl shadow">
+            🥋
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white leading-tight">Academia del Maestro</h3>
+            <p class="text-[10px] text-slate-400">Ruta Infinita de Puzzles & Retos Tácticos</p>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Rango Actual y Progreso -->
+        <div id="academyBeltCard" class="bg-slate-950/80 rounded-2xl p-3 mb-2.5 border border-slate-800 text-left">
+          <div class="flex items-center justify-between mb-1.5">
+            <div class="flex items-center gap-1.5">
+              <span id="academyBeltIcon" class="text-xl">🥋</span>
+              <div>
+                <div id="academyBeltName" class="text-xs font-black text-amber-300">Cinturón Blanco</div>
+                <div id="academyBeltSubtitle" class="text-[9px] text-slate-400">Nivel 1 de ∞</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-black text-amber-400 font-mono flex items-center gap-1">
+                <span>⭐</span> <span id="academyStarsCount">0</span>
+              </div>
+              <div class="text-[9px] text-emerald-400 font-bold">+15 🪙 / nivel</div>
+            </div>
+          </div>
+          <!-- Barra de Progreso de Rango -->
+          <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+            <div id="academyBeltProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-amber-300 transition-all duration-300" style="width: 15%;"></div>
+          </div>
+        </div>
+
+        <!-- Botón Hero: Continuar Nivel Más Alto -->
+        <button id="academyContinueHeroBtn" onclick="continueHighestAcademyLevel()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs shadow-[0_0_15px_rgba(245,158,11,0.3)] active:scale-95 transition mb-2.5 flex items-center justify-center gap-2 cursor-pointer">
+          <span>⚔️</span>
+          <span id="academyContinueHeroText">CONTINUAR: NIVEL 1</span>
+          <span>➜</span>
+        </button>
+
+        <!-- Pestañas de Filtro de Cinturón -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1.5 mb-2 text-[10px] font-bold">
+          <button onclick="filterAcademyBelt('all')" id="beltTab_all" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 whitespace-nowrap">Todos</button>
+          <button onclick="filterAcademyBelt('blanco')" id="beltTab_blanco" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🥋 Blanco (1-15)</button>
+          <button onclick="filterAcademyBelt('amarillo')" id="beltTab_amarillo" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🎗️ Amarillo (16-40)</button>
+          <button onclick="filterAcademyBelt('naranja')" id="beltTab_naranja" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🥉 Naranja (41-80)</button>
+          <button onclick="filterAcademyBelt('verde')" id="beltTab_verde" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🥈 Verde (81-140)</button>
+          <button onclick="filterAcademyBelt('azul')" id="beltTab_azul" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🥇 Azul (141-220)</button>
+          <button onclick="filterAcademyBelt('marron')" id="beltTab_marron" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🪵 Marrón (221-350)</button>
+          <button onclick="filterAcademyBelt('negro')" id="beltTab_negro" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">⚔️ Negro (351-500)</button>
+          <button onclick="filterAcademyBelt('infinito')" id="beltTab_infinito" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">👑 Infinito (501+)</button>
+        </div>
+
+        <!-- Lista de Lecciones / Retos Infinitos -->
+        <div class="space-y-2 overflow-y-auto flex-1 pr-1 text-left" id="academyLessonsList">
+          <!-- Renderizado dinámicamente -->
+        </div>
+
+        <!-- Acciones Inferiores -->
+        <div class="flex gap-2 mt-3 pt-2 border-t border-slate-800/80">
+          <button onclick="startRandomAcademyChallenge()" class="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-[11px] flex items-center justify-center gap-1.5 transition">
+            <span>🎲</span> <span>Reto Sorpresa</span>
+          </button>
+          <button onclick="closeModal('modalAcademy')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-[11px] hover:text-white transition">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: CELEBRACIÓN DE LECCIÓN COMPLETADA -->
+    <div id="modalLessonCompleted" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="w-full max-w-sm rounded-3xl bg-slate-900 border border-amber-500/50 p-6 text-center shadow-2xl relative">
+        <div class="w-14 h-14 rounded-full bg-amber-500/20 border border-amber-500 mx-auto flex items-center justify-center text-3xl mb-2 shadow-[0_0_20px_rgba(245,158,11,0.5)]">
+          🎉
+        </div>
+        <div class="flex justify-center gap-1 text-xl text-amber-400 mb-1">
+          <span>⭐</span><span>⭐</span><span>⭐</span>
+        </div>
+        <h3 id="lessonCompleteTitle" class="text-base font-black text-white">¡LECCIÓN SUPERADA!</h3>
+        <p id="lessonCompleteDesc" class="text-xs text-slate-300 mt-2 mb-4 leading-relaxed">
+          ¡Bravísimo! Has completado el ejercicio táctico.
+        </p>
+        <div class="flex flex-col gap-2">
+          <button id="nextLessonBtn" onclick="nextAcademyLesson()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black text-xs shadow-lg active:scale-95 transition cursor-pointer">
+            SIGUIENTE LECCIÓN ➜
+          </button>
+          <button onclick="closeModal('modalLessonCompleted'); openModal('modalAcademy');" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">
+            Volver a la Academia
+          </button>
+        </div>
+      </div>
+    </div>
 
 
     <!-- ========================================================
@@ -1385,12 +1514,455 @@
     };
 
     let currentMatchBet = 50;
+    let isPassAndPlay = false;
     let currentScreen = 'screenAuth';
     let currentVar = 'spanish';
     let aiDifficulty = 'hard';
     let activeTheme = 'wood';
     let soundEnabled = true;
     let huffingEnabled = false;
+    let isAcademyMode = false;
+    let currentAcademyLessonIdx = 0;
+    let academyProgress = {};
+
+    const ACADEMY_LESSONS = [
+      {
+        id: 0,
+        badge: "PASO 1",
+        title: "1. El Paso Diagonal",
+        technique: "Movimiento Básico",
+        desc: "Las fichas solo avanzan en diagonal hacia adelante sobre las casillas oscuras.",
+        coachMsg: "Las damas solo caminan hacia adelante en diagonal por casillas oscuras. Toca tu peón blanco (en dorado) y avanza un paso.",
+        hint: "Toca tu peón blanco en c3 y muévelo hacia adelante en diagonal.",
+        sz: 8,
+        white: [{ r: 5, c: 2, king: false }],
+        black: [],
+        expectedFrom: { r: 5, c: 2 },
+        expectedTo: [{ r: 4, c: 1 }, { r: 4, c: 3 }],
+        successMsg: "¡Bravísimo! Los peones avanzan siempre un paso diagonal hacia el frente."
+      },
+      {
+        id: 1,
+        badge: "PASO 2",
+        title: "2. ¡Tu Primera Captura!",
+        technique: "El Salto Simple",
+        desc: "Si un peón rival está en tu diagonal y la casilla posterior está libre, ¡salta sobre él!",
+        coachMsg: "¡Un rival descuidado! Salta por encima de él hacia la casilla libre posterior para capturarlo y retirarlo.",
+        hint: "Salta con tu peón sobre la ficha negra y aterriza en la casilla libre posterior e5.",
+        sz: 8,
+        white: [{ r: 5, c: 2, king: false }],
+        black: [{ r: 4, c: 3, king: false }],
+        expectedFrom: { r: 5, c: 2 },
+        expectedTo: [{ r: 3, c: 4 }],
+        successMsg: "¡Captura perfecta! La ficha enemiga ha sido retirada del tablero."
+      },
+      {
+        id: 2,
+        badge: "PASO 3",
+        title: "3. La Captura es Obligatoria",
+        technique: "Regla Sagrada",
+        desc: "En las damas nunca puedes ignorar una captura. Si puedes comer, estás obligado.",
+        coachMsg: "Tienes dos peones, pero uno de ellos puede comer. ¡El reglamento te obliga a capturar siempre!",
+        hint: "No muevas la ficha libre; salta con la ficha que tiene el enemigo enfrente.",
+        sz: 8,
+        white: [{ r: 5, c: 2, king: false }, { r: 6, c: 5, king: false }],
+        black: [{ r: 4, c: 3, king: false }],
+        expectedFrom: { r: 5, c: 2 },
+        expectedTo: [{ r: 3, c: 4 }],
+        successMsg: "¡Exacto! Aunque tengas otras piezas libres, comer es siempre obligatorio."
+      },
+      {
+        id: 3,
+        badge: "PASO 4",
+        title: "4. Salto Doble en Cadena",
+        technique: "El Combo Encadenado",
+        desc: "Si al aterrizar de una captura tienes otra pieza enemiga para comer, ¡continúa saltando!",
+        coachMsg: "¡Combo! Salta la primera ficha y, en el mismo turno, salta la segunda ficha para completar el barrido.",
+        hint: "Salta sobre la primera ficha negra y continúa comiendo la segunda hasta g7.",
+        sz: 8,
+        white: [{ r: 5, c: 2, king: false }],
+        black: [{ r: 4, c: 3, king: false }, { r: 2, c: 5, king: false }],
+        expectedFrom: { r: 5, c: 2 },
+        expectedTo: [{ r: 1, c: 6 }],
+        successMsg: "¡Impresionante barrido doble! Has ejecutado una captura encadenada completa."
+      },
+      {
+        id: 4,
+        badge: "PASO 5",
+        title: "5. La Coronación",
+        technique: "Nacimiento de la Reina",
+        desc: "Cuando un peón llega a la última fila enemiga, se convierte en Dama.",
+        coachMsg: "Tu peón está a un solo paso de la gloria. ¡Avanza a la última fila para coronarte!",
+        hint: "Avanza hacia la fila superior para recibir tu corona dorada.",
+        sz: 8,
+        white: [{ r: 1, c: 2, king: false }],
+        black: [{ r: 1, c: 6, king: false }],
+        expectedFrom: { r: 1, c: 2 },
+        expectedTo: [{ r: 0, c: 1 }, { r: 0, c: 3 }],
+        successMsg: "¡Viva la Reina! Tu peón ha sido coronado como Dama con poderes especiales."
+      },
+      {
+        id: 5,
+        badge: "PASO 6",
+        title: "6. El Vuelo de la Dama",
+        technique: "Dama de Largo Alcance",
+        desc: "La Dama puede volar a cualquier distancia a lo largo de las diagonales.",
+        coachMsg: "Tu Dama coronada domina toda la diagonal. ¡Salta sobre la ficha negra a distancia y elige dónde aterrizar!",
+        hint: "Vuela por la gran diagonal, salta la ficha en e5 y aterriza al otro lado.",
+        sz: 8,
+        white: [{ r: 7, c: 0, king: true }],
+        black: [{ r: 4, c: 3, king: false }],
+        expectedFrom: { r: 7, c: 0 },
+        expectedTo: [{ r: 3, c: 4 }, { r: 2, c: 5 }, { r: 1, c: 6 }, { r: 0, c: 7 }],
+        successMsg: "¡Magistral! La Dama Voladora es el arma definitiva en el tablero de Damas."
+      }
+    ];
+
+    const ACADEMY_BELTS = [
+      { id: 'blanco', minLevel: 1, maxLevel: 15, name: 'Cinturón Blanco', icon: '🥋', color: 'text-slate-100', title: 'Fundamentos & Salto Simple', desc: 'Movimiento diagonal, capturas básicas y lectura de casillas.' },
+      { id: 'amarillo', minLevel: 16, maxLevel: 40, name: 'Cinturón Amarillo', icon: '🎗️', color: 'text-yellow-400', title: 'Encadenamiento & Bloqueo', desc: 'Capturas dobles, esquivar trampas y dominar el centro.' },
+      { id: 'naranja', minLevel: 41, maxLevel: 80, name: 'Cinturón Naranja', icon: '🥉', color: 'text-amber-500', title: 'El Pasillo de Coronación', desc: 'Romper barreras enemigas para coronar Dama.' },
+      { id: 'verde', minLevel: 81, maxLevel: 140, name: 'Cinturón Verde', icon: '🥈', color: 'text-emerald-400', title: 'El Poder de la Dama', desc: 'Vuelos de largo alcance y barridos diagonales.' },
+      { id: 'azul', minLevel: 141, maxLevel: 220, name: 'Cinturón Azul', icon: '🥇', color: 'text-blue-400', title: 'Sacrificios y El Golpe', desc: 'Entregar piezas como carnada para asestar golpes letales.' },
+      { id: 'marron', minLevel: 221, maxLevel: 350, name: 'Cinturón Marrón', icon: '🪵', color: 'text-amber-700', title: 'Finales y Triangulación', desc: 'Encerrar reyes rivales y precisión en finales de 2 vs 1.' },
+      { id: 'negro', minLevel: 351, maxLevel: 500, name: 'Cinturón Negro', icon: '⚔️', color: 'text-purple-400', title: 'Maestría Táctica Suprema', desc: 'Combinaciones complejas de 3 a 5 saltos en varias variantes.' },
+      { id: 'infinito', minLevel: 501, maxLevel: 9999999, name: 'Gran Maestro Infinito', icon: '👑', color: 'text-amber-300', title: 'Desafíos Infinitos Procedurales', desc: 'Puzzles infinitos generados algorítmicamente sin fin.' }
+    ];
+
+    let academyMaxLevel = 1;
+    let currentAcademyBeltFilter = 'all';
+
+    function getBeltForLevel(lvl) {
+      return ACADEMY_BELTS.find(b => lvl >= b.minLevel && lvl <= b.maxLevel) || ACADEMY_BELTS[ACADEMY_BELTS.length - 1];
+    }
+
+    function pseudoRandom(seed) {
+      let s = Math.sin(seed * 9973 + 12345) * 10000;
+      return s - Math.floor(s);
+    }
+
+    function generateProceduralLevel(lvl) {
+      const seed = lvl * 7919;
+      const belt = getBeltForLevel(lvl);
+      const archetype = (lvl <= 15) ? 0 : (lvl <= 40) ? 1 : (lvl <= 80) ? 2 : (lvl <= 140) ? 3 : (lvl <= 220) ? 4 : (lvl <= 350) ? 5 : (lvl <= 500) ? 6 : ((lvl % 5) + 1);
+
+      if (archetype === 0) {
+        const validOrigins = [
+          { r: 5, c: 0 }, { r: 5, c: 2 }, { r: 5, c: 4 }, { r: 5, c: 6 },
+          { r: 4, c: 1 }, { r: 4, c: 3 }, { r: 4, c: 5 }
+        ];
+        const pick = validOrigins[Math.floor(pseudoRandom(seed) * validOrigins.length)];
+        const dir = (pick.c <= 1) ? 1 : (pick.c >= 6) ? -1 : (pseudoRandom(seed + 1) > 0.5 ? 1 : -1);
+        const mid = { r: pick.r - 1, c: pick.c + dir };
+        const land = { r: pick.r - 2, c: pick.c + dir * 2 };
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          title: `${lvl}. Salto Táctico`, technique: "Precisión Diagonal",
+          desc: "Captura la pieza enemiga desprotegida.",
+          coachMsg: "¡El enemigo ha dejado una brecha! Salta sobre él y consolida tu posición.",
+          hint: `Mueve tu ficha blanca en fila ${pick.r + 1} hacia adelante.`,
+          sz: 8,
+          white: [{ r: pick.r, c: pick.c, king: false }],
+          black: [{ r: mid.r, c: mid.c, king: false }],
+          expectedFrom: pick,
+          expectedTo: [land],
+          successMsg: `¡Excelente lectura! Has superado el Nivel ${lvl}.`
+        };
+      } else if (archetype === 1 || archetype === 5) {
+        const combos = [
+          { start: { r: 5, c: 0 }, mid1: { r: 4, c: 1 }, hop1: { r: 3, c: 2 }, mid2: { r: 2, c: 3 }, end: { r: 1, c: 4 } },
+          { start: { r: 5, c: 0 }, mid1: { r: 4, c: 1 }, hop1: { r: 3, c: 2 }, mid2: { r: 2, c: 1 }, end: { r: 1, c: 0 } },
+          { start: { r: 5, c: 2 }, mid1: { r: 4, c: 3 }, hop1: { r: 3, c: 4 }, mid2: { r: 2, c: 5 }, end: { r: 1, c: 6 } },
+          { start: { r: 5, c: 2 }, mid1: { r: 4, c: 3 }, hop1: { r: 3, c: 4 }, mid2: { r: 2, c: 3 }, end: { r: 1, c: 2 } },
+          { start: { r: 5, c: 4 }, mid1: { r: 4, c: 3 }, hop1: { r: 3, c: 2 }, mid2: { r: 2, c: 1 }, end: { r: 1, c: 0 } },
+          { start: { r: 5, c: 4 }, mid1: { r: 4, c: 5 }, hop1: { r: 3, c: 6 }, mid2: { r: 2, c: 5 }, end: { r: 1, c: 4 } },
+          { start: { r: 5, c: 6 }, mid1: { r: 4, c: 5 }, hop1: { r: 3, c: 4 }, mid2: { r: 2, c: 3 }, end: { r: 1, c: 2 } }
+        ];
+        const c = combos[Math.floor(pseudoRandom(seed) * combos.length)];
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          title: `${lvl}. Salto Doble Encadenado`, technique: "El Combo Táctico",
+          desc: "Encadena dos saltos en el mismo turno para barrer las piezas enemigas.",
+          coachMsg: "¡Doble captura a la vista! Salta la primera ficha y continúa inmediatamente con la segunda.",
+          hint: `Inicia el salto desde la fila ${c.start.r + 1} y sigue la diagonal.`,
+          sz: 8,
+          white: [{ r: c.start.r, c: c.start.c, king: false }],
+          black: [{ r: c.mid1.r, c: c.mid1.c, king: false }, { r: c.mid2.r, c: c.mid2.c, king: false }],
+          expectedFrom: c.start,
+          expectedTo: [c.end],
+          step1To: c.hop1,
+          successMsg: `¡Barrido doble impecable! Has superado el Nivel ${lvl}.`
+        };
+      } else if (archetype === 2) {
+        const crowns = [
+          { start: { r: 1, c: 2 }, end: [{ r: 0, c: 1 }, { r: 0, c: 3 }], black: [{ r: 1, c: 6, king: false }] },
+          { start: { r: 1, c: 4 }, end: [{ r: 0, c: 3 }, { r: 0, c: 5 }], black: [{ r: 1, c: 0, king: false }] },
+          { start: { r: 2, c: 3 }, mid: { r: 1, c: 4 }, end: [{ r: 0, c: 5 }] },
+          { start: { r: 2, c: 5 }, mid: { r: 1, c: 4 }, end: [{ r: 0, c: 3 }] }
+        ];
+        const cr = crowns[Math.floor(pseudoRandom(seed) * crowns.length)];
+        const blacks = cr.mid ? [{ r: cr.mid.r, c: cr.mid.c, king: false }] : cr.black;
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          title: `${lvl}. Carrera de Coronación`, technique: "Nacimiento de la Dama",
+          desc: "Alcanza la fila 0 para transformar tu peón en una Dama con plenos poderes.",
+          coachMsg: "¡El pasillo está abierto! Avanza a la última fila enemiga y corónate.",
+          hint: `Avanza con tu peón hasta la primera fila para recibir tu corona.`,
+          sz: 8,
+          white: [{ r: cr.start.r, c: cr.start.c, king: false }],
+          black: blacks,
+          expectedFrom: cr.start,
+          expectedTo: cr.end,
+          successMsg: `¡Corona conseguida! Has dominado la técnica del Nivel ${lvl}.`
+        };
+      } else if (archetype === 3) {
+        const kingFlights = [
+          { start: { r: 7, c: 0 }, enemy: { r: 4, c: 3 }, lands: [{ r: 3, c: 4 }, { r: 2, c: 5 }, { r: 1, c: 6 }, { r: 0, c: 7 }] },
+          { start: { r: 7, c: 6 }, enemy: { r: 4, c: 3 }, lands: [{ r: 3, c: 2 }, { r: 2, c: 1 }, { r: 1, c: 0 }] },
+          { start: { r: 6, c: 7 }, enemy: { r: 3, c: 4 }, lands: [{ r: 2, c: 3 }, { r: 1, c: 2 }, { r: 0, c: 1 }] }
+        ];
+        const kf = kingFlights[Math.floor(pseudoRandom(seed) * kingFlights.length)];
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          title: `${lvl}. El Vuelo de la Reina`, technique: "Dama de Largo Alcance",
+          desc: "Usa el alcance ilimitado de tu Dama para saltar sobre el enemigo a distancia.",
+          coachMsg: "Tu Dama gobierna toda la diagonal. ¡Salta la ficha enemiga y aterriza al otro lado!",
+          hint: `Vuela con tu Dama por la gran diagonal y elige tu casilla de aterrizaje.`,
+          sz: 8,
+          white: [{ r: kf.start.r, c: kf.start.c, king: true }],
+          black: [{ r: kf.enemy.r, c: kf.enemy.c, king: false }],
+          expectedFrom: kf.start,
+          expectedTo: kf.lands,
+          successMsg: `¡Precisión milimétrica! Dama voladora triunfal en el Nivel ${lvl}.`
+        };
+      } else {
+        const triples = [
+          { start: { r: 7, c: 2 }, m1: { r: 6, c: 3 }, h1: { r: 5, c: 4 }, m2: { r: 4, c: 5 }, h2: { r: 3, c: 6 }, m3: { r: 2, c: 5 }, end: [{ r: 1, c: 4 }] },
+          { start: { r: 7, c: 4 }, m1: { r: 6, c: 3 }, h1: { r: 5, c: 2 }, m2: { r: 4, c: 1 }, h2: { r: 3, c: 0 }, m3: { r: 2, c: 1 }, end: [{ r: 1, c: 2 }] },
+          { start: { r: 6, c: 1 }, m1: { r: 5, c: 2 }, h1: { r: 4, c: 3 }, m2: { r: 3, c: 4 }, h2: { r: 2, c: 5 }, m3: { r: 1, c: 4 }, end: [{ r: 0, c: 3 }] }
+        ];
+        const tr = triples[Math.floor(pseudoRandom(seed) * triples.length)];
+        return {
+          id: lvl - 1, levelNum: lvl, belt: belt.name, badge: `NIVEL ${lvl}`,
+          title: `${lvl}. El Golpe Maestro`, technique: "Triple Barrido Táctico",
+          desc: "Ejecuta un devastador triple salto encadenado.",
+          coachMsg: "¡El golpe definitivo! Encadena tres capturas consecutivas y limpia el tablero.",
+          hint: `Comienza el triple salto desde (${tr.start.r}, ${tr.start.c}).`,
+          sz: 8,
+          white: [{ r: tr.start.r, c: tr.start.c, king: false }],
+          black: [{ r: tr.m1.r, c: tr.m1.c, king: false }, { r: tr.m2.r, c: tr.m2.c, king: false }, { r: tr.m3.r, c: tr.m3.c, king: false }],
+          expectedFrom: tr.start,
+          expectedTo: tr.end,
+          successMsg: `¡Increíble golpe maestro! Nivel ${lvl} completado con maestría.`
+        };
+      }
+    }
+
+    function getAcademyLesson(idx) {
+      if (idx >= 0 && idx < ACADEMY_LESSONS.length) {
+        return ACADEMY_LESSONS[idx];
+      }
+      return generateProceduralLevel(idx + 1);
+    }
+
+    function loadAcademyProgress() {
+      try {
+        const saved = localStorage.getItem('gem_v4_academy_stars');
+        if (saved) academyProgress = JSON.parse(saved);
+        const maxLvl = localStorage.getItem('gem_v4_academy_max_level');
+        if (maxLvl) academyMaxLevel = parseInt(maxLvl, 10);
+      } catch (e) {}
+    }
+
+    function saveAcademyProgress() {
+      try {
+        localStorage.setItem('gem_v4_academy_stars', JSON.stringify(academyProgress));
+        localStorage.setItem('gem_v4_academy_max_level', String(academyMaxLevel));
+      } catch (e) {}
+    }
+
+    function renderAcademyLessonsList() {
+      loadAcademyProgress();
+      const container = document.getElementById('academyLessonsList');
+      if (!container) return;
+
+      const currentBelt = getBeltForLevel(academyMaxLevel);
+      const beltNameEl = document.getElementById('academyBeltName');
+      if (beltNameEl) beltNameEl.textContent = currentBelt.name;
+      const beltIconEl = document.getElementById('academyBeltIcon');
+      if (beltIconEl) beltIconEl.textContent = currentBelt.icon;
+      const beltSubEl = document.getElementById('academyBeltSubtitle');
+      if (beltSubEl) beltSubEl.textContent = `Nivel ${academyMaxLevel} alcanzado`;
+
+      const beltProgEl = document.getElementById('academyBeltProgressBar');
+      if (beltProgEl) {
+        const beltSpan = Math.max(1, currentBelt.maxLevel - currentBelt.minLevel + 1);
+        const beltDone = Math.min(beltSpan, Math.max(0, academyMaxLevel - currentBelt.minLevel + 1));
+        const pct = Math.round((beltDone / beltSpan) * 100);
+        beltProgEl.style.width = `${pct}%`;
+      }
+
+      const contText = document.getElementById('academyContinueHeroText');
+      if (contText) contText.textContent = `CONTINUAR: NIVEL ${academyMaxLevel}`;
+
+      let totalStars = 0;
+      Object.values(academyProgress).forEach(s => totalStars += s);
+      const starsCountEl = document.getElementById('academyStarsCount');
+      if (starsCountEl) starsCountEl.textContent = totalStars;
+
+      container.innerHTML = '';
+
+      const displayMax = Math.max(8, academyMaxLevel + 4);
+      let renderedCount = 0;
+
+      for (let lvl = 1; lvl <= displayMax; lvl++) {
+        const les = getAcademyLesson(lvl - 1);
+        const belt = getBeltForLevel(lvl);
+
+        if (currentAcademyBeltFilter !== 'all' && belt.id !== currentAcademyBeltFilter) {
+          continue;
+        }
+
+        const isUnlocked = lvl <= academyMaxLevel;
+        const isCurrent = lvl === academyMaxLevel;
+        const stars = academyProgress[les.id] || 0;
+
+        const card = document.createElement('div');
+        let cardStyle = "p-3 rounded-2xl border flex items-center justify-between transition cursor-pointer active:scale-98 ";
+        if (isCurrent) {
+          cardStyle += "bg-amber-500/15 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.2)]";
+        } else if (isUnlocked) {
+          cardStyle += "bg-slate-800/70 border-slate-700/60 hover:border-amber-500/50";
+        } else {
+          cardStyle += "bg-slate-900/40 border-slate-800 opacity-60 cursor-not-allowed";
+        }
+        card.className = cardStyle;
+
+        if (isUnlocked) {
+          card.onclick = () => startAcademyLesson(lvl - 1);
+        } else {
+          card.onclick = () => showCoinToast(`🔒 Supera el Nivel ${lvl - 1} para desbloquear este reto.`);
+        }
+
+        let starsHtml = '';
+        if (isUnlocked) {
+          for (let s = 1; s <= 3; s++) {
+            starsHtml += s <= stars ? '<span class="text-amber-400">⭐</span>' : '<span class="text-slate-600">★</span>';
+          }
+        } else {
+          starsHtml = '<span class="text-[10px] text-slate-500 font-bold">🔒 BLOQUEADO</span>';
+        }
+
+        const icon = lvl === 1 ? '🔰' : lvl === 2 ? '⚔️' : lvl === 3 ? '🚨' : lvl === 4 ? '⚡' : lvl === 5 ? '👑' : lvl === 6 ? '🦅' : belt.icon;
+
+        card.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl ${isCurrent ? 'bg-amber-500 text-slate-950 font-black' : 'bg-amber-500/15 border border-amber-500/30'} flex items-center justify-center text-lg shadow-sm">
+              ${icon}
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-black ${isCurrent ? 'text-amber-300' : 'text-white'}">${les.title}</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded ${isCurrent ? 'bg-amber-500 text-slate-950' : 'bg-slate-700 text-amber-300'}">${les.badge}</span>
+              </div>
+              <div class="text-[10px] text-slate-400 leading-tight mt-0.5">${les.desc}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-0.5 text-xs">
+            ${starsHtml}
+          </div>
+        `;
+        container.appendChild(card);
+        renderedCount++;
+      }
+
+      if (renderedCount === 0) {
+        container.innerHTML = `<div class="p-6 text-center text-xs text-slate-400">Aún no has desbloqueado niveles en este cinturón. Sigue avanzando en tu camino actual.</div>`;
+      }
+    }
+
+    function continueHighestAcademyLevel() {
+      loadAcademyProgress();
+      startAcademyLesson(academyMaxLevel - 1);
+    }
+
+    function filterAcademyBelt(beltId) {
+      currentAcademyBeltFilter = beltId;
+      document.querySelectorAll('[id^="beltTab_"]').forEach(b => {
+        b.className = 'px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap';
+      });
+      const activeTab = document.getElementById(`beltTab_${beltId}`);
+      if (activeTab) {
+        activeTab.className = 'px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 whitespace-nowrap font-black';
+      }
+      renderAcademyLessonsList();
+    }
+
+    function startRandomAcademyChallenge() {
+      loadAcademyProgress();
+      const randLevel = Math.max(1, Math.floor(Math.random() * (academyMaxLevel + 12)));
+      startAcademyLesson(randLevel - 1);
+    }
+
+    function startAcademyLesson(idx) {
+      closeModal('modalAcademy');
+      closeModal('modalLessonCompleted');
+
+      isAcademyMode = true;
+      isPassAndPlay = false;
+      currentAcademyLessonIdx = idx;
+      const les = getAcademyLesson(idx);
+
+      currentVar = 'spanish';
+      currentMatchBet = 0;
+
+      // Actualizar Header y rival en screenGame
+      document.getElementById('gameActiveVariantBadge').textContent = `🎓 ${les.title}`;
+      document.getElementById('rivalName').textContent = 'Maestro Mentor';
+      document.getElementById('rivalAvatar').textContent = '🧙‍♂️';
+
+      // Mostrar Banner del Coach de la Academia
+      const banner = document.getElementById('academyCoachBanner');
+      if (banner) {
+        banner.classList.remove('hidden');
+        document.getElementById('academyLessonTitle').textContent = `${les.badge}: ${les.technique}`;
+        document.getElementById('academyCoachText').textContent = les.coachMsg;
+      }
+
+      // Inicializar tablero con las piezas específicas de la lección
+      const sz = les.sz || 8;
+      board = [];
+      for (let r = 0; r < sz; r++) {
+        board[r] = [];
+        for (let c = 0; c < sz; c++) board[r][c] = null;
+      }
+
+      les.white.forEach(p => {
+        board[p.r][p.c] = { col: 'w', king: p.king };
+      });
+      les.black.forEach(p => {
+        board[p.r][p.c] = { col: 'b', king: p.king };
+      });
+
+      turn = 'w';
+      selectedCell = null;
+      legalMoves = [];
+      stats = { moves: 0, caps: 0, kings: 0 };
+      capturedWhite = 0;
+      capturedBlack = 0;
+
+      renderBoard();
+      updateTurnStatus();
+      navigateTo('screenGame');
+
+      sound.login();
+      showCoinToast(`🎓 ${les.title}: ${les.technique}`);
+    }
+
+    function nextAcademyLesson() {
+      closeModal('modalLessonCompleted');
+      startAcademyLesson(currentAcademyLessonIdx + 1);
+    }
 
     const RULES = {
       spanish: { id: 'spanish', name: 'Damas Españolas (8x8)', flag: '🇪🇸', size: 8, turkishMove: false },
@@ -1430,6 +2002,9 @@
     }
 
     function openModal(id) {
+      if (id === 'modalAcademy') {
+        renderAcademyLessonsList();
+      }
       document.getElementById(id)?.classList.remove('hidden');
     }
     function closeModal(id) {
@@ -1459,6 +2034,12 @@
         return;
       }
 
+      isPassAndPlay = false;
+      isAcademyMode = false;
+      document.getElementById('academyCoachBanner')?.classList.add('hidden');
+      document.getElementById('rivalName').textContent = 'IA Némesis';
+      document.getElementById('rivalAvatar').textContent = '🤖';
+
       // DEDUCCIÓN REAL DE MONEDAS
       currentUser.coins -= bet;
       currentMatchBet = bet;
@@ -1474,10 +2055,13 @@
     }
 
     function startPassAndPlay(bet = 0) {
-      currentMatchBet = bet;
+      isPassAndPlay = true;
+      isAcademyMode = false;
+      document.getElementById('academyCoachBanner')?.classList.add('hidden');
+      currentMatchBet = 0;
       initGame(currentVar);
       document.getElementById('rivalName').textContent = 'Jugador 2 (Negras)';
-      document.getElementById('rivalAvatar').textContent = '👤';
+      document.getElementById('rivalAvatar').textContent = '👥';
       navigateTo('screenGame');
     }
 
@@ -1485,7 +2069,13 @@
     function promptLeaveGame() {
       const desc = document.getElementById('leaveModalDesc');
       if (desc) {
-        desc.textContent = `Ya se han descontado las ${currentMatchBet} 🪙 de entrada. Si abandonas ahora, se considerará derrota por rendición (-15 ELO).`;
+        if (isAcademyMode) {
+          desc.textContent = 'Estás en una lección interactiva de la Academia. Puedes volver al menú principal en cualquier momento sin penalizaciones.';
+        } else if (isPassAndPlay) {
+          desc.textContent = 'Partida amistosa local entre 2 personas. Puedes salir al lobby en cualquier momento sin penalización de monedas ni de ELO.';
+        } else {
+          desc.textContent = `Ya se han descontado las ${currentMatchBet} 🪙 de entrada. Si abandonas ahora, se considerará derrota por rendición (-15 ELO).`;
+        }
       }
       openModal('modalLeaveGame');
     }
@@ -1493,13 +2083,17 @@
     function confirmLeaveGame() {
       closeModal('modalLeaveGame');
 
-      // Se penaliza con derrota y pérdida de ELO
-      currentUser.losses = (currentUser.losses || 0) + 1;
-      currentUser.elo = Math.max(800, currentUser.elo - 15);
-      saveUserToStorage();
-      updateUserDisplays();
+      if (!isPassAndPlay && !isAcademyMode) {
+        // Se penaliza con derrota y pérdida de ELO solo contra la IA en partidas con apuesta
+        currentUser.losses = (currentUser.losses || 0) + 1;
+        currentUser.elo = Math.max(800, currentUser.elo - 15);
+        saveUserToStorage();
+        updateUserDisplays();
+        showCoinToast(`Has abandonado la partida (Saldo: ${currentUser.coins.toLocaleString()} 🪙)`);
+      } else {
+        showCoinToast(isAcademyMode ? 'Lección finalizada' : 'Partida local finalizada');
+      }
 
-      showCoinToast(`Has abandonado la partida (Saldo: ${currentUser.coins.toLocaleString()} 🪙)`);
       sound.click();
       navigateTo('screenLobby');
     }
@@ -1825,9 +2419,43 @@
           const isSel = selectedCell && selectedCell.r === r && selectedCell.c === c;
           const isTgt = selectedCell && legalMoves.some(m => m.toR === r && m.toC === c);
 
+          let hintOrigin = false;
+          let hintTarget = false;
+          if (isAcademyMode && currentAcademyLessonIdx !== null) {
+            const les = getAcademyLesson(currentAcademyLessonIdx);
+            if (les) {
+              const currentLvl = (les.levelNum || (les.id + 1));
+              const autoTarget = currentLvl <= 15;
+              if (les.id === 3) {
+                const hasPawnAtStart = board[5] && board[5][2];
+                if (hasPawnAtStart) {
+                  hintOrigin = !selectedCell && r === 5 && c === 2;
+                  hintTarget = (!!selectedCell || autoTarget) && r === 3 && c === 4;
+                } else {
+                  hintOrigin = !selectedCell && r === 3 && c === 4;
+                  hintTarget = (!!selectedCell || autoTarget) && r === 1 && c === 6;
+                }
+              } else if (les.step1To) {
+                const atOrigin = board[les.expectedFrom.r] && board[les.expectedFrom.r][les.expectedFrom.c];
+                if (atOrigin) {
+                  hintOrigin = !selectedCell && r === les.expectedFrom.r && c === les.expectedFrom.c;
+                  hintTarget = (!!selectedCell || autoTarget) && r === les.step1To.r && c === les.step1To.c;
+                } else {
+                  hintOrigin = !selectedCell && r === les.step1To.r && c === les.step1To.c;
+                  hintTarget = (!!selectedCell || autoTarget) && les.expectedTo.some(t => t.r === r && t.c === c);
+                }
+              } else {
+                hintOrigin = !selectedCell && les.expectedFrom && les.expectedFrom.r === r && les.expectedFrom.c === c;
+                hintTarget = (!!selectedCell || autoTarget) && les.expectedTo && les.expectedTo.some(t => t.r === r && t.c === c);
+              }
+            }
+          }
+
           const cell = document.createElement('div');
           let base = isDark ? 'board-cell-dark' : 'board-cell-light';
           if (isTgt) base += ' board-cell-target';
+          if (hintOrigin) base += ' board-cell-hint-origin';
+          if (hintTarget) base += ' board-cell-hint-target';
 
           cell.className = `board-cell aspect-square flex items-center justify-center relative ${base}`;
           cell.onclick = () => handleCellClick(r, c);
@@ -1865,7 +2493,7 @@
     }
 
     function handleCellClick(r, c) {
-      if (turn !== 'w') return;
+      if (!isPassAndPlay && turn !== 'w') return;
 
       const p = board[r][c];
       if (selectedCell) {
@@ -1879,9 +2507,27 @@
         }
       }
 
-      if (p && p.col === 'w') {
-        selectedCell = { r, c };
-        legalMoves = getMovesForPiece(r, c);
+      if (p && p.col === turn) {
+        const candidateMoves = getMovesForPiece(r, c);
+        const { anyCapture } = getCaptureStatusForColor(turn);
+
+        if (anyCapture) {
+          const capMoves = candidateMoves.filter(m => m.cap);
+          if (capMoves.length === 0) {
+            sound.click();
+            showCoinToast('🚨 ¡Captura obligatoria! Debes elegir una ficha que pueda comer.');
+            selectedCell = null;
+            legalMoves = [];
+            renderBoard();
+            return;
+          }
+          selectedCell = { r, c };
+          legalMoves = capMoves;
+        } else {
+          selectedCell = { r, c };
+          legalMoves = candidateMoves;
+        }
+
         sound.click();
         renderBoard();
       } else {
@@ -1891,18 +2537,120 @@
       }
     }
 
+    function getCaptureStatusForColor(col) {
+      const cfg = RULES[currentVar] || RULES.spanish;
+      const sz = cfg.size;
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          if (board[r][c] && board[r][c].col === col) {
+            const mvs = getMovesForPiece(r, c);
+            if (mvs.some(m => m.cap)) return { anyCapture: true };
+          }
+        }
+      }
+      return { anyCapture: false };
+    }
+
     function getMovesForPiece(r, c) {
       const p = board[r][c];
       if (!p) return [];
-      const cfg = RULES[currentVar];
+      const cfg = RULES[currentVar] || RULES.spanish;
       const sz = cfg.size;
       const moves = [];
 
-      const dirs = cfg.turkishMove 
-        ? (p.col === 'w' ? [[-1, 0], [0, -1], [0, 1]] : [[1, 0], [0, -1], [0, 1]])
-        : (p.king 
-            ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] 
-            : (p.col === 'w' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]));
+      const isFlying = (p.king && (isAcademyMode || currentVar === 'spanish' || currentVar === 'international' || currentVar === 'brazilian' || currentVar === 'russian' || currentVar === 'turkish'));
+
+      if (cfg.turkishMove) {
+        const dirs = p.king 
+          ? [[-1, 0], [1, 0], [0, -1], [0, 1]]
+          : (p.col === 'w' ? [[-1, 0], [0, -1], [0, 1]] : [[1, 0], [0, -1], [0, 1]]);
+        
+        if (isFlying) {
+          for (const [dr, dc] of dirs) {
+            for (let step = 1; step < sz; step++) {
+              const nr = r + dr * step, nc = c + dc * step;
+              if (nr < 0 || nr >= sz || nc < 0 || nc >= sz || board[nr][nc]) break;
+              moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
+            }
+          }
+          for (const [dr, dc] of dirs) {
+            let foundMid = null;
+            for (let step = 1; step < sz; step++) {
+              const mr = r + dr * step, mc = c + dc * step;
+              if (mr < 0 || mr >= sz || mc < 0 || mc >= sz) break;
+              const cellP = board[mr][mc];
+              if (!foundMid) {
+                if (cellP) {
+                  if (cellP.col !== p.col) foundMid = { r: mr, c: mc };
+                  else break;
+                }
+              } else {
+                if (!cellP) {
+                  moves.unshift({ fromR: r, fromC: c, toR: mr, toC: mc, cap: foundMid });
+                } else {
+                  break;
+                }
+              }
+            }
+          }
+        } else {
+          for (const [dr, dc] of dirs) {
+            const nr = r + dr, nc = c + dc;
+            if (nr >= 0 && nr < sz && nc >= 0 && nc < sz && !board[nr][nc]) {
+              moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
+            }
+          }
+          for (const [dr, dc] of dirs) {
+            const midR = r + dr, midC = c + dc;
+            const landR = r + dr * 2, landC = c + dc * 2;
+            if (landR >= 0 && landR < sz && landC >= 0 && landC < sz) {
+              const midP = board[midR][midC];
+              if (midP && midP.col !== p.col && !board[landR][landC]) {
+                moves.unshift({ fromR: r, fromC: c, toR: landR, toC: landC, cap: { r: midR, c: midC } });
+              }
+            }
+          }
+        }
+        return moves;
+      }
+
+      // Variantes diagonales
+      if (isFlying) {
+        const diagDirs = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+        for (const [dr, dc] of diagDirs) {
+          for (let step = 1; step < sz; step++) {
+            const nr = r + dr * step, nc = c + dc * step;
+            if (nr < 0 || nr >= sz || nc < 0 || nc >= sz || board[nr][nc]) break;
+            moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
+          }
+        }
+        for (const [dr, dc] of diagDirs) {
+          let foundMid = null;
+          for (let step = 1; step < sz; step++) {
+            const mr = r + dr * step, mc = c + dc * step;
+            if (mr < 0 || mr >= sz || mc < 0 || mc >= sz) break;
+            const cellP = board[mr][mc];
+            if (!foundMid) {
+              if (cellP) {
+                if (cellP.col !== p.col) foundMid = { r: mr, c: mc };
+                else break;
+              }
+            } else {
+              if (!cellP) {
+                moves.unshift({ fromR: r, fromC: c, toR: mr, toC: mc, cap: foundMid });
+              } else {
+                break;
+              }
+            }
+          }
+        }
+        return moves;
+      }
+
+      // Pieza corta estándar (Peón o Dama corta en Inglesa/Italiana)
+      const dirs = p.king 
+        ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] 
+        : (p.col === 'w' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]);
 
       for (const [dr, dc] of dirs) {
         const nr = r + dr;
@@ -1912,13 +2660,18 @@
         }
       }
 
-      const capDirs = cfg.turkishMove ? [[-1, 0], [1, 0], [0, -1], [0, 1]] : [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+      const canCapBackward = p.king || currentVar === 'international' || currentVar === 'brazilian' || currentVar === 'russian';
+      const capDirs = canCapBackward ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] : (p.col === 'w' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]);
+
       for (const [dr, dc] of capDirs) {
         const midR = r + dr, midC = c + dc;
         const landR = r + dr * 2, landC = c + dc * 2;
         if (landR >= 0 && landR < sz && landC >= 0 && landC < sz) {
           const midP = board[midR][midC];
           if (midP && midP.col !== p.col && !board[landR][landC]) {
+            if (currentVar === 'italian' && !p.king && midP.king) {
+              continue;
+            }
             moves.unshift({ fromR: r, fromC: c, toR: landR, toC: landC, cap: { r: midR, c: midC } });
           }
         }
@@ -1951,25 +2704,93 @@
         p.king = true;
         stats.kings++;
         sound.king();
-      } else if (p.col === 'b' && m.toR === cfg.size - 1 && !p.king) {
+      } else if (p.col === 'b' && m.toR === (cfg ? cfg.size - 1 : 7) && !p.king) {
         p.king = true;
         sound.king();
       }
 
       stats.moves++;
 
+      if (isAcademyMode) {
+        const les = getAcademyLesson(currentAcademyLessonIdx);
+        if (les) {
+          const moreCaps = getMovesForPiece(m.toR, m.toC).filter(mv => mv.cap);
+          if (moreCaps.length > 0) {
+            showCoinToast('⚡ ¡Gran salto! Continúa la cadena de capturas...');
+            selectedCell = { r: m.toR, c: m.toC };
+            legalMoves = moreCaps;
+            renderBoard();
+            return;
+          }
+
+          const isSuccess = les.expectedTo.some(t => t.r === m.toR && t.c === m.toC);
+          if (isSuccess) {
+            academyProgress[les.id] = 3;
+            if ((les.id + 2) > (academyMaxLevel || 1)) {
+              academyMaxLevel = les.id + 2;
+            }
+            currentUser.coins = (currentUser.coins || 0) + 15;
+            saveAcademyProgress();
+            saveUserToStorage();
+            updateUserDisplays();
+
+            setTimeout(() => {
+              const belt = getBeltForLevel(les.levelNum || (les.id + 1));
+              document.getElementById('lessonCompleteTitle').textContent = `¡${les.title.toUpperCase()} SUPERADO!`;
+              document.getElementById('lessonCompleteDesc').innerHTML = `
+                <div class="mb-2 text-slate-200">${les.successMsg}</div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold mb-1">
+                  <span>${belt.icon}</span> <span>${belt.name}</span>
+                </div>
+                <div class="text-[11px] text-emerald-400 font-bold mt-1">+15 🪙 Monedas Ganadas</div>
+              `;
+              sound.victory();
+              openModal('modalLessonCompleted');
+            }, 350);
+            return;
+          } else {
+            showCoinToast('💡 ¡Casi! Sigue las casillas iluminadas para cumplir la lección.');
+          }
+        }
+        return;
+      }
+
       if (turn === 'w') {
         turn = 'b';
         updateTurnStatus();
-        setTimeout(runAiTurn, 500);
+        if (!isPassAndPlay) {
+          setTimeout(runAiTurn, 500);
+        } else {
+          if (!hasAnyMoves('b')) {
+            endGame('¡VICTORIA DE BLANCAS!', 'Jugador 1 (Blancas) ha ganado la partida.');
+          }
+        }
       } else {
         turn = 'w';
         updateTurnStatus();
+        if (isPassAndPlay) {
+          if (!hasAnyMoves('w')) {
+            endGame('¡VICTORIA DE NEGRAS!', 'Jugador 2 (Negras) ha ganado la partida.');
+          }
+        }
       }
     }
 
+    function hasAnyMoves(col) {
+      const cfg = RULES[currentVar];
+      const sz = cfg.size;
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          if (board[r][c] && board[r][c].col === col && getMovesForPiece(r, c).length > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
     function runAiTurn() {
-      if (turn !== 'b') return;
+      if (isPassAndPlay || turn !== 'b') return;
       const cfg = RULES[currentVar];
       const sz = cfg.size;
 
@@ -2007,39 +2828,61 @@
 
     function updateTurnStatus() {
       const info = document.getElementById('infoText');
-      if (turn === 'w') {
-        info.innerHTML = '<span class="text-amber-400">⚪ Tu turno:</span> Toca una ficha blanca para mover';
+      if (isAcademyMode && currentAcademyLessonIdx !== null) {
+        const les = getAcademyLesson(currentAcademyLessonIdx);
+        if (les) {
+          info.innerHTML = `<span class="text-amber-400 font-bold">🎓 Mentor:</span> ${les.hint}`;
+          return;
+        }
+      }
+      if (isPassAndPlay) {
+        if (turn === 'w') {
+          info.innerHTML = '<span class="text-amber-400 font-bold">⚪ Turno de Blancas (Jugador 1):</span> Toca una ficha blanca para mover';
+        } else {
+          info.innerHTML = '<span class="text-sky-400 font-bold">⚫ Turno de Negras (Jugador 2):</span> Toca una ficha negra para mover';
+        }
       } else {
-        info.innerHTML = '<span class="text-slate-400">⚫ Turno de la IA:</span> Calculando mejor movimiento...';
+        if (turn === 'w') {
+          info.innerHTML = '<span class="text-amber-400">⚪ Tu turno:</span> Toca una ficha blanca para mover';
+        } else {
+          info.innerHTML = '<span class="text-slate-400">⚫ Turno de la IA:</span> Calculando mejor movimiento...';
+        }
       }
     }
 
     function endGame(title, subtitle) {
-      const isWin = title.includes('VICTORIA');
-      const totalPot = currentMatchBet * 2;
-      // Comisión oficial de la casa: 10% del pozo total
-      const houseCommission = Math.round(totalPot * 0.10);
-      // Premio neto para el ganador: 90% del pozo (ej. 90 monedas en mesa de 50)
-      const prize = totalPot - houseCommission;
-
-      const rakeEl = document.getElementById('victoryRake');
-      if (rakeEl) rakeEl.textContent = `${houseCommission} 🪙 (10%)`;
-
-      if (isWin) {
-        currentUser.coins += prize;
-        currentUser.wins = (currentUser.wins || 0) + 1;
-        currentUser.elo += 25;
-        document.getElementById('victoryPrize').textContent = `+${prize} 🪙`;
-        document.getElementById('victoryElo').textContent = '+25 🏆';
+      if (isPassAndPlay) {
+        const rakeEl = document.getElementById('victoryRake');
+        if (rakeEl) rakeEl.textContent = '0 🪙 (Amistoso)';
+        document.getElementById('victoryPrize').textContent = 'Partida Local';
+        document.getElementById('victoryElo').textContent = 'Sin Apuesta';
       } else {
-        currentUser.losses = (currentUser.losses || 0) + 1;
-        currentUser.elo = Math.max(800, currentUser.elo - 15);
-        document.getElementById('victoryPrize').textContent = '0 🪙';
-        document.getElementById('victoryElo').textContent = '-15 🏆';
-      }
+        const isWin = title.includes('VICTORIA');
+        const totalPot = currentMatchBet * 2;
+        // Comisión oficial de la casa: 10% del pozo total
+        const houseCommission = Math.round(totalPot * 0.10);
+        // Premio neto para el ganador: 90% del pozo (ej. 90 monedas en mesa de 50)
+        const prize = totalPot - houseCommission;
 
-      saveUserToStorage();
-      updateUserDisplays();
+        const rakeEl = document.getElementById('victoryRake');
+        if (rakeEl) rakeEl.textContent = `${houseCommission} 🪙 (10%)`;
+
+        if (isWin) {
+          currentUser.coins += prize;
+          currentUser.wins = (currentUser.wins || 0) + 1;
+          currentUser.elo += 25;
+          document.getElementById('victoryPrize').textContent = `+${prize} 🪙`;
+          document.getElementById('victoryElo').textContent = '+25 🏆';
+        } else {
+          currentUser.losses = (currentUser.losses || 0) + 1;
+          currentUser.elo = Math.max(800, currentUser.elo - 15);
+          document.getElementById('victoryPrize').textContent = '0 🪙';
+          document.getElementById('victoryElo').textContent = '-15 🏆';
+        }
+
+        saveUserToStorage();
+        updateUserDisplays();
+      }
 
       document.getElementById('victoryHeading').textContent = title;
       document.getElementById('victorySub').textContent = subtitle;
@@ -2050,10 +2893,21 @@
 
     function restartGame() {
       closeModal('modalVictory');
-      startMatchWithBet(currentVar, currentMatchBet);
+      if (isAcademyMode) {
+        startAcademyLesson(currentAcademyLessonIdx);
+      } else {
+        startMatchWithBet(currentVar, currentMatchBet);
+      }
     }
 
     function requestCoachHint() {
+      if (isAcademyMode && currentAcademyLessonIdx !== null) {
+        const les = getAcademyLesson(currentAcademyLessonIdx);
+        if (les) {
+          showCoinToast(`💡 Mentor: ${les.hint}`);
+          return;
+        }
+      }
       const hint = legalMoves.length > 0 ? 'Mueve hacia el centro para dominar las diagonales clave.' : 'Selecciona una ficha para evaluar tus mejores jugadas.';
       showCoinToast(`💡 Pista: ${hint}`);
     }
