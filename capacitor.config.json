@@ -1,0 +1,10 @@
+{
+  "appId": "com.juegodedamas.nemesis",
+  "appName": "Damas del Mundo",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}

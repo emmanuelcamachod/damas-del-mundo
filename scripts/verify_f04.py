@@ -9,10 +9,11 @@ Verificador Empírico Integral — Fase 04 (Cierre de Proyecto GEM V4.0):
 """
 
 import os
+import pathlib
 import re
 import sys
 
-ROOT = "/home/antigravity/juego_de_damas"
+ROOT = str(pathlib.Path(__file__).resolve().parent.parent)
 
 REQUIRED_F04_FILES = [
     "lib/storage/local_storage_service.dart",
@@ -21,7 +22,10 @@ REQUIRED_F04_FILES = [
     "android/build.gradle",
     "android/settings.gradle",
     "android/gradle.properties",
+    "android/variables.gradle",
+    "android/app/proguard-rules.pro",
     "android/key.properties.example",
+    "capacitor.config.json",
     "GUIA_PLAY_STORE.md",
     "test/f04_persistence_android_test.dart",
 ]
@@ -168,27 +172,31 @@ def main() -> int:
     if not any("local_storage_service.dart" in e for e in errors):
         print("[OK] Persistencia local atómica (.tmp -> renameSync) y recuperación ante corrupción verificadas.")
 
-    # 5. Verificar AndroidManifest.xml 100% offline (sin INTERNET) y build.gradle
+    # 5. Verificar AndroidManifest.xml 100% offline (sin INTERNET), variables.gradle y build.gradle
     with open(os.path.join(ROOT, "android/app/src/main/AndroidManifest.xml"), "r", encoding="utf-8") as f:
         manifest_src = f.read()
     if "android.permission.INTERNET" in manifest_src:
         errors.append("Violación RNF-002: AndroidManifest.xml incluye permiso INTERNET")
-    if "com.juegodedamas.nemesis" not in manifest_src:
-        errors.append("AndroidManifest.xml no declara el package com.juegodedamas.nemesis")
+
+    with open(os.path.join(ROOT, "android/variables.gradle"), "r", encoding="utf-8") as f:
+        vars_src = f.read()
+    for token in ["minSdkVersion = 23", "compileSdkVersion = 35", "targetSdkVersion = 35"]:
+        if token not in vars_src:
+            errors.append(f"Falta configuración '{token}' en android/variables.gradle")
 
     with open(os.path.join(ROOT, "android/app/build.gradle"), "r", encoding="utf-8") as f:
         gradle_src = f.read()
-    for token in ["applicationId \"com.juegodedamas.nemesis\"", "minSdkVersion 23", "targetSdkVersion 35", "signingConfigs"]:
+    for token in ['applicationId "com.juegodedamas.nemesis"', 'namespace "com.juegodedamas.nemesis"', "signingConfigs", "gradle.taskGraph.whenReady"]:
         if token not in gradle_src:
             errors.append(f"Falta configuración '{token}' en android/app/build.gradle")
 
-    if not any("AndroidManifest" in e or "build.gradle" in e for e in errors):
-        print("[OK] Empaquetado Android 100% Offline-First y configuración de firma Play Store verificados.")
+    if not any("AndroidManifest" in e or "variables.gradle" in e or "build.gradle" in e for e in errors):
+        print("[OK] Empaquetado Android Capacitor 6 100% Offline-First (API 35) y firma Play Store verificados.")
 
     # 6. Verificar GUIA_PLAY_STORE.md y suite de tests F04
     with open(os.path.join(ROOT, "GUIA_PLAY_STORE.md"), "r", encoding="utf-8") as f:
         guide_src = f.read()
-    for token in ["flutter build apk --release", "flutter build appbundle --release", "keytool -genkey"]:
+    for token in ["./gradlew assembleDebug", "./gradlew bundleRelease", "keytool -genkey"]:
         if token not in guide_src:
             errors.append(f"Falta comando '{token}' en GUIA_PLAY_STORE.md")
 

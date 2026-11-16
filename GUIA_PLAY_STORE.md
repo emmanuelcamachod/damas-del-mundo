@@ -1,96 +1,92 @@
-# GUÍA PASO A PASO: COMPILAR Y PUBLICAR EN GOOGLE PLAY STORE (SIN MAC)
+# GUÍA PASO A PASO: COMPILAR Y PUBLICAR EN GOOGLE PLAY STORE (CAPACITOR 6 + GITHUB ACTIONS)
 
-* **Proyecto:** Damas del Mundo: Némesis IA (`com.juegodedamas.nemesis`)
-* **Plataforma Objetivo:** Android (`minSdkVersion 23` — Android 6.0+ hasta `targetSdkVersion 35` — Android 15)
-* **Arquitectura de Privacidad:** **100% Offline-First** (cero permisos de Internet o rastreo en `AndroidManifest.xml`, lo que simplifica al máximo la revisión de Políticas de Datos en Google Play Console).
-
----
-
-## 1. REQUISITOS EN TU PC (WINDOWS O LINUX)
-
-No necesitas Mac para desarrollar, probar ni publicar en Android. Solo necesitas:
-1. **Flutter SDK (3.19 o superior):** Descárgalo desde `https://docs.flutter.dev/get-started/install`.
-2. **Android Studio (o Android Command-Line Tools) + JDK 17:** Para contar con el compilador de Android (`sdkmanager` y `keytool`).
-3. Verifica que todo esté listo abriendo una terminal en la carpeta del proyecto (`juego_de_damas`) y ejecutando:
-   ```bash
-   flutter doctor
-   ```
+* **Proyecto:** Damas del Mundo (`com.juegodedamas.nemesis`)
+* **Stack Nativo:** **Capacitor 6** (empaquetando `index.html` + Tailwind CSS compilado estáticamente en `www/`)
+* **Plataforma Objetivo:** Android (`minSdkVersion 23` — Android 6.0+ hasta `targetSdkVersion 35` — Android 15 con Edge-to-Edge)
+* **Arquitectura de Privacidad:** **100% Offline-First** (cero permiso `INTERNET` en `AndroidManifest.xml`, cero compras con dinero real, cero apuestas/rake, cero cuentas remotas).
 
 ---
 
-## 2. EJECUTAR LAS PRUEBAS AUTOMATIZADAS EN TU PC
+## 1. VERIFICACIÓN LOCAL ANTES DE PUBLICAR
 
-Antes de compilar para tu celular, verifica las 4 fases del proyecto:
+Ejecuta los verificadores integrales desde la raíz del repositorio:
 
 ```bash
-# 1. Ejecutar los verificadores de invariantes y arquitectura GEM V4.0
+# 1. Reconstruir Tailwind, ensamblar www/ y sincronizar con Android
+npm run cap:sync
+
+# 2. Auditar cumplimiento estricto de Google Play Store y Offline-First
+python3 scripts/verify_playstore_ready.py
+
+# 3. Ejecutar verificadores GEM V4.0 de todas las fases
 python3 scripts/verify_f01.py && python3 scripts/verify_f02.py && python3 scripts/verify_f03.py && python3 scripts/verify_f04.py
-
-# 2. Ejecutar la suite completa de Flutter Test (26 tests unitarios y de widget)
-flutter test
 ```
 
 ---
 
-## 3. COMPILAR EL `.APK` PARA INSTALAR DIRECTO EN TU CELULAR
+## 2. GENERAR TU LLAVE DE FIRMA DIGITAL (`upload-keystore.jks`)
 
-Si quieres probar el juego hoy mismo en tu teléfono Android (enviándote el archivo por cable USB, WhatsApp, Telegram o Google Drive):
-
-```bash
-flutter build apk --release
-```
-
-* **¿Dónde queda el archivo `.apk`?**
-  En `build/app/outputs/flutter-apk/app-release.apk`.
-* **¿Cómo lo instalas?**
-  Pásalo a tu celular, tócalo para abrirlo y acepta *"Instalar de esta fuente"*.
-
----
-
-## 4. FIRMAR Y COMPILAR EL `.AAB` PARA GOOGLE PLAY STORE
-
-Google Play Store exige que las aplicaciones se suban en formato **Android App Bundle (`.aab`)** firmadas con tu propia llave criptográfica (`keystore`).
-
-### Paso 4.1: Generar tu llave privada de subida (`upload-keystore.jks`)
-Ejecuta este comando **una sola vez** desde la carpeta `android/app/`:
+Google Play Store exige que cada `.aab` vaya firmado con una llave privada única. Ejecuta este comando **una sola vez** en tu PC o en GitHub Codespaces / terminal local con JDK 17:
 
 ```bash
 keytool -genkey -v -keystore android/app/upload-keystore.jks \
   -keyalg RSA -keysize 2048 -validity 10000 -alias upload
 ```
-*(Guarda ese archivo `upload-keystore.jks` y su contraseña en un lugar seguro como Google Drive, porque Google Play te pedirá siempre la misma llave para futuras actualizaciones).*
 
-### Paso 4.2: Configurar `android/key.properties`
-Copia la plantilla `android/key.properties.example` como `android/key.properties` y coloca tu contraseña:
+> **IMPORTANTE:** Guarda `upload-keystore.jks` y sus contraseñas en un gestor seguro fuera de Git. Nunca subas archivos `.jks` ni `android/key.properties` al repositorio (están bloqueados en `.gitignore`).
 
-```properties
-storePassword=TU_PASSWORD_AQUI
-keyPassword=TU_PASSWORD_AQUI
-keyAlias=upload
-storeFile=upload-keystore.jks
-```
+### Opción A: Compilar `.aab` en la nube con GitHub Actions (Recomendado)
 
-### Paso 4.3: Generar el paquete oficial `.aab`
-Desde la raíz del proyecto ejecuta:
+El workflow [`.github/workflows/android-playstore.yml`](.github/workflows/android-playstore.yml) compila y firma automáticamente el `.aab` en Ubuntu con Node 20, JDK 17 y Android SDK API 35.
 
-```bash
-flutter build appbundle --release
-```
+1. Convierte tu keystore a Base64:
+   ```bash
+   base64 -w 0 android/app/upload-keystore.jks
+   ```
+   *(En macOS usa `base64 -i android/app/upload-keystore.jks | tr -d '\n'`).*
+2. En tu repositorio de GitHub ve a **Settings -> Secrets and variables -> Actions -> New repository secret** y crea estos **4 secrets**:
+   * `ANDROID_KEYSTORE_BASE64`: salida Base64 del paso anterior.
+   * `ANDROID_KEYSTORE_PASSWORD`: contraseña del almacén (`storePassword`).
+   * `ANDROID_KEY_ALIAS`: `upload`
+   * `ANDROID_KEY_PASSWORD`: contraseña de la llave (`keyPassword`).
+3. Ve a la pestaña **Actions -> Android Play Store Build (Capacitor 6) -> Run workflow** (o publica un tag `git tag v1.0.0 && git push origin v1.0.0`).
+4. Al terminar el job `build-release-aab`, descarga el artefacto **`damas-del-mundo-playstore-aab`** (`app-release.aab`).
 
-* **¿Dónde queda el paquete listo para Google Play?**
-  En `build/app/outputs/bundle/release/app-release.aab`.
+### Opción B: Compilar `.aab` o `.apk` localmente (si tienes Android Studio / SDK)
+
+1. Copia `android/key.properties.example` como `android/key.properties` y completa tus credenciales (`storeFile=upload-keystore.jks`).
+2. Ejecuta:
+   ```bash
+   npm run cap:sync
+   cd android
+   ./gradlew assembleDebug    # APK de prueba rápida
+   ./gradlew bundleRelease    # AAB firmado listo para Google Play Store
+   ```
+   *Salida `.aab`:* `android/app/build/outputs/bundle/release/app-release.aab`.
 
 ---
 
-## 5. SUBIR A GOOGLE PLAY CONSOLE (PASO A PASO)
+## 3. ACTIVAR POLÍTICA DE PRIVACIDAD EN GITHUB PAGES
 
-1. Crea tu cuenta de desarrollador en **Google Play Console** (`https://play.google.com/console`, pago único de registro de \$25 USD).
-2. Haz clic en **"Crear aplicación"**:
-   * **Nombre:** *Damas del Mundo: Némesis IA*
-   * **Idioma predeterminado:** Español (Latinoamérica / España)
-   * **Aplicación o juego:** Juego
-   * **Gratis o de pago:** Gratis (o de pago según prefieras)
-3. En la sección **"Contenido de la aplicación" (Políticas)**:
-   * **Seguridad de los datos (Data Safety):** Marca **"No, mi aplicación no recopila ni comparte ningún tipo de datos del usuario"**. Como nuestro `AndroidManifest.xml` no solicita permiso `INTERNET` y toda la IA (`TD-Learning`, `ADN` y `Academia`) vive localmente en `LocalStorageService`, pasará la auditoría de privacidad de Google sin fricciones.
-   * **Clasificación por edades (IARC):** Marca que es un juego de mesa abstracto de estrategia sin violencia ni compras integradas (obtendrás clasificación **E / PEGI 3 / Apto para todo público**).
-4. Ve a **Prueba cerrada / Producción -> Crear nueva versión**, sube el archivo `build/app/outputs/bundle/release/app-release.aab` y envía a revisión.
+Google Play Console exige una URL pública HTTPS para la Política de Privacidad:
+
+1. En GitHub ve a **Settings -> Pages**.
+2. En **Build and deployment -> Source**, selecciona **Deploy from a branch**, rama **`main`** y carpeta **`/ (root)`**.
+3. Guarda y espera 1–2 minutos. La URL quedará activa en:
+   * `https://emmanuelcamachod.github.io/damas-del-mundo/privacy-policy.html`
+
+---
+
+## 4. FICHA Y REQUISITOS EN GOOGLE PLAY CONSOLE
+
+1. **Cuenta Play Console:** Registro único (\$25 USD) en `https://play.google.com/console`.
+2. **Activos gráficos listos en `play_store_assets/`:**
+   * **Ícono de la aplicación (512x512 px):** `play_store_assets/icon_512x512.png`
+   * **Gráfico de funciones (1024x500 px):** `play_store_assets/feature_graphic_1024x500.png`
+   * **Capturas de pantalla:** Toma 2–4 capturas reales desde tu celular instalando el `damas-del-mundo-debug-apk`.
+3. **Políticas y Declaraciones:**
+   * **Data Safety (Seguridad de los datos):** Marca **"No, mi aplicación no recopila ni comparte ningún tipo de datos del usuario"** (`AndroidManifest.xml` no declara `INTERNET`, todo el progreso vive en `localStorage` local).
+   * **Anuncios:** Marca **"No, mi aplicación no contiene anuncios"**.
+   * **Clasificación IARC:** Juego de mesa/estrategia abstracta sin dinero real ni compras -> clasificación **E / PEGI 3 / Apto para todo público**.
+4. **Requisito obligatorio de Cuentas Personales (12 testers / 14 días):**
+   * Si tu cuenta de Play Console es **Personal** creada después de noviembre de 2023, antes de habilitar **Producción** debes abrir una pista de **Prueba cerrada**, invitar al menos **12 testers confirmados** que mantengan la app instalada durante **14 días continuos** y luego solicitar el acceso a Producción.

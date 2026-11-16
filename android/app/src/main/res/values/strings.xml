@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Damas del Mundo</string>
+    <string name="title_activity_main">Damas del Mundo</string>
+    <string name="package_name">com.juegodedamas.nemesis</string>
+    <string name="custom_url_scheme">com.juegodedamas.nemesis</string>
+</resources>

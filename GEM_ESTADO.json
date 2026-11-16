@@ -1,30 +1,31 @@
 {
   "version_metodologia": "4.0.0",
   "proyecto": {
-    "nombre": "Juego de Damas",
+    "nombre": "Damas del Mundo",
+    "package_id": "com.juegodedamas.nemesis",
     "tipo": "greenfield",
     "track": "lean",
-    "stack": "flutter-dart",
+    "stack": "capacitor6-android-offline-plus-dart-baseline",
     "fecha_creacion": "2026-11-06",
-    "ultima_actualizacion": "2026-11-06 11:45:00"
+    "ultima_actualizacion": "2026-11-16 18:40:00"
   },
   "fase_actual": {
-    "codigo": "F03",
-    "nombre": "Rebanada Vertical 3: Academia Interactiva de 10 Niveles + Generador Infinito de Retos + Entrenador Táctico",
+    "codigo": "F04",
+    "nombre": "Adaptación Integral Google Play Store (Capacitor 6 Offline-First, Activos, API 35 y CI/CD .aab)",
     "estado": "COMPLETADA",
     "fecha_inicio": "2026-11-06"
   },
-  "fases_completadas": ["F00", "F01", "F02", "F03"],
+  "fases_completadas": ["F00", "F01", "F02", "F03", "F04"],
   "metricas": {
     "requisitos_aprobados": 10,
     "reglas_negocio_aprobadas": 8,
-    "decisiones_arquitectura": 4,
-    "tests_automatizados": 21,
+    "decisiones_arquitectura": 5,
+    "tests_automatizados": 26,
     "cobertura_lineas_pct": 97
   },
   "auditoria_fiscal": {
-    "ultimo_dictamen": "APROBADA_P14_FASE_03",
-    "fecha_ultimo_dictamen": "2026-11-06",
-    "observaciones_abiertas": 1
+    "ultimo_dictamen": "APROBADA_P14_PLAYSTORE_CAPACITOR6",
+    "fecha_ultimo_dictamen": "2026-11-16",
+    "observaciones_abiertas": 0
   }
 }

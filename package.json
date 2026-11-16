@@ -1,0 +1,20 @@
+{
+  "name": "damas-del-mundo",
+  "version": "1.0.0",
+  "description": "Damas del Mundo — Juego móvil de estrategia offline-first con 7 variantes mundiales, IA adaptativa y Academia Táctica Infinita.",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.min.css --minify",
+    "build:web": "npm run build:css && node scripts/build_web.mjs",
+    "cap:sync": "npm run build:web && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.3",
+    "@capacitor/app": "^6.0.3",
+    "@capacitor/core": "^6.2.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.3",
+    "tailwindcss": "^3.4.19"
+  }
+}

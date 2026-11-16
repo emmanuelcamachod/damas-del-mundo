@@ -44,3 +44,15 @@
   1. **Currículo de 4 Niveles Progresivos (`AcademyLevel` & `TacticalLesson`):** Escenarios de tablero preconfigurados con secuencia de jugadas objetivo, explicación teórica previa, pistas escalonadas y explicación del error cuando el estudiante realiza una jugada subóptima.
   2. **Entrenador en Tiempo Real (`TacticalCoach`):** Analizador pedagógico que evalúa la posición actual y traduce la ventaja táctica del motor en lenguaje humano comprensible (ej. *"Conserva tu fila base"*, *"Fuerza captura obligatoria para hacer un 2-por-1"*, *"Domina la Gran Diagonal con tu Dama"*).
 * **Consecuencias:** El juego no solo entretiene como rival competitivo, sino que forma verdaderos jugadores de Damas Españolas paso a paso.
+
+---
+
+## DEC-005: Empaquetado Nativo Android con Capacitor 6 (Offline-First) para Google Play Store
+* **Fecha:** 2026-11-16
+* **Estado:** APROBADA
+* **Contexto:** La versión jugable más completa en interfaz, tienda MobX, 7 variantes, motor IA Némesis y Academia con simulador visual reside en `index.html` (sincronizada con `juego_de_damas_simulador.html`), mientras que el entorno local carece de Flutter/Android SDK y Google Play Store exige un `.aab` firmado orientado a API 35 con políticas estrictas de privacidad y sin simuladores de apuestas/compras externas no declaradas.
+* **Decisión:** Adoptar **Ruta A (Capacitor 6 + Tailwind CSS compilado estáticamente + PWA)** sobre `index.html`:
+  1. Eliminar 100% dependencias CDN externas, cuentas/logins falsos, paquetes en USD, salas de apuesta/comisión de casa y correos/nombres hardcodeados.
+  2. Configurar proyecto Android nativo Capacitor 6 (`minSdkVersion 23`, `targetSdkVersion 35`, sin permiso `INTERNET`, Edge-to-Edge en `MainActivity.java`, ProGuard/R8, botón Atrás nativo `@capacitor/app` y guardia Gradle Negative Space que impide compilar Release sin `android/key.properties`).
+  3. Automatizar compilación APK Debug y `.aab` firmado mediante GitHub Actions (`.github/workflows/android-playstore.yml`) y mantener `lib/` + `test/` en Dart como línea base verificable.
+* **Consecuencias:** Se obtiene un artefacto `.aab` 100% offline reproducible desde la nube, apto para clasificación **E / PEGI 3**, con Data Safety limpio ("No data collected") y política de privacidad estática en `privacy-policy.html`.

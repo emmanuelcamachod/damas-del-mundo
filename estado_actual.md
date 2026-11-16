@@ -1,21 +1,19 @@
-# ESTADO ACTUAL DEL PROYECTO: Juego de Damas
+# ESTADO ACTUAL DEL PROYECTO: Damas del Mundo
 
-* **Última Actualización:** 2026-11-06 11:45:00
-* **Fase Activa:** F03 Completada y Auditada (`P-14`) — Lista transición a F04 (Pulido Android / Google Play Store, Persistencia Local y Cierre Integral)
+* **Última Actualización:** 2026-11-16 18:40:00
+* **Fase Activa:** F04 Completada — Adaptación Integral Google Play Store (Capacitor 6 Offline-First + Pipeline CI/CD `.aab`)
 * **Track Metodológico:** LEAN
-* **Estado:** FASES 00, 01, 02 y 03 APROBADAS POR AUDITORÍA FISCAL INDEPENDIENTE
+* **Estado:** LISTO PARA AUDITORÍA FISCAL (`P-14`) Y FIRMA EN PLAY CONSOLE
 
 ---
 
 ## 1. RESUMEN DE SITUACIÓN
-* **Fase 03 implementada y aprobada sin errores** por el Subagente Fiscal Técnico Independiente (`P-14`, ID `fa17fd6bf32f15ca35fac41b96b93087`).
-* Ya están operativos en el código Flutter/Dart:
-  1. **Las 7 Variantes Mundiales ("Damas del Mundo") + Regla Tradicional del "Soplido".**
-  2. **Motor IA Maestro Alfa-Beta en `Isolate` + Aprendizaje Adaptativo Local (TD-Learning + Libro del Rival).**
-  3. **Radiografía "ADN del Jugador" + Termómetro de Ventaja + Detector de Errores Críticos con botón "Reintentar desde mi Error".**
-  4. **Academia Interactiva Progresiva de 10 Niveles (Novato a Gran Maestro):** Enseña y evalúa sobre el tablero técnicas reales (*Diagonal Viva*, *Muralla Real*, *Golpe 2-por-1*, *Horquilla*, *Escalera*, *Corona Voladora*, *Golpe Polaco*, *Golpe Real*, *Zugzwang y La Oposición*, *Triángulo de Petrov*) con calificación de 0 a 3 estrellas.
-  5. **Generador Infinito de Retos Tácticos (`InfinitePuzzleGenerator`):** Crea retos inagotables verificados con `AlphaBetaSolver` ($\ge 150\text{cp}$) por semilla y transforma errores reales del jugador en retos personalizados.
-  6. **Entrenador Táctico en Tiempo Real (`TacticalCoach`):** Resalta la mejor jugada en color cian sobre el tablero y explica en lenguaje humano la técnica táctica y el motivo estratégico.
+* **Base Flutter/Dart (`lib/` y `test/`):** Preservada íntegramente con sus 4 fases previas (F00–F03), motor multivariante, IA Alfa-Beta + TD-Learning, Academia y persistencia atómica local (`lib/storage/local_storage_service.dart`).
+* **Adaptación Play Store Ruta A (`DEC-005` — Capacitor 6 Offline-First):**
+  1. **Sanitización Total de Políticas Google Play:** Eliminados CDN externos (Tailwind compilado en `assets/tailwind.min.css`), paquetes con dinero real (`USD`), salas de apuesta/rake y pantalla de login falso/hardcodeado. Reemplazado por perfil local Offline-First (`#localNicknameInput`) y modal `#modalPrivacyPolicy` + `privacy-policy.html`.
+  2. **Proyecto Nativo Android Capacitor 6 (`android/`):** Configurado con `applicationId "com.juegodedamas.nemesis"`, `minSdkVersion 23`, `targetSdkVersion 35`, sin permiso `android.permission.INTERNET`, Edge-to-Edge API 35 en `MainActivity.java`, botón físico Atrás con `@capacitor/app`, `minifyEnabled true` / `shrinkResources true` y guardia Gradle Negative Space para firmas Release.
+  3. **Activos y PWA (`assets/`, `play_store_assets/`, `manifest.json`, `sw.js`):** Íconos reales generados por `scripts/generate_assets.py` (PWA 192/512/maskable, mipmaps adaptativos Android, splash oscuro `#090D16`, ícono Play Store 512x512 y Feature Graphic 1024x500).
+  4. **Pipeline Cloud GitHub Actions (`.github/workflows/android-playstore.yml`):** Compila `assembleDebug` en cada push/PR y genera `bundleRelease` (`.aab` firmado) mediante secrets de repositorio en `workflow_dispatch` o tags `v*`.
 
 ---
 
@@ -25,4 +23,4 @@
 - [x] Fase 01: Motor Base 8x8 y Tablero Móvil con 5 estados visuales — **`APROBADA (P-14)`** (2026-11-06).
 - [x] Fase 02: 7 Variantes Mundiales + Soplido + IA Alfa-Beta + TD-Learning + ADN del Jugador + Blunder Replay — **`APROBADA (P-14)`** (2026-11-06).
 - [x] Fase 03: Academia Interactiva de 10 Niveles + Generador Infinito de Retos + Entrenador Táctico (Coach) — **`APROBADA (P-14)`** (2026-11-06).
-- [ ] Fase 04: Pulido Android / Google Play Store, Persistencia en Disco y Cierre Integral.
+- [x] Fase 04: Empaquetado Capacitor 6 Offline-First, Sanitización Play Store, Activos Gráficos, Edge-to-Edge API 35 y Pipeline CI/CD `.aab` (2026-11-16).

@@ -1,54 +1,83 @@
-plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
-}
+apply plugin: 'com.android.application'
 
-def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
+def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 android {
     namespace "com.juegodedamas.nemesis"
-    compileSdkVersion 35
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = '17'
-    }
-
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.juegodedamas.nemesis"
-        minSdkVersion 23
-        targetSdkVersion 35
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
     }
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties.getProperty('keyAlias', 'upload')
-            keyPassword keystoreProperties.getProperty('keyPassword', '')
-            storeFile keystoreProperties.getProperty('storeFile') ? file(keystoreProperties.getProperty('storeFile')) : null
-            storePassword keystoreProperties.getProperty('storePassword', '')
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties.getProperty('keyAlias')
+                keyPassword keystoreProperties.getProperty('keyPassword')
+                storeFile file(keystoreProperties.getProperty('storeFile'))
+                storePassword keystoreProperties.getProperty('storePassword')
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled true
             shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
-flutter {
-    source '../..'
+gradle.taskGraph.whenReady { taskGraph ->
+    def buildingRelease = taskGraph.allTasks.any {
+        it.name.toLowerCase().contains('bundlerelease') || it.name.toLowerCase().contains('assemblerelease')
+    }
+    if (buildingRelease && !keystorePropertiesFile.exists()) {
+        throw new GradleException("Falta android/key.properties para compilar/firmar Release (Negative Space: prohibido firmar Release como Debug para Play Store).")
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied.")
 }
