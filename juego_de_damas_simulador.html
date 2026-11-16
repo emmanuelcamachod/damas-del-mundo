@@ -660,7 +660,7 @@
         <div class="relative rounded-3xl overflow-hidden border border-amber-500/40 bg-gradient-to-br from-amber-950/70 via-slate-950 to-amber-950/40 p-5 shadow-2xl">
           <div class="relative z-10">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-[10px] uppercase font-black tracking-widest text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+              <span id="heroActiveThemeBadge" class="text-[10px] uppercase font-black tracking-widest text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
                 🪵 TABLERO DE NOGAL ARTESANAL
               </span>
               <button onclick="navigateTo('screenVariants')" class="text-[11px] font-bold text-slate-400 hover:text-white flex items-center gap-1 transition">
@@ -964,21 +964,21 @@
 
         <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1 pt-2">Temas de Tablero</h3>
         <div class="grid grid-cols-2 gap-2.5">
-          <button onclick="setTheme('wood')" class="p-3 rounded-xl bg-slate-900 border border-amber-500 text-left transition">
+          <button id="shopThemeBtn-wood" onclick="setTheme('wood')" class="p-3 rounded-xl bg-slate-900 border-2 border-amber-500 text-left transition shadow-md shadow-amber-500/15 ring-1 ring-amber-500/40 active:scale-98">
             <div class="text-xs font-bold text-white">🪵 Nogal & Arce</div>
-            <div class="text-[10px] text-amber-400 font-medium">Recomendado</div>
+            <div id="shopThemeStatus-wood" class="text-[10px] text-amber-400 font-bold flex items-center gap-1"><span>✓</span> <span>Seleccionado</span></div>
           </button>
-          <button onclick="setTheme('leather')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition">
+          <button id="shopThemeBtn-leather" onclick="setTheme('leather')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition hover:border-slate-700 active:scale-98">
             <div class="text-xs font-bold text-white">🐂 Cuero Toscano</div>
-            <div class="text-[10px] text-slate-400 font-medium">Desbloqueado</div>
+            <div id="shopThemeStatus-leather" class="text-[10px] text-slate-400 font-medium">Disponible</div>
           </button>
-          <button onclick="setTheme('marble')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition">
+          <button id="shopThemeBtn-marble" onclick="setTheme('marble')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition hover:border-slate-700 active:scale-98">
             <div class="text-xs font-bold text-white">🏛️ Mármol Real</div>
-            <div class="text-[10px] text-slate-400 font-medium">Desbloqueado</div>
+            <div id="shopThemeStatus-marble" class="text-[10px] text-slate-400 font-medium">Disponible</div>
           </button>
-          <button onclick="setTheme('cyber')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition">
+          <button id="shopThemeBtn-cyber" onclick="setTheme('cyber')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition hover:border-slate-700 active:scale-98">
             <div class="text-xs font-bold text-white">⚡ Cíber Neón</div>
-            <div class="text-[10px] text-slate-400 font-medium">Desbloqueado</div>
+            <div id="shopThemeStatus-cyber" class="text-[10px] text-slate-400 font-medium">Disponible</div>
           </button>
         </div>
       </main>
@@ -1997,7 +1997,10 @@
       document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active'));
       if (screenId === 'screenLobby') document.getElementById('dockNavLobby')?.classList.add('active');
       if (screenId === 'screenVariants') document.getElementById('dockNavVariants')?.classList.add('active');
-      if (screenId === 'screenShop') document.getElementById('dockNavShop')?.classList.add('active');
+      if (screenId === 'screenShop') {
+        document.getElementById('dockNavShop')?.classList.add('active');
+        updateShopThemeUI();
+      }
       if (screenId === 'screenProfile') document.getElementById('dockNavProfile')?.classList.add('active');
     }
 
@@ -2912,11 +2915,54 @@
       showCoinToast(`💡 Pista: ${hint}`);
     }
 
+    const THEME_INFO = {
+      wood: { title: 'Nogal & Arce', badge: '🪵 TABLERO DE NOGAL ARTESANAL' },
+      leather: { title: 'Cuero Toscano', badge: '🐂 CUERO TOSCANO REPUJADO' },
+      marble: { title: 'Mármol Real', badge: '🏛️ MÁRMOL REAL IMPERIAL' },
+      cyber: { title: 'Cíber Neón', badge: '⚡ CÍBER NEÓN HOLOGRÁFICO' }
+    };
+
+    function updateShopThemeUI() {
+      const themes = ['wood', 'leather', 'marble', 'cyber'];
+      themes.forEach(t => {
+        const btn = document.getElementById('shopThemeBtn-' + t);
+        const status = document.getElementById('shopThemeStatus-' + t);
+        if (!btn) return;
+        const isSelected = (t === activeTheme);
+        if (isSelected) {
+          btn.className = 'p-3 rounded-xl bg-slate-900 border-2 border-amber-500 text-left transition shadow-md shadow-amber-500/15 ring-1 ring-amber-500/40 active:scale-98';
+          if (status) {
+            status.className = 'text-[10px] text-amber-400 font-bold flex items-center gap-1';
+            status.innerHTML = '<span>✓</span> <span>Seleccionado</span>';
+          }
+        } else {
+          btn.className = 'p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition hover:border-slate-700 active:scale-98';
+          if (status) {
+            status.className = 'text-[10px] text-slate-400 font-medium';
+            status.textContent = 'Disponible';
+          }
+        }
+      });
+
+      const badge = document.getElementById('heroActiveThemeBadge');
+      if (badge && THEME_INFO[activeTheme]) {
+        badge.textContent = THEME_INFO[activeTheme].badge;
+      }
+    }
+
     function setTheme(th) {
+      if (!th) th = 'wood';
       activeTheme = th;
       document.body.setAttribute('data-theme', th);
       try { localStorage.setItem('gem_v4_theme', th); } catch(e) {}
-      renderBoard();
+      updateShopThemeUI();
+      if (typeof board !== 'undefined' && Array.isArray(board) && board.length > 0) {
+        renderBoard();
+      }
+      const info = THEME_INFO[th];
+      if (info) {
+        showCoinToast(`🎨 Tema activado: ${info.title}`);
+      }
     }
 
     function toggleSoundSetting() {
@@ -2954,7 +3000,11 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      document.body.setAttribute('data-theme', 'wood');
+      let savedTheme = 'wood';
+      try {
+        savedTheme = localStorage.getItem('gem_v4_theme') || 'wood';
+      } catch(e) {}
+      setTheme(savedTheme);
       loadUserFromStorage();
       updateDailyRewardUI();
       if (currentUser && currentUser.isAuth) {
