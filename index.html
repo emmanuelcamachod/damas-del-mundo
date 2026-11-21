@@ -8,19 +8,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Damas del Mundo — Juego Móvil de Élite</title>
 
-  <!-- PWA y Soporte Móvil Offline-First -->
+  <!-- PWA y Soporte Nativo iPhone iOS Safari -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Damas del Mundo" />
+  <meta name="apple-mobile-web-app-title" content="Damas Élite" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#2d180b" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
-  <link rel="stylesheet" href="assets/tailwind.min.css" />
+  <meta name="theme-color" content="#181c24" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%232d180b'/%3E%3Ccircle cx='256' cy='256' r='200' fill='none' stroke='%23f59e0b' stroke-width='16'/%3E%3Cpath d='M120 340l-30-180 90 60 76-90 76 90 90-60-30 180H120zm240 40c0 10-8 18-18 18H170c-10 0-18-8-18-18v-10h208v10z' fill='%23f59e0b'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ccircle cx='256' cy='256' r='240' fill='%23f59e0b'/%3E%3Cpath d='M150 330l-20-140 70 50 56-70 56 70 70-50-20 140H150z' fill='%232d180b'/%3E%3C/svg%3E" />
+
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
-    /* VARIABLES DINÁMICAS POR TEMA VISUAL */
-    :root, body[data-theme="wood"] {
+        /* VARIABLES DINÁMICAS POR TEMA VISUAL */
+    /* OP-F: NEO-TACTILE STUDIO (PREDETERMINADO) */
+    :root, body[data-theme="neo-tactile"] {
+      --bg-main: #181c24;
+      --card-bg: #222832;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --board-frame-bg: #2b2520;
+      --board-frame-border: #231e1a;
+      --board-frame-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(255, 255, 255, 0.12);
+      --cell-dark: #42372f;
+      --cell-light: #d8c4a9;
+      --coord-color: #d8c4a9;
+      --piece-w-grad: radial-gradient(circle at 40% 35%, #fffdfa 0%, #ecdcc9 60%, #cbb9a3 100%);
+      --piece-w-border: #bfa891;
+      --piece-b-grad: radial-gradient(circle at 40% 35%, #463b38 0%, #2a2220 65%, #181413 100%);
+      --piece-b-border: #b86b4b;
+      --king-accent: #e6c89c;
+      --accent-color: #b86b4b;
+      --accent-secondary: #e6c89c;
+      --theme-badge-bg: rgba(184, 107, 75, 0.2);
+      --theme-badge-text: #e6c89c;
+    }
+
+    /* OP-D: APPLE ARCADE ESPRESSO */
+    body[data-theme="arcade-espresso"] {
+      --bg-main: #130f0c;
+      --card-bg: #1c1612;
+      --card-border: rgba(212, 175, 55, 0.2);
+      --board-frame-bg: #1e130c;
+      --board-frame-border: #d4af37;
+      --board-frame-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.22);
+      --cell-dark: #382114;
+      --cell-light: #dfcaa7;
+      --coord-color: #dfcaa7;
+      --piece-w-grad: radial-gradient(circle at 38% 35%, #fffff8 0%, #f5ecd9 60%, #dfcaa7 100%);
+      --piece-w-border: #d4af37;
+      --piece-b-grad: radial-gradient(circle at 38% 35%, #3d2315 0%, #1e1109 70%, #0c0603 100%);
+      --piece-b-border: #a16207;
+      --king-accent: #d4af37;
+      --accent-color: #d4af37;
+      --accent-secondary: #dfcaa7;
+      --theme-badge-bg: rgba(212, 175, 55, 0.2);
+      --theme-badge-text: #fef08a;
+    }
+
+    /* OP-E: OBSIDIAN & COPPER GLASS */
+    body[data-theme="obsidian-copper"] {
+      --bg-main: #0c0f14;
+      --card-bg: #141922;
+      --card-border: rgba(234, 88, 12, 0.22);
+      --board-frame-bg: #0f141c;
+      --board-frame-border: #ea580c;
+      --board-frame-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.95), 0 0 30px rgba(234, 88, 12, 0.35);
+      --cell-dark: #121824;
+      --cell-light: #242e40;
+      --coord-color: #fdba74;
+      --piece-w-grad: radial-gradient(circle at 38% 35%, #cbd5e1 0%, #94a3b8 65%, #475569 100%);
+      --piece-w-border: #ea580c;
+      --piece-b-grad: radial-gradient(circle at 38% 35%, #1e293b 0%, #0f172a 70%, #030712 100%);
+      --piece-b-border: #c2410c;
+      --king-accent: #f97316;
+      --accent-color: #ea580c;
+      --accent-secondary: #fed7aa;
+      --theme-badge-bg: rgba(234, 88, 12, 0.22);
+      --theme-badge-text: #fb923c;
+    }
+
+    body[data-theme="wood"] {
       --bg-main: #090d16;
       --card-bg: #0f172a;
       --card-border: #1e293b;
@@ -289,6 +355,66 @@
         var(--piece-b-grad);
     }
 
+    /* Texturas y Efectos para Neo-Tactile (Opción F) */
+    body[data-theme="neo-tactile"] .board-cell-dark {
+      background-color: #42372f;
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(25, 20, 17, 0.45) 0px,
+        rgba(25, 20, 17, 0.45) 1.5px,
+        transparent 1.5px,
+        transparent 8px
+      );
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+    }
+    body[data-theme="neo-tactile"] .board-cell-light {
+      background-color: #d8c4a9;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(160, 135, 110, 0.25) 0px,
+        rgba(160, 135, 110, 0.25) 1px,
+        transparent 1px,
+        transparent 8px
+      );
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Rayas doradas y laca espresso para Arcade Espresso (Opción D) */
+    body[data-theme="arcade-espresso"] .board-cell-dark {
+      background-color: #382114;
+      background-image: repeating-linear-gradient(
+        30deg,
+        rgba(20, 10, 5, 0.6) 0px,
+        rgba(20, 10, 5, 0.6) 2px,
+        transparent 2px,
+        transparent 10px
+      );
+      box-shadow: inset 0 0 12px rgba(10, 5, 2, 0.8), inset 0 0 0 1px rgba(212, 175, 55, 0.3);
+    }
+    body[data-theme="arcade-espresso"] .board-cell-light {
+      background-color: #dfcaa7;
+      background-image: repeating-linear-gradient(
+        -30deg,
+        rgba(180, 130, 80, 0.25) 0px,
+        rgba(180, 130, 80, 0.25) 1.5px,
+        transparent 1.5px,
+        transparent 8px
+      );
+      box-shadow: inset 0 0 6px rgba(100, 60, 20, 0.2);
+    }
+
+    /* Cristal ahumado y resplandor cobre para Obsidian Glass (Opción E) */
+    body[data-theme="obsidian-copper"] .board-cell-dark {
+      background-color: #121824;
+      background-image: linear-gradient(135deg, rgba(234, 88, 12, 0.08) 0%, transparent 60%);
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(234, 88, 12, 0.25);
+    }
+    body[data-theme="obsidian-copper"] .board-cell-light {
+      background-color: #242e40;
+      background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
     .board-cell-target {
       position: relative;
     }
@@ -346,39 +472,81 @@
       transition: transform 220ms ease-out;
     }
 
-    .board-cell-last-from {
-      box-shadow: inset 0 0 0 2px rgba(251, 191, 36, 0.45);
+  
+
+    /* CLASES VISUALES SOFT-3D NEO-TACTILE STUDIO (OPCIÓN F) */
+    .neo-card {
+      background-color: #222832;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
     }
-    .board-cell-last-to {
-      box-shadow: inset 0 0 0 2.5px rgba(245, 158, 11, 0.75);
+    .neo-capsule {
+      background-color: rgba(34, 40, 50, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
     }
-    .board-cell-huff {
-      box-shadow: inset 0 0 0 3px #f43f5e !important;
-      animation: pulse-huff 1.1s infinite ease-in-out;
+    .btn-neo-terracotta {
+      background: #b86b4b;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 0 #8c4e33, 0 8px 16px rgba(184, 107, 75, 0.35);
+      border-radius: 16px;
+      font-weight: 800;
+      transition: all 0.12s ease;
+      cursor: pointer;
     }
-    @keyframes pulse-huff {
-      0%, 100% { box-shadow: inset 0 0 0 3px #f43f5e; }
-      50% { box-shadow: inset 0 0 0 5px #fb7185, 0 0 14px rgba(244, 63, 94, 0.75); }
+    .btn-neo-terracotta:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #8c4e33, 0 2px 4px rgba(184, 107, 75, 0.35);
     }
-    .piece-captured-pending {
-      opacity: 0.42;
-      filter: grayscale(0.75);
-      transform: scale(0.84);
+    .btn-neo-slate {
+      background: #2a323f;
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 0 #181d26, 0 8px 16px rgba(0, 0, 0, 0.35);
+      border-radius: 16px;
+      font-weight: 700;
+      transition: all 0.12s ease;
+      cursor: pointer;
     }
-    .piece-glide-ghost {
-      position: absolute;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 55;
-      display: flex;
+    .btn-neo-slate:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #181d26, 0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+    .btn-neo-pill {
+      background: #2a323f;
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 0 #181d26, 0 8px 16px rgba(0, 0, 0, 0.35);
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.02em;
+      padding: 8px 12px;
+      transition: all 0.12s ease;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 210ms cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform;
+      gap: 5px;
+      cursor: pointer;
+      user-select: none;
     }
-
-  
+    .btn-neo-pill:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #181d26, 0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+    .btn-neo-pill-primary {
+      background: #b86b4b;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 0 #8c4e33, 0 8px 16px rgba(184, 107, 75, 0.35);
+    }
+    .btn-neo-pill-primary:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #8c4e33, 0 2px 4px rgba(184, 107, 75, 0.35);
+    }
 
     /* ESTILOS DE ERGONOMÍA MÓVIL Y DOCK */
     * {
@@ -524,8 +692,9 @@
     }
 
     .dock-item.active {
-      color: #f59e0b;
-      background: rgba(245, 158, 11, 0.12);
+      color: #e6c89c;
+      background: rgba(184, 107, 75, 0.18);
+      border: 1px solid rgba(184, 107, 75, 0.35);
     }
 
     .dock-item .dock-icon {
@@ -551,26 +720,11 @@
     .animate-float {
       animation: float 3s ease-in-out infinite;
     }
-
-    /* Edge-to-Edge API 35 Safe-Area Insets */
-    .app-screen > header {
-      padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
-    }
-    #screenAuth {
-      padding-top: calc(2rem + env(safe-area-inset-top, 0px));
-      padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
-    }
-    #screenGame {
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-    #boardFrameContainer {
-      width: min(92vw, 400px, 50dvh);
-    }
   </style>
 </head>
-<body data-theme="wood" class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased select-none transition-colors duration-300">
+<body data-theme="neo-tactile" class="bg-[#181c24] text-slate-100 min-h-screen flex flex-col font-sans antialiased select-none transition-colors duration-300">
 
-  <!-- TOAST FLOTANTE DE MONEDAS Y NOTIFICACIONES -->
+  <!-- TOAST FLOTANTE DE MONEDAS Y DEDUCCIONES -->
   <div id="coinToast" class="fixed top-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 transform -translate-y-3 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black text-xs shadow-2xl flex items-center gap-2 border border-amber-300">
     <span class="text-base">🪙</span>
     <span id="coinToastMsg">Actualización de saldo</span>
@@ -579,7 +733,7 @@
   <div class="mobile-app-container">
 
     <!-- ========================================================
-         PANTALLA 1: BIENVENIDA & PERFIL LOCAL (100% OFFLINE-FIRST)
+         PANTALLA 1: SPLASH & INICIO DE SESIÓN / INTRO
          ======================================================== -->
     <section id="screenAuth" class="app-screen active min-h-screen px-6 py-8 justify-between relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       
@@ -587,46 +741,74 @@
 
       <div class="pt-8 text-center relative z-10 flex flex-col items-center">
         <!-- Logo Heroico con Corona Real SVG -->
-        <div class="w-24 h-24 rounded-3xl bg-gradient-to-tr from-amber-600 to-amber-400 p-0.5 shadow-[0_0_40px_rgba(245,158,11,0.5)] mb-4 animate-float flex items-center justify-center">
-          <div class="w-full h-full bg-slate-950 rounded-[22px] flex items-center justify-center">
-            <svg class="w-13 h-13 text-amber-400 drop-shadow-[0_2px_10px_rgba(245,158,11,0.7)]" viewBox="0 0 24 24" fill="currentColor">
+        <div class="w-24 h-24 rounded-3xl bg-[#222832] border-2 border-[#b86b4b] p-1 shadow-[0_12px_30px_rgba(0,0,0,0.6),0_0_20px_rgba(184,107,75,0.4)] mb-4 animate-float flex items-center justify-center">
+          <div class="w-full h-full bg-[#181c24] rounded-[20px] flex items-center justify-center shadow-inner">
+            <svg class="w-12 h-12 text-[#e6c89c] drop-shadow-[0_2px_8px_rgba(230,200,156,0.6)]" viewBox="0 0 24 24" fill="currentColor">
               <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
             </svg>
           </div>
         </div>
         <h1 class="text-3xl font-black tracking-tight text-white flex items-center gap-2">
-          DAMAS <span class="text-amber-400">DEL MUNDO</span>
+          DAMAS <span class="text-[#e6c89c]">DEL MUNDO</span>
         </h1>
         <p class="text-xs text-slate-400 mt-1.5 font-medium max-w-xs">
-          Estrategia milenaria con 7 Variantes Mundiales, IA Adaptativa y Academia Táctica Infinita.
+          El juego de estrategia milenario con IA Adaptativa, Tablero de Nogal y Apuestas.
         </p>
         <div class="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-[10px] text-emerald-400 font-bold">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span>100% Offline • Sin Anuncios • Sin Compras Reales</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Neo-Tactile Studio • Comisión 10% Activa</span>
         </div>
       </div>
 
       <div class="relative z-10 space-y-3 my-auto max-w-sm w-full mx-auto">
-        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-2xl space-y-3 shadow-xl">
+        <button onclick="handleAuthAction('google')" class="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-sm flex items-center justify-center gap-3 shadow-lg active:scale-95 transition cursor-pointer">
+          <svg class="w-5 h-5" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Continuar con Google</span>
+        </button>
+
+        <button onclick="toggleEmailAuthForm()" class="w-full py-3.5 px-4 rounded-2xl bg-slate-800/90 hover:bg-slate-800 border border-slate-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md active:scale-95 transition cursor-pointer">
+          <span>✉️</span>
+          <span>Iniciar con Correo Electrónico</span>
+        </button>
+
+        <div id="emailFormContainer" class="hidden bg-slate-900/95 border border-slate-800 p-4 rounded-2xl space-y-3 transition-all">
           <div>
-            <label for="localNicknameInput" class="text-[11px] font-bold text-slate-300 block mb-1.5">Tu Apodo de Jugador (solo en este dispositivo)</label>
-            <input type="text" id="localNicknameInput" maxlength="24" placeholder="Maestro Local" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-amber-500" />
+            <label class="text-[11px] font-semibold text-slate-400 block mb-1">Correo Electrónico</label>
+            <input type="email" id="authEmailInput" placeholder="tu@correo.com" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500" />
           </div>
-          <button onclick="handleAuthAction('local')" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] active:scale-95 transition cursor-pointer">
-            <span>⚡</span>
-            <span>Jugar Ahora (+1,000 🪙 Iniciales)</span>
-          </button>
-          <p class="text-[10px] text-slate-400 text-center leading-relaxed">
-            Todo tu progreso, ELO, monedas virtuales y cinturones de Academia se guardan localmente sin internet ni cuentas externas.
-          </p>
+          <div>
+            <label class="text-[11px] font-semibold text-slate-400 block mb-1">Contraseña</label>
+            <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500" />
+          </div>
+          <div class="flex gap-2 pt-1">
+            <button onclick="handleAuthAction('login_email')" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs transition cursor-pointer">
+              Entrar
+            </button>
+            <button onclick="handleAuthAction('register_email')" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition cursor-pointer">
+              Registrarme
+            </button>
+          </div>
         </div>
+
+        <div class="relative flex items-center py-1">
+          <div class="flex-grow border-t border-slate-800"></div>
+          <span class="flex-shrink mx-3 text-slate-500 text-[11px] font-bold uppercase tracking-wider">o acceso rápido</span>
+          <div class="flex-grow border-t border-slate-800"></div>
+        </div>
+
+        <button onclick="handleAuthAction('guest')" class="w-full py-4 px-4 btn-neo-terracotta text-sm flex items-center justify-center gap-2 cursor-pointer">
+          <span class="text-base">⚡</span>
+          <span>Jugar como Invitado (+1,000 🪙 Gratis)</span>
+        </button>
       </div>
 
-      <div class="text-center text-[10px] text-slate-400 font-medium relative z-10 pb-4 flex flex-col items-center gap-1.5">
-        <button onclick="openModal('modalPrivacyPolicy')" class="text-amber-400 hover:text-amber-300 underline font-bold cursor-pointer">
-          🔒 Política de Privacidad (100% Offline)
-        </button>
-        <span>Damas del Mundo • Edición Juego Limpio</span>
+      <div class="text-center text-[10px] text-slate-500 font-medium relative z-10 pb-4">
+        Al continuar aceptas los Términos de Juego Limpio • GEM V4.0
       </div>
     </section>
 
@@ -646,12 +828,12 @@
                 </svg>
               </div>
             </div>
-            <span id="lobbyUserLevel" class="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black px-1 rounded-full border border-slate-900">Nv.1</span>
+            <span class="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black px-1 rounded-full border border-slate-900">Nv.5</span>
           </div>
           <div>
             <div class="flex items-center gap-1.5">
-              <span id="lobbyUserName" class="text-xs font-black text-white">Maestro Local</span>
-              <span id="lobbyBadgeGuest" class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">OFFLINE</span>
+              <span id="lobbyUserName" class="text-xs font-black text-white">Emmanuel</span>
+              <span id="lobbyBadgeGuest" class="text-[9px] px-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">INVITADO</span>
             </div>
             <div class="text-[10px] text-slate-400 font-medium flex items-center gap-1">
               <span>🏆 ELO</span>
@@ -675,23 +857,6 @@
 
       <main class="p-4 space-y-4">
 
-        <!-- Banner: Continuar Partida en Curso -->
-        <div id="resumeMatchBanner" class="hidden p-3.5 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/60 border border-amber-500/60 flex items-center justify-between shadow-lg gap-2">
-          <div onclick="resumeSavedMatch()" class="flex items-center gap-2.5 flex-1 cursor-pointer">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl">
-              ▶️
-            </div>
-            <div>
-              <div class="text-xs font-black text-white">Partida Guardada en Curso</div>
-              <p id="resumeMatchSub" class="text-[10px] text-amber-300 font-medium">Toca para retomar tu tablero</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <button onclick="resumeSavedMatch()" class="px-3 py-1.5 bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow">Continuar</button>
-            <button onclick="discardSavedMatch()" title="Descartar partida guardada" class="px-2 py-1.5 bg-slate-800 text-slate-400 hover:text-white text-xs rounded-xl font-bold">✕</button>
-          </div>
-        </div>
-
         <!-- Banner de Recompensa Diaria -->
         <div id="lobbyDailyBanner" onclick="tryOpenDailyModal()" class="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border border-emerald-500/50 flex items-center justify-between shadow-lg cursor-pointer active:scale-98 transition">
           <div class="flex items-center gap-3">
@@ -711,7 +876,7 @@
           </button>
         </div>
 
-        <!-- Tarjeta Heroica: DESAFÍO RÁPIDO CONTRA IA -->
+        <!-- Tarjeta Heroica: PARTIDA RÁPIDA CON APUESTA -->
         <div class="relative rounded-3xl overflow-hidden border border-amber-500/40 bg-gradient-to-br from-amber-950/70 via-slate-950 to-amber-950/40 p-5 shadow-2xl">
           <div class="relative z-10">
             <div class="flex items-center justify-between mb-2">
@@ -728,47 +893,42 @@
               🇪🇸 Damas Españolas (8x8)
             </h2>
             <p id="heroActiveVariantDesc" class="text-xs text-amber-200/70 mb-4 line-clamp-2">
-              Damas voladoras de largo alcance sobre tablero artesanal. Captura obligatoria con Ley de Cantidad y Calidad.
+              Damas voladoras de largo alcance sobre tablero de madera tallada. Entrada: 50 🪙 • Pozo: 100 🪙 • Premio Ganador: 90 🪙 (Comisión de la casa: 10 🪙).
             </p>
 
-            <div class="flex gap-2">
-              <button onclick="startMatchWithBet(currentVar, 50)" class="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-sm shadow-[0_0_25px_rgba(245,158,11,0.5)] active:scale-95 transition flex items-center justify-center gap-1.5 cursor-pointer">
-                <span class="text-lg">⚔️</span>
-                <span>DESAFÍO IA (+100 🪙)</span>
-              </button>
-              <button onclick="startMatchWithBet(currentVar, 0)" class="px-3.5 py-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/40 hover:bg-slate-800 text-amber-300 font-black text-xs active:scale-95 transition cursor-pointer">
-                Práctica 0🪙
-              </button>
-            </div>
+            <button onclick="startMatchWithBet(currentVar, 50)" class="w-full py-4 rounded-2xl btn-neo-terracotta text-sm flex items-center justify-center gap-2 cursor-pointer">
+              <span class="text-lg">⚔️</span>
+              <span>¡JUGAR POR 50 🪙 (PREMIO 90 🪙)!</span>
+            </button>
           </div>
         </div>
 
         <!-- Cuadrícula de Modos -->
         <div>
           <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-2.5 px-1">
-            Modos de Juego Offline
+            Salas y Modos de Juego
           </h3>
 
           <div class="grid grid-cols-2 gap-3">
             <div onclick="startMatchWithBet(currentVar, 50)" class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
               <div class="flex items-center justify-between mb-2">
                 <span class="text-2xl">🤖</span>
-                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">+100 🪙</span>
+                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">50 🪙</span>
               </div>
               <div>
                 <div class="text-xs font-black text-white">Vs Inteligencia Artificial</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Entrena y gana +100 🪙 por victoria</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Entrena y gana +90 🪙 por victoria (Comisión casa: 10 🪙)</div>
               </div>
             </div>
 
             <div onclick="openModal('modalBetRooms')" class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-2xl">🏆</span>
-                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">TORNEOS</span>
+                <span class="text-2xl">💰</span>
+                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">APUESTAS</span>
               </div>
               <div>
-                <div class="text-xs font-black text-white">Mesas de Desafío IA</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Elige retos de 50, 100 o 500 🪙</div>
+                <div class="text-xs font-black text-white">Salas con Apuesta</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Elige mesas de 50, 100 o 500 🪙</div>
               </div>
             </div>
 
@@ -779,7 +939,7 @@
               </div>
               <div>
                 <div class="text-xs font-black text-white">Pase y Juega (1 vs 1)</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">2 amigos en este mismo dispositivo</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">2 amigos en este mismo iPhone</div>
               </div>
             </div>
 
@@ -815,19 +975,14 @@
          PANTALLA 3: SELECTOR VISUAL DE VARIANTES
          ======================================================== -->
     <section id="screenVariants" class="app-screen min-h-screen pb-24 overflow-y-auto">
-      <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between gap-3 shadow-md">
-        <div class="flex items-center gap-3">
-          <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 text-sm transition">
-            ⬅
-          </button>
-          <div>
-            <h2 class="text-sm font-black text-white">Elige tu Tipo de Damas</h2>
-            <p class="text-[10px] text-slate-400">Reglas oficiales y tableros de madera</p>
-          </div>
-        </div>
-        <button onclick="openVariantRulesModal(currentVar)" class="px-2.5 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 text-xs font-black hover:bg-slate-700 transition">
-          ? Reglas
+      <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center gap-3 shadow-md">
+        <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 text-sm transition">
+          ⬅
         </button>
+        <div>
+          <h2 class="text-sm font-black text-white">Elige tu Tipo de Damas</h2>
+          <p class="text-[10px] text-slate-400">Reglas oficiales y tableros de madera</p>
+        </div>
       </header>
 
       <main class="p-4 space-y-3">
@@ -838,16 +993,13 @@
               <span class="text-2xl">🇪🇸</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Españolas</h3>
-                <span class="text-[10px] font-mono text-amber-400 font-bold">Tablero 8x8 • Premio: 100 🪙</span>
+                <span class="text-[10px] font-mono text-amber-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="event.stopPropagation(); openVariantRulesModal('spanish')" class="px-2 py-1 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-black text-xs" title="Ver reglas oficiales">?</button>
-              <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
-            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Damas de vuelo libre de largo alcance. Peón come hacia adelante. Ley de Cantidad y Calidad obligatorias.
+            Damas de vuelo libre de largo alcance. Peón come hacia adelante. Regla de calidad en captura.
           </p>
         </div>
 
@@ -858,13 +1010,10 @@
               <span class="text-2xl">🌍</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Internacionales</h3>
-                <span class="text-[10px] font-mono text-cyan-400 font-bold">Tablero 10x10 • Premio: 100 🪙</span>
+                <span class="text-[10px] font-mono text-cyan-400 font-bold">Tablero 10x10 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="event.stopPropagation(); openVariantRulesModal('international')" class="px-2 py-1 rounded-xl bg-slate-800 border border-slate-700 text-cyan-300 font-black text-xs" title="Ver reglas oficiales">?</button>
-              <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
-            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Tablero gigante de 100 casillas. Peones comen hacia adelante y atrás. Regla de mayoría obligatoria.
@@ -878,16 +1027,13 @@
               <span class="text-2xl">🇧🇷</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Brasileñas</h3>
-                <span class="text-[10px] font-mono text-emerald-400 font-bold">Tablero 8x8 • Premio: 100 🪙</span>
+                <span class="text-[10px] font-mono text-emerald-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="event.stopPropagation(); openVariantRulesModal('brazilian')" class="px-2 py-1 rounded-xl bg-slate-800 border border-slate-700 text-emerald-300 font-black text-xs" title="Ver reglas oficiales">?</button>
-              <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
-            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Reglas internacionales adaptadas al tablero clásico de 64 casillas. Peón captura atrás y Ley de Cantidad.
+            Reglas internacionales adaptadas al tablero clásico de 64 casillas.
           </p>
         </div>
 
@@ -898,16 +1044,13 @@
               <span class="text-2xl">🇬🇧</span>
               <div>
                 <h3 class="text-sm font-black text-white">Checkers / Inglesas</h3>
-                <span class="text-[10px] font-mono text-purple-400 font-bold">Tablero 8x8 • Premio: 100 🪙</span>
+                <span class="text-[10px] font-mono text-purple-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="event.stopPropagation(); openVariantRulesModal('english')" class="px-2 py-1 rounded-xl bg-slate-800 border border-slate-700 text-purple-300 font-black text-xs" title="Ver reglas oficiales">?</button>
-              <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
-            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Sin capturas hacia atrás para peones. Reyes de un solo paso diagonal. Captura libre entre secuencias válidas.
+            Sin capturas hacia atrás para peones. Reyes de un solo paso diagonal.
           </p>
         </div>
 
@@ -918,13 +1061,10 @@
               <span class="text-2xl">🇷🇺</span>
               <div>
                 <h3 class="text-sm font-black text-white">Shashki / Rusas</h3>
-                <span class="text-[10px] font-mono text-blue-400 font-bold">Tablero 8x8 • Premio: 100 🪙</span>
+                <span class="text-[10px] font-mono text-blue-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="event.stopPropagation(); openVariantRulesModal('russian')" class="px-2 py-1 rounded-xl bg-slate-800 border border-slate-700 text-blue-300 font-black text-xs" title="Ver reglas oficiales">?</button>
-              <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
-            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Damas voladoras y coronación en pleno vuelo durante saltos encadenados.
@@ -938,16 +1078,13 @@
               <span class="text-2xl">🇮🇹</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Italianas</h3>
-                <span class="text-[10px] font-mono text-green-400 font-bold">Tablero 8x8 • Premio: 100 🪙</span>
+                <span class="text-[10px] font-mono text-green-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="event.stopPropagation(); openVariantRulesModal('italian')" class="px-2 py-1 rounded-xl bg-slate-800 border border-slate-700 text-emerald-300 font-black text-xs" title="Ver reglas oficiales">?</button>
-              <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
-            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Peones nunca comen a damas. Damas cortas de un paso. Ley de Cantidad y Calidad.
+            Peones nunca comen a damas. Jerarquía estricta de piezas.
           </p>
         </div>
 
@@ -958,16 +1095,13 @@
               <span class="text-2xl">🇹🇷</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Turcas</h3>
-                <span class="text-[10px] font-mono text-red-400 font-bold">Tablero 8x8 • Premio: 100 🪙</span>
+                <span class="text-[10px] font-mono text-red-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="event.stopPropagation(); openVariantRulesModal('turkish')" class="px-2 py-1 rounded-xl bg-slate-800 border border-slate-700 text-rose-300 font-black text-xs" title="Ver reglas oficiales">?</button>
-              <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
-            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Movimientos y saltos ortogonales (rectos y laterales) con retirada inmediata en cadena.
+            Movimientos y saltos ortogonales (rectos y laterales).
           </p>
         </div>
       </main>
@@ -984,8 +1118,8 @@
             ⬅
           </button>
           <div>
-            <h2 class="text-sm font-black text-white">Bóveda & Aspectos</h2>
-            <p class="text-[10px] text-slate-400">100% Gratis • Sin Anuncios ni Compras Reales</p>
+            <h2 class="text-sm font-black text-white">Bóveda & Tienda</h2>
+            <p class="text-[10px] text-slate-400">100% Libre de Anuncios</p>
           </div>
         </div>
         <div class="px-2.5 py-1 rounded-xl bg-amber-950/50 border border-amber-500/40 text-amber-300 text-xs font-black font-mono flex items-center gap-1">
@@ -1006,56 +1140,81 @@
           <button id="shopDailyBtn" class="px-3 py-1 bg-emerald-500 text-slate-950 text-xs font-black rounded-lg">Reclamar</button>
         </div>
 
-        <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1">Cómo Ganar Monedas Virtuales</h3>
+        <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1">Paquetes de Monedas</h3>
 
         <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <span class="text-3xl">🥋</span>
+            <span class="text-3xl">🪙</span>
             <div>
-              <div class="text-xs font-black text-white">Retos de la Academia</div>
-              <div class="text-xs text-amber-400 font-bold font-mono">+30 a +120 🪙 por nivel</div>
+              <div class="text-xs font-black text-white">Bolsa de Principiante</div>
+              <div class="text-xs text-amber-400 font-bold font-mono">+1,200 Monedas</div>
             </div>
           </div>
-          <button onclick="openModal('modalAcademy')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition active:scale-95">
-            Entrenar
+          <button onclick="buyCoins(1200, '$0.99 USD')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition active:scale-95">
+            $0.99 USD
           </button>
         </div>
 
         <div class="p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 to-amber-950/30 border border-amber-500/60 flex items-center justify-between relative overflow-hidden">
-          <span class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[8px] font-black px-2 py-0.5 rounded-bl">RECOMENDADO</span>
+          <span class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[8px] font-black px-2 py-0.5 rounded-bl">MÁS POPULAR</span>
           <div class="flex items-center gap-3">
-            <span class="text-3xl">🤖</span>
+            <span class="text-3xl">💰</span>
             <div>
-              <div class="text-xs font-black text-white">Desafíos contra la IA</div>
-              <div class="text-xs text-amber-400 font-bold font-mono">Hasta +1,000 🪙 por victoria</div>
+              <div class="text-xs font-black text-white">Bolsa de Maestro</div>
+              <div class="text-xs text-amber-400 font-bold font-mono">+6,500 Monedas</div>
             </div>
           </div>
-          <button onclick="openModal('modalBetRooms')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition active:scale-95">
-            Desafiar
+          <button onclick="buyCoins(6500, '$4.99 USD')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition active:scale-95">
+            $4.99 USD
           </button>
         </div>
 
-        <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1 pt-2">Temas de Tablero</h3>
+        <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">👑</span>
+            <div>
+              <div class="text-xs font-black text-white">Cofre de Gran Maestro</div>
+              <div class="text-xs text-amber-400 font-bold font-mono">+15,000 Monedas</div>
+            </div>
+          </div>
+          <button onclick="buyCoins(15000, '$9.99 USD')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition active:scale-95">
+            $9.99 USD
+          </button>
+        </div>
+
+                <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1 pt-2">Temas de Tablero</h3>
         <div class="grid grid-cols-2 gap-2.5">
-          <button id="shopThemeBtn-wood" onclick="setTheme('wood')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition active:scale-98">
+          <button id="shopThemeBtn-neo-tactile" onclick="setTheme('neo-tactile')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
+            <div class="text-xs font-bold text-white">🎨 Neo-Tactile Studio</div>
+            <div id="shopThemeStatus-neo-tactile" class="text-[10px] text-[#e6c89c] font-medium">Predeterminado</div>
+          </button>
+          <button id="shopThemeBtn-arcade-espresso" onclick="setTheme('arcade-espresso')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
+            <div class="text-xs font-bold text-white">☕ Arcade Espresso</div>
+            <div id="shopThemeStatus-arcade-espresso" class="text-[10px] text-slate-400 font-medium">Opción D</div>
+          </button>
+          <button id="shopThemeBtn-obsidian-copper" onclick="setTheme('obsidian-copper')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
+            <div class="text-xs font-bold text-white">🔮 Obsidian Glass</div>
+            <div id="shopThemeStatus-obsidian-copper" class="text-[10px] text-slate-400 font-medium">Opción E</div>
+          </button>
+          <button id="shopThemeBtn-wood" onclick="setTheme('wood')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
             <div class="text-xs font-bold text-white">🪵 Nogal & Arce</div>
-            <div id="shopThemeStatus-wood" class="text-[10px] text-slate-400 font-medium">Disponible</div>
+            <div id="shopThemeStatus-wood" class="text-[10px] text-slate-400 font-medium">Clásico</div>
           </button>
-          <button id="shopThemeBtn-leather" onclick="setTheme('leather')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition active:scale-98">
+          <button id="shopThemeBtn-leather" onclick="setTheme('leather')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
             <div class="text-xs font-bold text-white">🐂 Cuero Toscano</div>
-            <div id="shopThemeStatus-leather" class="text-[10px] text-slate-400 font-medium">Disponible</div>
+            <div id="shopThemeStatus-leather" class="text-[10px] text-slate-400 font-medium">Artesanal</div>
           </button>
-          <button id="shopThemeBtn-marble" onclick="setTheme('marble')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition active:scale-98">
+          <button id="shopThemeBtn-marble" onclick="setTheme('marble')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
             <div class="text-xs font-bold text-white">🏛️ Mármol Real</div>
-            <div id="shopThemeStatus-marble" class="text-[10px] text-slate-400 font-medium">Disponible</div>
+            <div id="shopThemeStatus-marble" class="text-[10px] text-slate-400 font-medium">Imperial</div>
           </button>
-          <button id="shopThemeBtn-cyber" onclick="setTheme('cyber')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition active:scale-98">
+          <button id="shopThemeBtn-cyber" onclick="setTheme('cyber')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
             <div class="text-xs font-bold text-white">⚡ Cíber Neón</div>
-            <div id="shopThemeStatus-cyber" class="text-[10px] text-slate-400 font-medium">Disponible</div>
+            <div id="shopThemeStatus-cyber" class="text-[10px] text-slate-400 font-medium">Futurista</div>
           </button>
-          <button id="shopThemeBtn-jade" onclick="setTheme('jade')" class="col-span-2 p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition active:scale-98">
+          <button id="shopThemeBtn-jade" onclick="setTheme('jade')" class="p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition active:scale-98">
             <div class="text-xs font-bold text-white">💎 Jade Imperial</div>
-            <div id="shopThemeStatus-jade" class="text-[10px] text-slate-400 font-medium">Disponible</div>
+            <div id="shopThemeStatus-jade" class="text-[10px] text-slate-400 font-medium">Palaciego</div>
           </button>
         </div>
       </main>
@@ -1087,8 +1246,8 @@
               </svg>
             </div>
           </div>
-          <h3 id="profileName" class="text-base font-black text-white">Maestro Local</h3>
-          <p id="profileEmail" class="text-xs text-emerald-400 mt-0.5 font-semibold">Perfil Local • 100% Offline</p>
+          <h3 id="profileName" class="text-base font-black text-white">Emmanuel</h3>
+          <p id="profileEmail" class="text-xs text-slate-400 mt-0.5">invitado@damas.local</p>
           
           <div class="mt-4 flex gap-4 w-full justify-center">
             <div class="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800 text-center flex-1">
@@ -1097,7 +1256,7 @@
             </div>
             <div class="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800 text-center flex-1">
               <div class="text-[10px] text-slate-400 font-bold uppercase">Nivel</div>
-              <div id="profileLevel" class="text-base font-black text-white font-mono mt-0.5">1</div>
+              <div class="text-base font-black text-white font-mono mt-0.5">5</div>
             </div>
           </div>
         </div>
@@ -1114,7 +1273,7 @@
           </div>
           <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
             <div class="text-[10px] text-slate-400 font-bold uppercase">Win Rate</div>
-            <div id="profileWinRate" class="text-lg font-black text-amber-400 font-mono mt-1">0%</div>
+            <div id="profileWinRate" class="text-lg font-black text-amber-400 font-mono mt-1">100%</div>
           </div>
           <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
             <div class="text-[10px] text-slate-400 font-bold uppercase">Fichas Capturadas</div>
@@ -1122,12 +1281,8 @@
           </div>
         </div>
 
-        <button onclick="openModal('modalPrivacyPolicy')" class="w-full py-3 rounded-2xl bg-slate-900 border border-slate-700 text-slate-200 font-bold text-xs hover:bg-slate-800 transition cursor-pointer">
-          🔒 Política de Privacidad (100% Offline)
-        </button>
-
         <button onclick="logoutToSplash()" class="w-full py-3.5 rounded-2xl bg-slate-900 border border-red-500/40 text-red-400 font-bold text-xs hover:bg-red-950/30 transition cursor-pointer">
-          Restablecer / Cambiar Perfil Local
+          Cerrar Sesión
         </button>
       </main>
     </section>
@@ -1136,11 +1291,12 @@
     <!-- ========================================================
          PANTALLA 6: LA PARTIDA DE JUEGO (TABLERO DE MADERA)
          ======================================================== -->
-    <section id="screenGame" class="app-screen min-h-screen justify-between bg-slate-950 relative overflow-hidden">
+    <section id="screenGame" class="app-screen min-h-screen justify-between bg-[#181c24] relative overflow-hidden">
       
-      <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex items-center justify-between z-20">
-        <button onclick="promptLeaveGame()" class="px-2.5 py-1.5 rounded-xl bg-red-950/40 border border-red-600/40 text-red-300 font-bold text-xs flex items-center gap-1 active:scale-95 transition">
-          <span>⬅</span>
+      <!-- HEADER FLOTANTE NEO-TACTILE -->
+      <header class="bg-[#1c2026]/95 backdrop-blur-md border-b border-white/10 px-3.5 py-2.5 flex items-center justify-between z-20 shadow-md">
+        <button onclick="promptLeaveGame()" class="px-3 py-1.5 rounded-full bg-[#2a323f] border border-white/10 text-slate-300 font-bold text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition cursor-pointer">
+          <span>←</span>
           <span>Salir</span>
         </button>
 
@@ -1148,42 +1304,37 @@
           <div id="gameActiveVariantBadge" class="text-xs font-black text-white flex items-center justify-center gap-1">
             <span>🇪🇸 Damas Españolas (8x8)</span>
           </div>
-          <div id="evalScore" class="text-[10px] font-mono text-amber-400 font-bold">+0.0 cp</div>
+          <div id="evalScore" class="text-[10px] font-mono text-[#e6c89c] font-bold">+0.0 cp</div>
         </div>
 
         <div class="flex items-center gap-1.5">
-          <div class="px-2 py-1 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold flex items-center gap-1">
+          <div class="px-2.5 py-1 rounded-full bg-[#242a33] border border-white/10 text-[#e6c89c] text-xs font-mono font-bold flex items-center gap-1.5 shadow-inner">
             <span>🪙</span>
             <span id="gameCoinsDisplay">950</span>
           </div>
-
-          <button onclick="openVariantRulesModal(currentVar)" title="Reglas de la variante" class="p-1.5 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 hover:bg-slate-700 text-xs font-black flex items-center justify-center transition cursor-pointer w-8 h-8">
-            ?
-          </button>
-          <button id="coachBtn" onclick="requestCoachHint()" title="Pedir Pista al Coach" class="p-1.5 rounded-xl bg-cyan-950/60 border border-cyan-800 text-cyan-400 hover:bg-cyan-900/60 text-xs font-semibold flex items-center justify-center transition cursor-pointer w-8 h-8">
-            💡
-          </button>
-          <button onclick="openModal('modalSettings')" class="p-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs flex items-center justify-center w-8 h-8">
+          <button onclick="openModal('modalSettings')" class="p-1.5 rounded-full bg-[#2a323f] text-slate-300 text-xs flex items-center justify-center w-8 h-8 border border-white/10 shadow-sm active:scale-95 transition cursor-pointer">
             ⚙️
           </button>
         </div>
       </header>
 
-      <!-- Fila Superior: Rival -->
-      <div class="px-4 py-2 flex items-center justify-between bg-slate-900/40 border-b border-slate-900">
-        <div class="flex items-center gap-2.5">
-          <div id="rivalAvatar" class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-lg shadow">
-            🤖
+      <!-- CÁPSULA FLOTANTE SUPERIOR: RIVAL / OPONENTE -->
+      <div class="px-4 py-2">
+        <div class="p-2.5 rounded-2xl bg-[#222832] border border-white/10 flex items-center justify-between shadow-lg">
+          <div class="flex items-center gap-2.5">
+            <div id="rivalAvatar" class="w-9 h-9 rounded-full bg-[#181c24] border border-white/10 flex items-center justify-center text-lg shadow-inner">
+              🤖
+            </div>
+            <div>
+              <div id="rivalName" class="text-xs font-black text-white tracking-wide">IA Némesis</div>
+              <div class="text-[10px] text-slate-400 font-medium">Negras • Nivel 4 • ELO 1500</div>
+            </div>
           </div>
-          <div>
-            <div id="rivalName" class="text-xs font-black text-white">IA Némesis</div>
-            <div id="rivalGameElo" class="text-[10px] text-slate-400 font-medium">Negras • ELO 1550</div>
-          </div>
+          <div id="blackGraveyard" class="flex items-center gap-1 text-xs"></div>
         </div>
-        <div id="blackGraveyard" class="flex items-center gap-1 text-xs"></div>
       </div>
 
-      <!-- ÁREA CENTRAL: TABLERO DE DAMAS DE NOGAL -->
+      <!-- ÁREA CENTRAL: TABLERO DE DAMAS CON MARCO DE NOGAL CURVADO (OPCIÓN F) -->
       <div class="flex-1 flex flex-col items-center justify-center p-2 relative my-auto">
         <!-- BANNER DEL DOJO DE MAESTROS DE LA ACADEMIA -->
         <div id="academyCoachBanner" class="hidden w-full max-w-[400px] mb-2 p-2.5 rounded-2xl bg-gradient-to-r from-slate-900 via-amber-950/40 to-slate-900 border border-amber-500/50 shadow-xl flex flex-col gap-2">
@@ -1231,41 +1382,58 @@
         </div>
       </div>
 
-      <!-- Fila Inferior: Jugador -->
-      <div class="px-4 py-2 flex items-center justify-between bg-slate-900/40 border-t border-slate-900">
-        <div class="flex items-center gap-2.5">
-          <div id="playerGameAvatar" class="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-amber-400 shadow">
-            <svg class="w-5 h-5 drop-shadow" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
-            </svg>
+        <div id="boardFrameContainer" class="w-full max-w-[400px] aspect-square rounded-[28px] p-3 relative shadow-2xl transition-all" style="background-color: var(--board-frame-bg); border: 8px solid var(--board-frame-border); box-shadow: var(--board-frame-shadow);">
+          <div id="boardGrid" class="w-full h-full grid rounded-2xl overflow-hidden border border-black/60 shadow-inner relative">
+            <!-- Celdas renderizadas dinámicamente -->
           </div>
-          <div>
-            <div id="playerGameName" class="text-xs font-black text-white">Maestro Local (Tú)</div>
-            <div id="playerGameElo" class="text-[10px] text-amber-400 font-bold">Blancas • ELO 1250</div>
-          </div>
+          <div id="boardAnimationOverlay" class="absolute inset-3 pointer-events-none z-50 overflow-hidden rounded-2xl"></div>
         </div>
-        <div id="whiteGraveyard" class="flex items-center gap-1 text-xs"></div>
       </div>
 
-      <!-- Barra de Controles Rápidos de Partida -->
-      <div id="gameActionsBar" class="px-3 py-1.5 bg-slate-900/70 border-t border-slate-800/80 flex items-center justify-between gap-1.5">
-        <button id="btnUndoMove" onclick="undoLastTurn()" class="flex-1 py-1.5 px-2 rounded-xl bg-slate-800 text-slate-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95 disabled:opacity-40">
-          <span>↩</span> <span>Deshacer</span>
+      <!-- CÁPSULA FLOTANTE INFERIOR: JUGADOR -->
+      <div class="px-4 py-1.5">
+        <div class="p-2.5 rounded-2xl bg-[#222832] border border-white/10 flex items-center justify-between shadow-lg">
+          <div class="flex items-center gap-2.5">
+            <div id="playerGameAvatar" class="w-9 h-9 rounded-full bg-[#b86b4b]/20 border border-[#b86b4b]/50 flex items-center justify-center text-[#e6c89c] shadow">
+              <svg class="w-5 h-5 drop-shadow" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+              </svg>
+            </div>
+            <div>
+              <div id="playerGameName" class="text-xs font-black text-white tracking-wide">Emmanuel (Tú)</div>
+              <div class="text-[10px] text-[#e6c89c] font-bold">Blancas • ELO 1250</div>
+            </div>
+          </div>
+          <div id="whiteGraveyard" class="flex items-center gap-1 text-xs"></div>
+        </div>
+      </div>
+
+      <!-- BARRA DE ACCIONES SOFT-3D NEO-TACTILE STUDIO -->
+      <div class="px-4 py-2 flex items-center justify-center gap-2">
+        <button onclick="undoLastMove()" class="btn-neo-pill flex-1">
+          <span>↺</span>
+          <span>DESHACER</span>
         </button>
-        <button id="btnDrawMatch" onclick="offerOrClaimDraw()" class="flex-1 py-1.5 px-2 rounded-xl bg-slate-800 text-slate-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
-          <span>🤝</span> <span>Tablas</span>
+        <button id="coachBtn" onclick="requestCoachHint()" class="btn-neo-pill btn-neo-pill-primary flex-1">
+          <span>💡</span>
+          <span>PISTA</span>
         </button>
-        <button onclick="openVariantRulesModal(currentVar)" class="flex-1 py-1.5 px-2 rounded-xl bg-slate-800 text-amber-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
-          <span>📜</span> <span>Reglas</span>
+        <button onclick="promptLeaveGame()" class="btn-neo-pill flex-1">
+          <span>🏳️</span>
+          <span>RENDIRSE</span>
+        </button>
+        <button onclick="openModal('modalSettings')" class="btn-neo-pill flex-1">
+          <span>⚙️</span>
+          <span>AJUSTES</span>
         </button>
       </div>
 
-      <!-- Barra de Estado / Turno / Pista -->
-      <footer class="bg-slate-900/90 border-t border-slate-800 px-4 py-2.5 text-center">
-        <div id="infoText" class="text-xs font-bold text-amber-300 tracking-wide">
+      <!-- BARRA DE ESTADO / TURNO -->
+      <footer class="bg-[#1c2026]/95 border-t border-white/10 px-4 py-2 text-center">
+        <div id="infoText" class="text-xs font-bold text-[#e6c89c] tracking-wide">
           ⚪ Tu turno: Toca una ficha blanca para mover
         </div>
-        <div id="aiThinkingHud" class="text-[10px] text-slate-500 font-medium mt-0.5">
+        <div id="aiThinkingHud" class="text-[10px] text-slate-400 font-medium mt-0.5">
           Motor heurístico listo
         </div>
       </footer>
@@ -1399,47 +1567,33 @@
 
 
     <!-- ========================================================
-         MODAL: MESAS DE DESAFÍO IA (MONEDAS VIRTUALES OFFLINE)
+         MODAL: SALAS CON APUESTAS
          ======================================================== -->
     <div id="modalBetRooms" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
       <div class="bg-slate-900 border border-amber-500/60 rounded-3xl max-w-sm w-full p-5 text-center shadow-2xl relative">
         <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3 text-left">
           <div class="flex items-center gap-2">
-            <span class="text-2xl">🏆</span>
+            <span class="text-2xl">💰</span>
             <div>
-              <h3 class="text-sm font-black text-white">Mesas de Desafío IA</h3>
-              <p class="text-[10px] text-slate-400">Recompensas virtuales • 100% Offline</p>
+              <h3 class="text-sm font-black text-white">Salas con Apuesta</h3>
+              <p class="text-[10px] text-slate-400">Escrow Protegido con Supabase</p>
             </div>
           </div>
           <button onclick="closeModal('modalBetRooms')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
         </div>
 
         <div class="space-y-2.5 text-left mb-4">
-          <div onclick="startMatchWithBet(currentVar, 0)" class="p-3 rounded-2xl bg-slate-950 border border-cyan-500/40 hover:border-cyan-400 flex items-center justify-between cursor-pointer active:scale-98 transition">
-            <div class="flex items-center gap-3">
-              <span class="text-2xl">🎓</span>
-              <div>
-                <div class="text-xs font-black text-white">Práctica Libre</div>
-                <div class="text-[10px] text-slate-400 font-medium">Sin riesgo de monedas • Permite Deshacer</div>
-              </div>
-            </div>
-            <div class="text-right">
-              <div class="text-xs font-black text-cyan-300 font-mono">0 🪙</div>
-              <span class="text-[9px] bg-cyan-500 text-slate-950 px-2 py-0.5 rounded font-black">ENTRENAR</span>
-            </div>
-          </div>
-
           <div onclick="startMatchWithBet(currentVar, 50)" class="p-3.5 rounded-2xl bg-slate-950 border border-amber-500/40 hover:border-amber-400 flex items-center justify-between cursor-pointer active:scale-98 transition">
             <div class="flex items-center gap-3">
               <span class="text-2xl">🥉</span>
               <div>
                 <div class="text-xs font-black text-white">Mesa Taberna</div>
-                <div class="text-[10px] text-slate-400 font-medium">Inscripción virtual: 50 🪙</div>
+                <div class="text-[10px] text-slate-400 font-medium">Entrada: 50 🪙</div>
               </div>
             </div>
             <div class="text-right">
-              <div class="text-xs font-black text-emerald-400 font-mono">Premio: 100 🪙</div>
-              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">JUGAR</span>
+              <div class="text-xs font-black text-emerald-400 font-mono">Premio: 90 🪙</div><div class="text-[9px] text-slate-400 font-medium">Pozo 100 🪙 (Comisión 10%)</div>
+              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">ENTRAR</span>
             </div>
           </div>
 
@@ -1448,12 +1602,12 @@
               <span class="text-2xl">🥈</span>
               <div>
                 <div class="text-xs font-black text-white">Mesa Club Real</div>
-                <div class="text-[10px] text-slate-400 font-medium">Inscripción virtual: 100 🪙</div>
+                <div class="text-[10px] text-slate-400 font-medium">Entrada: 100 🪙</div>
               </div>
             </div>
             <div class="text-right">
-              <div class="text-xs font-black text-emerald-400 font-mono">Premio: 200 🪙</div>
-              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">JUGAR</span>
+              <div class="text-xs font-black text-emerald-400 font-mono">Premio: 180 🪙</div><div class="text-[9px] text-slate-400 font-medium">Pozo 200 🪙 (Comisión 10%)</div>
+              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">ENTRAR</span>
             </div>
           </div>
 
@@ -1462,12 +1616,12 @@
               <span class="text-2xl">🥇</span>
               <div>
                 <div class="text-xs font-black text-white">Mesa Gran Maestro</div>
-                <div class="text-[10px] text-slate-400 font-medium">Inscripción virtual: 500 🪙</div>
+                <div class="text-[10px] text-slate-400 font-medium">Entrada: 500 🪙</div>
               </div>
             </div>
             <div class="text-right">
-              <div class="text-xs font-black text-emerald-400 font-mono">Premio: 1,000 🪙</div>
-              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">JUGAR</span>
+              <div class="text-xs font-black text-emerald-400 font-mono">Premio: 900 🪙</div><div class="text-[9px] text-slate-400 font-medium">Pozo 1.000 🪙 (Comisión 10%)</div>
+              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">ENTRAR</span>
             </div>
           </div>
         </div>
@@ -1557,16 +1711,6 @@
             </button>
           </div>
 
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="font-bold text-white">Vibración Háptica</div>
-              <div class="text-[10px] text-slate-400">Respuesta táctil en capturas y coronas</div>
-            </div>
-            <button id="settingHapticsBtn" onclick="toggleHapticsSetting()" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs">
-              ACTIVO
-            </button>
-          </div>
-
           <div>
             <div class="font-bold text-white mb-2">Dificultad de la IA</div>
             <div class="grid grid-cols-4 gap-1.5">
@@ -1576,77 +1720,10 @@
               <button onclick="setAiDiff('master')" id="btnDiffMaster" class="py-2 rounded-xl bg-slate-800 text-slate-300 text-[10px] font-bold">Némesis</button>
             </div>
           </div>
-
-          <button onclick="closeModal('modalSettings'); openModal('modalPrivacyPolicy');" class="w-full py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-amber-400 font-bold text-xs hover:bg-slate-800 transition">
-            🔒 Ver Política de Privacidad Offline
-          </button>
         </div>
 
-        <button onclick="closeModal('modalSettings')" class="w-full mt-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition">
+        <button onclick="closeModal('modalSettings')" class="w-full mt-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition">
           Listo
-        </button>
-      </div>
-    </div>
-
-
-    <!-- ========================================================
-         MODAL: POLÍTICA DE PRIVACIDAD (100% OFFLINE)
-         ======================================================== -->
-    <div id="modalPrivacyPolicy" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl max-w-sm w-full p-5 text-left shadow-2xl relative max-h-[82vh] flex flex-col">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
-          <div class="flex items-center gap-2">
-            <span class="text-xl">🔒</span>
-            <h3 class="text-sm font-black text-white">Política de Privacidad</h3>
-          </div>
-          <button onclick="closeModal('modalPrivacyPolicy')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
-        </div>
-
-        <div class="space-y-3 text-xs text-slate-300 overflow-y-auto pr-1 leading-relaxed">
-          <p class="px-2.5 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 font-bold text-[11px]">
-            100% Offline-First • Cero Recopilación de Datos
-          </p>
-          <p>
-            <strong>Damas del Mundo</strong> funciona íntegramente en tu dispositivo sin acceso a internet, sin servidores remotos, sin anuncios y sin rastreadores.
-          </p>
-          <p>
-            Tu apodo local opcional, ELO de práctica, monedas virtuales, tema visual y avance en la Academia se almacenan exclusivamente en tu dispositivo (<code>localStorage</code>) y nunca se envían ni comparten con terceros.
-          </p>
-          <p>
-            No existen compras con dinero real ni apuestas reales. Puedes restablecer o borrar tus datos locales en cualquier momento desde tu Perfil o los ajustes de Android.
-          </p>
-        </div>
-
-        <button onclick="closeModal('modalPrivacyPolicy')" class="w-full mt-4 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs transition">
-          Entendido
-        </button>
-      </div>
-    </div>
-
-
-    <!-- ========================================================
-         MODAL: REGLAMENTO OFICIAL DE LA VARIANTE
-         ======================================================== -->
-    <div id="modalVariantRules" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="bg-slate-900 border border-amber-500/50 rounded-3xl max-w-sm w-full p-5 text-left shadow-2xl relative max-h-[84vh] flex flex-col">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
-          <div class="flex items-center gap-2">
-            <span id="rulesModalFlag" class="text-2xl">🇪🇸</span>
-            <div>
-              <h3 id="rulesModalTitle" class="text-sm font-black text-white">Damas Españolas (8x8)</h3>
-              <p id="rulesModalSubtitle" class="text-[10px] text-amber-400 font-bold">Reglamento Oficial Certificado</p>
-            </div>
-          </div>
-          <button onclick="closeModal('modalVariantRules')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
-        </div>
-
-        <div id="rulesModalSelector" class="flex gap-1.5 overflow-x-auto pb-2 mb-2 text-[10px] font-bold"></div>
-
-        <div id="rulesModalBullets" class="space-y-2 text-xs text-slate-200 overflow-y-auto pr-1 leading-relaxed">
-        </div>
-
-        <button onclick="closeModal('modalVariantRules')" class="w-full mt-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs transition">
-          Entendido
         </button>
       </div>
     </div>
@@ -1663,10 +1740,14 @@
         <h2 id="victoryHeading" class="text-xl font-black text-amber-400 tracking-tight">¡VICTORIA ÉPICA!</h2>
         <p id="victorySub" class="text-xs text-slate-300 mt-1 mb-4 leading-relaxed">Has derrotado al rival con maestría táctica.</p>
 
-        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 mb-4 grid grid-cols-3 gap-2 text-center text-xs">
+        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 mb-4 grid grid-cols-4 gap-1 text-center text-xs">
           <div>
-            <div class="text-[9px] text-slate-400 font-bold uppercase">Recompensa</div>
-            <div id="victoryPrize" class="text-sm font-black text-amber-400 font-mono mt-0.5">+100 🪙</div>
+            <div class="text-[9px] text-slate-400 font-bold uppercase">Premio Neto</div>
+            <div id="victoryPrize" class="text-sm font-black text-amber-400 font-mono mt-0.5">+90 🪙</div>
+          </div>
+          <div>
+            <div class="text-[9px] text-slate-400 font-bold uppercase">Comisión Casa</div>
+            <div id="victoryRake" class="text-xs font-bold text-slate-400 font-mono mt-0.5">10 🪙 (10%)</div>
           </div>
           <div>
             <div class="text-[9px] text-slate-400 font-bold uppercase">ELO</div>
@@ -1698,7 +1779,7 @@
         <div class="text-3xl mb-2">⚠️</div>
         <h3 class="text-sm font-black text-white">¿Abandonar la Partida?</h3>
         <p id="leaveModalDesc" class="text-xs text-slate-400 mt-1 mb-4 leading-relaxed">
-          Si abandonas ahora, la partida contra la IA se registrará como retirada.
+          Ya se han descontado las 50 🪙 de entrada. Si abandonas ahora, se registrará como rendición y perderás la partida.
         </p>
         <div class="flex gap-2">
           <button onclick="confirmLeaveGame()" class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs">
@@ -1714,10 +1795,12 @@
   </div>
 
   <script>
-    // --- ESTADO GLOBAL DEL JUGADOR (100% OFFLINE) ---
+    // --- ESTADO GLOBAL DEL JUGADOR ---
     let currentUser = {
       isAuth: false,
-      name: 'Maestro Local',
+      name: 'Invitado',
+      email: 'invitado@damas.local',
+      isGuest: true,
       elo: 1250,
       coins: 1000,
       wins: 0,
@@ -1727,13 +1810,13 @@
 
     let currentMatchBet = 50;
     let isPassAndPlay = false;
+    let boardHistory = [];
     let currentScreen = 'screenAuth';
     let currentVar = 'spanish';
     let aiDifficulty = 'hard';
     let activeTheme = 'wood';
     let soundEnabled = true;
     let huffingEnabled = false;
-    let hapticsEnabled = true;
     let isAcademyMode = false;
     let currentAcademyLessonIdx = 0;
     let currentAcademyLesson = null;
@@ -2354,7 +2437,6 @@
       closeModal('modalAcademy');
       closeModal('modalLessonCompleted');
 
-      if (typeof aiSearchToken !== 'undefined') aiSearchToken++;
       isAcademyMode = true;
       isPassAndPlay = false;
       currentAcademyLessonIdx = idx;
@@ -2364,13 +2446,6 @@
 
       currentVar = 'spanish';
       currentMatchBet = 0;
-      if (typeof pendingChain !== 'undefined') pendingChain = null;
-      if (typeof lastMoveMarker !== 'undefined') lastMoveMarker = null;
-      if (typeof coachHintSquares !== 'undefined') coachHintSquares = null;
-      if (typeof huffablePositions !== 'undefined') huffablePositions = [];
-      if (typeof quietHalfMoves !== 'undefined') quietHalfMoves = 0;
-      if (typeof boardHistoryCounts !== 'undefined') boardHistoryCounts = {};
-      if (typeof moveHistoryStack !== 'undefined') moveHistoryStack = [];
 
       // Actualizar Header y rival en screenGame (Ambiente Profesional de Torneo)
       const variantBadge = document.getElementById('gameActiveVariantBadge');
@@ -2381,14 +2456,8 @@
       if (rName) rName.textContent = 'Gran Maestro Némesis';
       const rAvatar = document.getElementById('rivalAvatar');
       if (rAvatar) rAvatar.textContent = '🧙‍♂️';
-      const rSub = document.getElementById('rivalGameElo');
+      const rSub = document.querySelector('#screenGame .text-slate-400.font-medium');
       if (rSub) rSub.textContent = 'Negras • ELO 2550 (Gran Maestro)';
-      const pSub = document.getElementById('playerGameElo');
-      if (pSub) pSub.textContent = `Blancas • ELO ${currentUser.elo}`;
-      const evalEl = document.getElementById('evalScore');
-      if (evalEl) evalEl.textContent = 'Modo Dojo';
-      const hudEl = document.getElementById('aiThinkingHud');
-      if (hudEl) hudEl.textContent = 'Academia Táctica Infinita';
 
       // Mostrar Banner del Dojo de la Academia
       const banner = document.getElementById('academyCoachBanner');
@@ -2428,10 +2497,10 @@
       stats = { moves: 0, caps: 0, kings: 0 };
       capturedWhite = 0;
       capturedBlack = 0;
+      boardHistory = [];
 
       renderBoard();
       updateTurnStatus();
-      if (typeof updateGameActionButtons === 'function') updateGameActionButtons();
       navigateTo('screenGame');
 
       sound.login();
@@ -2450,728 +2519,15 @@
       startAcademyLesson(currentAcademyLessonIdx + 1);
     }
 
-    // === PURE ENGINE START ===
-    const DIAG_DIRS = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
-    const ORTHO_DIRS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-
-    function assertDomain(condition, message) {
-      if (!condition) {
-        throw new Error(`DomainInvariantError: ${message}`);
-      }
-    }
-
     const RULES = {
-      spanish: {
-        id: 'spanish',
-        name: 'Damas Españolas (8x8)',
-        flag: '🇪🇸',
-        size: 8,
-        turkishMove: false,
-        flyingKings: true,
-        pawnCapturesBackward: false,
-        enforceQuantityLaw: true,
-        enforceQualityLaw: true,
-        promoteMidJump: false,
-        pawnCanCaptureKing: true,
-        immediateCaptureRemoval: false,
-        initialElo: 1550,
-        subtitle: 'Reglamento Oficial Español (Tablero 8x8)',
-        desc: 'Damas voladoras de largo alcance sobre tablero artesanal. Captura obligatoria con Ley de Cantidad y Calidad.',
-        bullets: [
-          'Tablero 8x8 en diagonal sobre 32 casillas oscuras (12 fichas por bando).',
-          'Peones avanzan y capturan solo hacia adelante; nunca retroceden.',
-          'Dama voladora: se desplaza y captura a cualquier distancia en diagonal.',
-          'Prohibido coronar a mitad de cadena: la coronación ocurre solo al terminar el turno en la fila final.',
-          'Captura obligatoria bajo Ley de Cantidad (más piezas) y Ley de Calidad (a empate, más Damas).',
-          'Obstáculo turco: las piezas saltadas se retiran al completar toda la cadena.',
-          'Tablas reglamentarias tras 40 jugadas (80 medios turnos) sin capturas ni avance de peón, o triple repetición.'
-        ]
-      },
-      international: {
-        id: 'international',
-        name: 'Damas Internacionales (10x10)',
-        flag: '🌍',
-        size: 10,
-        turkishMove: false,
-        flyingKings: true,
-        pawnCapturesBackward: true,
-        enforceQuantityLaw: true,
-        enforceQualityLaw: false,
-        promoteMidJump: false,
-        pawnCanCaptureKing: true,
-        immediateCaptureRemoval: false,
-        initialElo: 1620,
-        subtitle: 'Reglamento FMJD (Tablero 10x10)',
-        desc: 'Tablero gigante de 100 casillas (20 fichas por bando). Peones comen adelante y atrás; Ley de Cantidad.',
-        bullets: [
-          'Tablero 10x10 en diagonal con 20 fichas por bando.',
-          'Peones avanzan hacia adelante, pero capturan en las 4 diagonales (adelante y atrás).',
-          'Dama voladora de largo alcance en diagonal.',
-          'Ley de Cantidad obligatoria: debes elegir la ruta que capture el mayor número de piezas.',
-          'Sin coronación en pleno salto: solo corona si finaliza el turno en la última fila.'
-        ]
-      },
-      brazilian: {
-        id: 'brazilian',
-        name: 'Damas Brasileñas (8x8)',
-        flag: '🇧🇷',
-        size: 8,
-        turkishMove: false,
-        flyingKings: true,
-        pawnCapturesBackward: true,
-        enforceQuantityLaw: true,
-        enforceQualityLaw: false,
-        promoteMidJump: false,
-        pawnCanCaptureKing: true,
-        immediateCaptureRemoval: false,
-        initialElo: 1560,
-        subtitle: 'Reglamento FMJD en 64 Casillas',
-        desc: 'Reglas internacionales en tablero de 8x8: Dama voladora, peón captura atrás y Ley de Cantidad.',
-        bullets: [
-          'Tablero 8x8 en diagonal con 12 fichas por bando.',
-          'Peones capturan hacia adelante y hacia atrás.',
-          'Dama voladora de largo alcance en las 4 diagonales.',
-          'Captura obligatoria por Ley de Cantidad (máximo número de piezas).'
-        ]
-      },
-      english: {
-        id: 'english',
-        name: 'Checkers / Inglesas (8x8)',
-        flag: '🇬🇧',
-        size: 8,
-        turkishMove: false,
-        flyingKings: false,
-        pawnCapturesBackward: false,
-        enforceQuantityLaw: false,
-        enforceQualityLaw: false,
-        promoteMidJump: false,
-        pawnCanCaptureKing: true,
-        immediateCaptureRemoval: false,
-        initialElo: 1480,
-        subtitle: 'Reglamento Anglo-Americano',
-        desc: 'Reyes de un solo paso en las 4 diagonales; peones solo hacia adelante. Captura obligatoria libre.',
-        bullets: [
-          'Tablero 8x8 en diagonal (12 fichas por bando).',
-          'Peones avanzan y capturan únicamente hacia adelante.',
-          'Reyes (Damas) mueven y capturan un solo paso en las 4 diagonales.',
-          'Captura obligatoria, pero puedes elegir cualquier secuencia válida sin Ley de Cantidad.'
-        ]
-      },
-      russian: {
-        id: 'russian',
-        name: 'Shashki / Rusas (8x8)',
-        flag: '🇷🇺',
-        size: 8,
-        turkishMove: false,
-        flyingKings: true,
-        pawnCapturesBackward: true,
-        enforceQuantityLaw: false,
-        enforceQualityLaw: false,
-        promoteMidJump: true,
-        pawnCanCaptureKing: true,
-        immediateCaptureRemoval: false,
-        initialElo: 1600,
-        subtitle: 'Reglamento Clásico Shashki',
-        desc: 'Dama voladora, peón captura atrás y coronación inmediata en pleno vuelo durante saltos múltiples.',
-        bullets: [
-          'Tablero 8x8 en diagonal (12 fichas por bando).',
-          'Peones capturan hacia adelante y hacia atrás.',
-          'Coronación al vuelo: si un peón pisa la fila de coronación durante un salto múltiple, se convierte en Dama inmediatamente y sigue comiendo como Dama.',
-          'No rige Ley de Cantidad: cualquier cadena completa de captura es válida.'
-        ]
-      },
-      italian: {
-        id: 'italian',
-        name: 'Damas Italianas (8x8)',
-        flag: '🇮🇹',
-        size: 8,
-        turkishMove: false,
-        flyingKings: false,
-        pawnCapturesBackward: false,
-        enforceQuantityLaw: true,
-        enforceQualityLaw: true,
-        promoteMidJump: false,
-        pawnCanCaptureKing: false,
-        immediateCaptureRemoval: false,
-        initialElo: 1520,
-        subtitle: 'Reglamento Oficial Italiano (F.I.D.)',
-        desc: 'Jerarquía estricta: los peones jamás pueden capturar a una Dama. Ley de Cantidad y Calidad.',
-        bullets: [
-          'Tablero 8x8 en diagonal (12 fichas por bando).',
-          'Los peones solo avanzan y capturan hacia adelante, y NUNCA pueden capturar una Dama.',
-          'La Dama mueve y captura a 1 paso en cualquiera de las 4 diagonales.',
-          'Captura obligatoria por Ley de Cantidad y Ley de Calidad.'
-        ]
-      },
-      turkish: {
-        id: 'turkish',
-        name: 'Damas Turcas (8x8)',
-        flag: '🇹🇷',
-        size: 8,
-        turkishMove: true,
-        flyingKings: true,
-        pawnCapturesBackward: false,
-        enforceQuantityLaw: true,
-        enforceQualityLaw: false,
-        promoteMidJump: false,
-        pawnCanCaptureKing: true,
-        immediateCaptureRemoval: true,
-        initialElo: 1580,
-        subtitle: 'Reglamento Ortogonal (Dama)',
-        desc: 'Movimientos rectos (adelante y laterales), Dama voladora ortogonal y retirada inmediata tras cada salto.',
-        bullets: [
-          'Tablero 8x8 usando las 64 casillas en líneas ortogonales (16 fichas por bando en filas 2-3 y 6-7).',
-          'Peones mueven y capturan adelante, izquierda y derecha (nunca atrás).',
-          'Dama voladora ortogonal de largo alcance.',
-          'Retirada inmediata: cada pieza capturada desaparece al instante durante la cadena.'
-        ]
-      }
+      spanish: { id: 'spanish', name: 'Damas Españolas (8x8)', flag: '🇪🇸', size: 8, turkishMove: false },
+      international: { id: 'international', name: 'Damas Internacionales (10x10)', flag: '🌍', size: 10, turkishMove: false },
+      brazilian: { id: 'brazilian', name: 'Damas Brasileñas (8x8)', flag: '🇧🇷', size: 8, turkishMove: false },
+      english: { id: 'english', name: 'Checkers / Inglesas (8x8)', flag: '🇬🇧', size: 8, turkishMove: false },
+      russian: { id: 'russian', name: 'Shashki / Rusas (8x8)', flag: '🇷🇺', size: 8, turkishMove: false },
+      italian: { id: 'italian', name: 'Damas Italianas (8x8)', flag: '🇮🇹', size: 8, turkishMove: false },
+      turkish: { id: 'turkish', name: 'Damas Turcas (8x8)', flag: '🇹🇷', size: 8, turkishMove: true }
     };
-
-    function getRuleConfig(variantId) {
-      const cfg = RULES[variantId];
-      assertDomain(Boolean(cfg), `Variante desconocida: ${variantId}`);
-      return cfg;
-    }
-
-    function createEmptyBoardPure(sz) {
-      assertDomain(sz === 8 || sz === 10, `Tamaño de tablero inválido: ${sz}`);
-      const b = [];
-      for (let r = 0; r < sz; r++) {
-        b.push(new Array(sz).fill(null));
-      }
-      return b;
-    }
-
-    function cloneBoardPure(srcBoard) {
-      assertDomain(Array.isArray(srcBoard) && srcBoard.length > 0, 'Tablero inválido');
-      return srcBoard.map(row => row.map(cell => (cell ? { col: cell.col, king: Boolean(cell.king) } : null)));
-    }
-
-    function createInitialBoardPure(variantId) {
-      const cfg = getRuleConfig(variantId);
-      const sz = cfg.size;
-      const b = createEmptyBoardPure(sz);
-      if (cfg.turkishMove) {
-        fillTurkishRowsPure(b, sz);
-        return b;
-      }
-      const rowsPerSide = sz === 10 ? 4 : 3;
-      fillDiagonalRowsPure(b, sz, rowsPerSide);
-      return b;
-    }
-
-    function fillTurkishRowsPure(b, sz) {
-      for (let r = 1; r <= 2; r++) {
-        for (let c = 0; c < sz; c++) b[r][c] = { col: 'b', king: false };
-      }
-      for (let r = 5; r <= 6; r++) {
-        for (let c = 0; c < sz; c++) b[r][c] = { col: 'w', king: false };
-      }
-    }
-
-    function fillDiagonalRowsPure(b, sz, rowsPerSide) {
-      for (let r = 0; r < sz; r++) {
-        fillDiagonalRowForRankPure(b, sz, rowsPerSide, r);
-      }
-    }
-
-    function fillDiagonalRowForRankPure(b, sz, rowsPerSide, r) {
-      const isBlackRank = r < rowsPerSide;
-      const isWhiteRank = r >= sz - rowsPerSide;
-      if (!isBlackRank && !isWhiteRank) return;
-      const col = isBlackRank ? 'b' : 'w';
-      for (let c = 0; c < sz; c++) {
-        if ((r + c) % 2 === 1) b[r][c] = { col, king: false };
-      }
-    }
-
-    function isInsideBoardPure(r, c, sz) {
-      return r >= 0 && r < sz && c >= 0 && c < sz;
-    }
-
-    function isPlayableSquarePure(r, c, cfg) {
-      if (!isInsideBoardPure(r, c, cfg.size)) return false;
-      if (cfg.turkishMove) return true;
-      return (r + c) % 2 === 1;
-    }
-
-    function getPromoRowPure(cfg, col) {
-      return col === 'w' ? 0 : cfg.size - 1;
-    }
-
-    function getPawnCaptureDirsPure(cfg, col) {
-      const fwd = col === 'w' ? -1 : 1;
-      if (cfg.turkishMove) return [[fwd, 0], [0, -1], [0, 1]];
-      if (cfg.pawnCapturesBackward) return DIAG_DIRS;
-      return [[fwd, -1], [fwd, 1]];
-    }
-
-    function getSimpleDirsPure(cfg, col, isKing) {
-      if (cfg.turkishMove) {
-        const fwd = col === 'w' ? -1 : 1;
-        return isKing ? ORTHO_DIRS : [[fwd, 0], [0, -1], [0, 1]];
-      }
-      if (isKing) return DIAG_DIRS;
-      const fwd = col === 'w' ? -1 : 1;
-      return [[fwd, -1], [fwd, 1]];
-    }
-
-    function isCoordCapturedPure(r, c, captured) {
-      for (let i = 0; i < captured.length; i++) {
-        if (captured[i].r === r && captured[i].c === c) return true;
-      }
-      return false;
-    }
-
-    function occupantDuringJumpPure(b, cfg, origR, origC, r, c, captured) {
-      if (r === origR && c === origC) return null;
-      if (cfg.immediateCaptureRemoval && isCoordCapturedPure(r, c, captured)) return null;
-      return b[r][c];
-    }
-
-    function isEmptyDuringJumpPure(b, cfg, origR, origC, r, c, captured) {
-      if (!cfg.immediateCaptureRemoval && isCoordCapturedPure(r, c, captured)) return false;
-      return occupantDuringJumpPure(b, cfg, origR, origC, r, c, captured) === null;
-    }
-
-    function canCaptureVictimPure(cfg, attackerKing, victim) {
-      if (!victim) return false;
-      if (!cfg.pawnCanCaptureKing && !attackerKing && victim.king) return false;
-      return true;
-    }
-
-    function tryShortJumpPure(b, cfg, origR, origC, curR, curC, piece, dir, captured, prevDir) {
-      const [dr, dc] = dir;
-      if (cfg.turkishMove && prevDir && dr === -prevDir[0] && dc === -prevDir[1]) return null;
-      const midR = curR + dr;
-      const midC = curC + dc;
-      const landR = curR + dr * 2;
-      const landC = curC + dc * 2;
-      if (!isPlayableSquarePure(landR, landC, cfg)) return null;
-      if (isCoordCapturedPure(midR, midC, captured)) return null;
-      const midOcc = occupantDuringJumpPure(b, cfg, origR, origC, midR, midC, captured);
-      if (!midOcc || midOcc.col === piece.col) return null;
-      if (!canCaptureVictimPure(cfg, piece.king, midOcc)) return null;
-      if (!isEmptyDuringJumpPure(b, cfg, origR, origC, landR, landC, captured)) return null;
-      return {
-        toR: landR,
-        toC: landC,
-        victim: { r: midR, c: midC, king: Boolean(midOcc.king) },
-        dir
-      };
-    }
-
-    function findShortJumpsPure(b, cfg, origR, origC, curR, curC, piece, captured, prevDir) {
-      const dirs = piece.king ? DIAG_DIRS : getPawnCaptureDirsPure(cfg, piece.col);
-      const jumps = [];
-      for (let i = 0; i < dirs.length; i++) {
-        const j = tryShortJumpPure(b, cfg, origR, origC, curR, curC, piece, dirs[i], captured, prevDir);
-        if (j) jumps.push(j);
-      }
-      return jumps;
-    }
-
-    function findFirstEnemyOnRayPure(b, cfg, origR, origC, curR, curC, piece, dir, captured) {
-      const [dr, dc] = dir;
-      let r = curR + dr;
-      let c = curC + dc;
-      while (isPlayableSquarePure(r, c, cfg)) {
-        if (!cfg.immediateCaptureRemoval && isCoordCapturedPure(r, c, captured)) return null;
-        const occ = occupantDuringJumpPure(b, cfg, origR, origC, r, c, captured);
-        if (!occ) {
-          r += dr;
-          c += dc;
-          continue;
-        }
-        if (occ.col === piece.col) return null;
-        return canCaptureVictimPure(cfg, piece.king, occ) ? { r, c, king: Boolean(occ.king) } : null;
-      }
-      return null;
-    }
-
-    function collectKingRayJumpsPure(b, cfg, origR, origC, curR, curC, piece, dir, captured, prevDir, outJumps) {
-      const [dr, dc] = dir;
-      if (cfg.turkishMove && prevDir && dr === -prevDir[0] && dc === -prevDir[1]) return;
-      const victim = findFirstEnemyOnRayPure(b, cfg, origR, origC, curR, curC, piece, dir, captured);
-      if (!victim) return;
-      let lr = victim.r + dr;
-      let lc = victim.c + dc;
-      while (isPlayableSquarePure(lr, lc, cfg)) {
-        if (!isEmptyDuringJumpPure(b, cfg, origR, origC, lr, lc, captured)) break;
-        outJumps.push({ toR: lr, toC: lc, victim, dir });
-        lr += dr;
-        lc += dc;
-      }
-    }
-
-    function findFlyingKingJumpsPure(b, cfg, origR, origC, curR, curC, piece, captured, prevDir) {
-      const dirs = cfg.turkishMove ? ORTHO_DIRS : DIAG_DIRS;
-      const jumps = [];
-      for (let i = 0; i < dirs.length; i++) {
-        collectKingRayJumpsPure(b, cfg, origR, origC, curR, curC, piece, dirs[i], captured, prevDir, jumps);
-      }
-      return jumps;
-    }
-
-    function countCapturedKingsPure(captured) {
-      let n = 0;
-      for (let i = 0; i < captured.length; i++) {
-        if (captured[i].king) n++;
-      }
-      return n;
-    }
-
-    function expandCapturesPure(b, cfg, origR, origC, curR, curC, piece, startedAsKing, stepPath, captured, results, prevDir) {
-      const shouldPromoteMid = cfg.promoteMidJump && !piece.king && captured.length > 0 && curR === getPromoRowPure(cfg, piece.col);
-      if (shouldPromoteMid) {
-        const promotedPiece = { col: piece.col, king: true };
-        expandCapturesPure(b, cfg, origR, origC, curR, curC, promotedPiece, startedAsKing, stepPath, captured, results, prevDir);
-        return;
-      }
-      const nextJumps = (piece.king && cfg.flyingKings)
-        ? findFlyingKingJumpsPure(b, cfg, origR, origC, curR, curC, piece, captured, prevDir)
-        : findShortJumpsPure(b, cfg, origR, origC, curR, curC, piece, captured, prevDir);
-      if (nextJumps.length === 0) {
-        if (captured.length === 0) return;
-        const promoRow = getPromoRowPure(cfg, piece.col);
-        results.push({
-          fromR: origR,
-          fromC: origC,
-          toR: curR,
-          toC: curC,
-          stepPath,
-          captures: captured,
-          capturedKingsCount: countCapturedKingsPure(captured),
-          promotesToKing: piece.king || curR === promoRow,
-          wasKing: startedAsKing
-        });
-        return;
-      }
-      for (let i = 0; i < nextJumps.length; i++) {
-        const j = nextJumps[i];
-        expandCapturesPure(
-          b,
-          cfg,
-          origR,
-          origC,
-          j.toR,
-          j.toC,
-          piece,
-          startedAsKing,
-          [...stepPath, { r: j.toR, c: j.toC }],
-          [...captured, j.victim],
-          results,
-          j.dir
-        );
-      }
-    }
-
-    function isBetterCaptureMovePure(mv, maxQ, maxQual, cfg) {
-      if (mv.captures.length !== maxQ) return mv.captures.length > maxQ;
-      if (!cfg.enforceQualityLaw) return false;
-      return mv.capturedKingsCount > maxQual;
-    }
-
-    function matchesCaptureLawPure(mv, maxQ, maxQual, cfg) {
-      if (mv.captures.length !== maxQ) return false;
-      if (!cfg.enforceQualityLaw) return true;
-      return mv.capturedKingsCount === maxQual;
-    }
-
-    function filterByQuantityAndQualityLawPure(captures, cfg) {
-      assertDomain(Array.isArray(captures) && captures.length > 0, 'Capturas vacías al filtrar');
-      if (!cfg.enforceQuantityLaw) return captures;
-      let maxQ = 0;
-      let maxQual = 0;
-      for (let i = 0; i < captures.length; i++) {
-        if (isBetterCaptureMovePure(captures[i], maxQ, maxQual, cfg)) {
-          maxQ = captures[i].captures.length;
-          maxQual = captures[i].capturedKingsCount;
-        }
-      }
-      const filtered = [];
-      for (let i = 0; i < captures.length; i++) {
-        if (matchesCaptureLawPure(captures[i], maxQ, maxQual, cfg)) filtered.push(captures[i]);
-      }
-      assertDomain(filtered.length > 0, 'Filtro Cantidad/Calidad dejó 0 jugadas');
-      return filtered;
-    }
-
-    function collectSimpleSlidingMovesPure(b, cfg, r, c, piece, dir, outMoves) {
-      const [dr, dc] = dir;
-      const promoRow = getPromoRowPure(cfg, piece.col);
-      let step = 1;
-      while (step < cfg.size) {
-        const nr = r + dr * step;
-        const nc = c + dc * step;
-        if (!isPlayableSquarePure(nr, nc, cfg) || b[nr][nc]) break;
-        outMoves.push({
-          fromR: r,
-          fromC: c,
-          toR: nr,
-          toC: nc,
-          stepPath: [{ r: nr, c: nc }],
-          captures: [],
-          capturedKingsCount: 0,
-          promotesToKing: piece.king || nr === promoRow,
-          wasKing: Boolean(piece.king)
-        });
-        if (!piece.king || !cfg.flyingKings) break;
-        step++;
-      }
-    }
-
-    function collectSimpleMovesForSquarePure(b, cfg, r, c, turnCol, outMoves) {
-      const p = b[r][c];
-      if (!p || p.col !== turnCol) return;
-      const dirs = getSimpleDirsPure(cfg, p.col, p.king);
-      for (let i = 0; i < dirs.length; i++) {
-        collectSimpleSlidingMovesPure(b, cfg, r, c, p, dirs[i], outMoves);
-      }
-    }
-
-    function collectCapturesForSquarePure(b, cfg, r, c, turnCol, outCaptures) {
-      const p = b[r][c];
-      if (!p || p.col !== turnCol) return;
-      expandCapturesPure(b, cfg, r, c, r, c, p, Boolean(p.king), [], [], outCaptures, null);
-    }
-
-    function collectUniqueCaptureOriginsPure(captures) {
-      const seen = {};
-      const coords = [];
-      for (let i = 0; i < captures.length; i++) {
-        const key = `${captures[i].fromR},${captures[i].fromC}`;
-        if (!seen[key]) {
-          seen[key] = true;
-          coords.push({ r: captures[i].fromR, c: captures[i].fromC });
-        }
-      }
-      return coords;
-    }
-
-    function generateCapturesOnlyPure(b, cfg, turnCol) {
-      const sz = cfg.size;
-      const rawCaps = [];
-      for (let r = 0; r < sz; r++) {
-        for (let c = 0; c < sz; c++) collectCapturesForSquarePure(b, cfg, r, c, turnCol, rawCaps);
-      }
-      if (rawCaps.length === 0) return [];
-      return filterByQuantityAndQualityLawPure(rawCaps, cfg);
-    }
-
-    function generateLegalMovesPure(b, cfg, turnCol, huffingActive) {
-      assertDomain(turnCol === 'w' || turnCol === 'b', `Turno inválido: ${turnCol}`);
-      const filteredCaptures = generateCapturesOnlyPure(b, cfg, turnCol);
-      const mandatoryCaptureFroms = collectUniqueCaptureOriginsPure(filteredCaptures);
-      if (filteredCaptures.length > 0 && !huffingActive) {
-        return { moves: filteredCaptures, hasMandatoryCapture: true, mandatoryCaptureFroms };
-      }
-      const simpleMoves = [];
-      const sz = cfg.size;
-      for (let r = 0; r < sz; r++) {
-        for (let c = 0; c < sz; c++) collectSimpleMovesForSquarePure(b, cfg, r, c, turnCol, simpleMoves);
-      }
-      const all = filteredCaptures.length > 0 ? [...filteredCaptures, ...simpleMoves] : simpleMoves;
-      return {
-        moves: all,
-        hasMandatoryCapture: filteredCaptures.length > 0,
-        mandatoryCaptureFroms
-      };
-    }
-
-    function applyFullMovePure(b, cfg, move) {
-      const nextBoard = cloneBoardPure(b);
-      const p = nextBoard[move.fromR][move.fromC];
-      assertDomain(Boolean(p), `No existe pieza en origen (${move.fromR},${move.fromC})`);
-      nextBoard[move.fromR][move.fromC] = null;
-      for (let i = 0; i < move.captures.length; i++) {
-        const cap = move.captures[i];
-        nextBoard[cap.r][cap.c] = null;
-      }
-      const finalKing = Boolean(p.king) || Boolean(move.promotesToKing) || move.toR === getPromoRowPure(cfg, p.col);
-      nextBoard[move.toR][move.toC] = { col: p.col, king: finalKing };
-      const promotedNow = !move.wasKing && finalKing;
-      const resetsQuietClock = move.captures.length > 0 || !move.wasKing;
-      return {
-        nextBoard,
-        capturedCount: move.captures.length,
-        promotedNow,
-        resetsQuietClock
-      };
-    }
-
-    function computeHuffableTargetsPure(mandatoryFroms, chosenMove) {
-      if (!mandatoryFroms || mandatoryFroms.length === 0 || chosenMove.captures.length > 0) return [];
-      const result = [];
-      for (let i = 0; i < mandatoryFroms.length; i++) {
-        const orig = mandatoryFroms[i];
-        const movedThisOne = orig.r === chosenMove.fromR && orig.c === chosenMove.fromC;
-        result.push(movedThisOne ? { r: chosenMove.toR, c: chosenMove.toC } : { r: orig.r, c: orig.c });
-      }
-      return result;
-    }
-
-    function computeBoardSignaturePure(b, cfg, turnCol) {
-      const rows = [];
-      const sz = cfg.size;
-      for (let r = 0; r < sz; r++) {
-        let rowStr = '';
-        for (let c = 0; c < sz; c++) {
-          const p = b[r][c];
-          rowStr += p ? (p.col === 'w' ? (p.king ? 'W' : 'w') : (p.king ? 'B' : 'b')) : '.';
-        }
-        rows.push(rowStr);
-      }
-      return `${turnCol}|${cfg.id}|${rows.join('/')}`;
-    }
-
-    function scoreSinglePiecePure(b, cfg, r, c) {
-      const p = b[r][c];
-      if (!p) return 0;
-      const sz = cfg.size;
-      const kingVal = cfg.flyingKings ? 360 : 250;
-      let val = p.king ? kingVal : 100;
-      const centerDist = Math.abs(r - (sz - 1) / 2) + Math.abs(c - (sz - 1) / 2);
-      val += Math.round((sz - centerDist) * 4);
-      if (!p.king) {
-        const advance = p.col === 'w' ? (sz - 1 - r) : r;
-        val += advance * 6;
-        const onHomeRow = (p.col === 'w' && r === sz - 1) || (p.col === 'b' && r === 0);
-        if (onHomeRow) val += 14;
-      }
-      return p.col === 'w' ? val : -val;
-    }
-
-    function evaluateBoardPure(b, cfg, perspectiveCol) {
-      const sz = cfg.size;
-      let whiteScore = 0;
-      for (let r = 0; r < sz; r++) {
-        for (let c = 0; c < sz; c++) whiteScore += scoreSinglePiecePure(b, cfg, r, c);
-      }
-      return perspectiveCol === 'w' ? whiteScore : -whiteScore;
-    }
-
-    function moveOrderWeightPure(mv, cfg) {
-      let score = mv.captures.length * 1000 + mv.capturedKingsCount * 450;
-      if (mv.promotesToKing && !mv.wasKing) score += 600;
-      const center = (cfg.size - 1) / 2;
-      score += Math.round(30 - (Math.abs(mv.toR - center) + Math.abs(mv.toC - center)) * 4);
-      return score;
-    }
-
-    function sortMovesForSearchPure(moves, cfg) {
-      return [...moves].sort((a, b) => moveOrderWeightPure(b, cfg) - moveOrderWeightPure(a, cfg));
-    }
-
-    function quiescencePure(b, cfg, turnCol, alpha, beta, qDepth) {
-      const standPat = evaluateBoardPure(b, cfg, turnCol);
-      if (standPat >= beta) return beta;
-      let a = standPat > alpha ? standPat : alpha;
-      if (qDepth <= 0) return a;
-      const caps = generateCapturesOnlyPure(b, cfg, turnCol);
-      if (caps.length === 0) return a;
-      const ordered = sortMovesForSearchPure(caps, cfg);
-      const opp = turnCol === 'w' ? 'b' : 'w';
-      for (let i = 0; i < ordered.length; i++) {
-        const { nextBoard } = applyFullMovePure(b, cfg, ordered[i]);
-        const score = -quiescencePure(nextBoard, cfg, opp, -beta, -a, qDepth - 1);
-        if (score >= beta) return beta;
-        if (score > a) a = score;
-      }
-      return a;
-    }
-
-    function negamaxPure(b, cfg, turnCol, depth, alpha, beta, huffingActive, useQuiescence) {
-      if (depth <= 0) {
-        return useQuiescence
-          ? quiescencePure(b, cfg, turnCol, alpha, beta, 4)
-          : evaluateBoardPure(b, cfg, turnCol);
-      }
-      const { moves } = generateLegalMovesPure(b, cfg, turnCol, huffingActive);
-      if (moves.length === 0) return -10000 - depth;
-      const ordered = sortMovesForSearchPure(moves, cfg);
-      const opp = turnCol === 'w' ? 'b' : 'w';
-      let a = alpha;
-      let best = -999999;
-      for (let i = 0; i < ordered.length; i++) {
-        const { nextBoard } = applyFullMovePure(b, cfg, ordered[i]);
-        const val = -negamaxPure(nextBoard, cfg, opp, depth - 1, -beta, -a, huffingActive, useQuiescence);
-        if (val > best) best = val;
-        if (val > a) a = val;
-        if (a >= beta) break;
-      }
-      return best;
-    }
-
-    function pickBestHuffTargetPure(b, huffablePositions) {
-      if (!huffablePositions || huffablePositions.length === 0) return null;
-      let best = null;
-      let bestWeight = -1;
-      for (let i = 0; i < huffablePositions.length; i++) {
-        const pos = huffablePositions[i];
-        const p = b[pos.r][pos.c];
-        if (!p) continue;
-        const w = p.king ? 3 : 1;
-        if (w > bestWeight) {
-          bestWeight = w;
-          best = { r: pos.r, c: pos.c };
-        }
-      }
-      return best;
-    }
-
-    function classifyMoveReasonPure(move, cfg) {
-      if (move.captures.length > 1) return 'capture_multi';
-      if (move.captures.length === 1) return 'capture';
-      if (move.promotesToKing && !move.wasKing) return 'promotion';
-      const center = (cfg.size - 1) / 2;
-      const dist = Math.abs(move.toR - center) + Math.abs(move.toC - center);
-      if (dist <= 2.5) return 'center';
-      return 'positional';
-    }
-
-    function getDifficultyParamsPure(difficulty, cfg) {
-      if (difficulty === 'easy') return { depth: 1, useQuiescence: false, pickTop2Chance: 0.45 };
-      if (difficulty === 'medium') return { depth: 2, useQuiescence: false, pickTop2Chance: 0 };
-      if (difficulty === 'master') return { depth: cfg.size === 10 ? 4 : 5, useQuiescence: true, pickTop2Chance: 0 };
-      return { depth: cfg.size === 10 ? 3 : 4, useQuiescence: true, pickTop2Chance: 0 };
-    }
-
-    function findBestAiDecisionPure(b, cfg, turnCol, difficulty, huffingActive, huffablePositions, rngFn) {
-      let searchBoard = cloneBoardPure(b);
-      let huffTarget = null;
-      if (huffingActive && huffablePositions && huffablePositions.length > 0) {
-        huffTarget = pickBestHuffTargetPure(searchBoard, huffablePositions);
-        if (huffTarget) searchBoard[huffTarget.r][huffTarget.c] = null;
-      }
-      const { moves } = generateLegalMovesPure(searchBoard, cfg, turnCol, huffingActive);
-      if (moves.length === 0) {
-        return { huffTarget, move: null, scoreWhiteCp: turnCol === 'w' ? -10000 : 10000, reason: 'none' };
-      }
-      const params = getDifficultyParamsPure(difficulty, cfg);
-      const ordered = sortMovesForSearchPure(moves, cfg);
-      const opp = turnCol === 'w' ? 'b' : 'w';
-      const scored = [];
-      for (let i = 0; i < ordered.length; i++) {
-        const mv = ordered[i];
-        const { nextBoard } = applyFullMovePure(searchBoard, cfg, mv);
-        const val = -negamaxPure(nextBoard, cfg, opp, params.depth - 1, -999999, 999999, huffingActive, params.useQuiescence);
-        scored.push({ move: mv, val });
-      }
-      scored.sort((x, y) => y.val - x.val);
-      const rand = typeof rngFn === 'function' ? rngFn() : Math.random();
-      const useSecond = params.pickTop2Chance > 0 && scored.length > 1 && rand < params.pickTop2Chance;
-      const chosen = useSecond ? scored[1] : scored[0];
-      const scoreWhiteCp = turnCol === 'w' ? chosen.val : -chosen.val;
-      return {
-        huffTarget,
-        move: chosen.move,
-        scoreWhiteCp,
-        reason: classifyMoveReasonPure(chosen.move, cfg)
-      };
-    }
-    // === PURE ENGINE END ===
 
     function navigateTo(screenId) {
       if (screenId !== 'screenGame') {
@@ -3192,9 +2548,6 @@
         updateDockHighlight(screenId);
       }
 
-      if (screenId === 'screenLobby') {
-        refreshResumeMatchBanner();
-      }
       window.scrollTo(0, 0);
     }
 
@@ -3221,36 +2574,6 @@
       document.getElementById(id)?.classList.add('hidden');
     }
 
-    function openVariantRulesModal(variantId) {
-      const cfg = RULES[variantId] || RULES[currentVar] || RULES.spanish;
-      const flagEl = document.getElementById('rulesModalFlag');
-      const titleEl = document.getElementById('rulesModalTitle');
-      const subEl = document.getElementById('rulesModalSubtitle');
-      const selEl = document.getElementById('rulesModalSelector');
-      const listEl = document.getElementById('rulesModalBullets');
-      if (flagEl) flagEl.textContent = cfg.flag;
-      if (titleEl) titleEl.textContent = cfg.name;
-      if (subEl) subEl.textContent = cfg.subtitle;
-      if (selEl) {
-        selEl.innerHTML = Object.values(RULES).map(r => {
-          const active = r.id === cfg.id;
-          const cls = active
-            ? 'px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-black whitespace-nowrap'
-            : 'px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap';
-          return `<button onclick="openVariantRulesModal('${r.id}')" class="${cls}">${r.flag} ${r.id.charAt(0).toUpperCase() + r.id.slice(1)}</button>`;
-        }).join('');
-      }
-      if (listEl) {
-        listEl.innerHTML = cfg.bullets.map(b => `
-          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-2">
-            <span class="text-amber-400 font-black mt-0.5">•</span>
-            <span>${b}</span>
-          </div>
-        `).join('');
-      }
-      openModal('modalVariantRules');
-    }
-
     function showCoinToast(msg) {
       const toast = document.getElementById('coinToast');
       const msgEl = document.getElementById('coinToastMsg');
@@ -3264,56 +2587,37 @@
       }, 2600);
     }
 
-    function getAiDisplayElo(variantId) {
-      const cfg = RULES[variantId] || RULES.spanish;
-      if (aiDifficulty === 'easy') return 950;
-      if (aiDifficulty === 'medium') return 1250;
-      if (aiDifficulty === 'master') return cfg.initialElo + 300;
-      return cfg.initialElo;
-    }
-
-    // --- INICIO DE PARTIDA DE DESAFÍO CON MONEDAS VIRTUALES / PRÁCTICA ---
+    // --- INICIO DE PARTIDA CON DEDUCCIÓN INMEDIATA Y PERSISTENTE ---
     function startMatchWithBet(variantId, bet = 50) {
       closeModal('modalBetRooms');
 
-      if (bet > 0 && currentUser.coins < bet) {
-        showCoinToast(`🪙 Necesitas ${bet} 🪙 virtuales. Prueba Práctica Libre (0🪙) o reclama tu bono.`);
+      if (currentUser.coins < bet) {
+        alert(`🪙 Saldo insuficiente. Tienes ${currentUser.coins} monedas y necesitas ${bet} 🪙 para entrar a esta partida.`);
         navigateTo('screenShop');
         return;
       }
 
-      aiSearchToken++;
       isPassAndPlay = false;
       isAcademyMode = false;
       document.getElementById('academyCoachBanner')?.classList.add('hidden');
       document.getElementById('rivalName').textContent = 'IA Némesis';
       document.getElementById('rivalAvatar').textContent = '🤖';
 
-      if (bet > 0) {
-        currentUser.coins -= bet;
-        saveUserToStorage();
-        showCoinToast(`-${bet} 🪙 Inscripción al desafío (${bet * 2} 🪙 en juego)`);
-        sound.capture();
-      } else {
-        showCoinToast('🎓 Práctica Libre iniciada • Sin riesgo de monedas');
-        sound.login();
-      }
+      // DEDUCCIÓN REAL DE MONEDAS
+      currentUser.coins -= bet;
       currentMatchBet = bet;
+      saveUserToStorage();
       updateUserDisplays();
 
+      showCoinToast(`-${bet} 🪙 Cuota de mesa descontada`);
+      sound.capture();
+
       currentVar = variantId || currentVar;
-      saveSettingsToStorage();
       initGame(currentVar);
-      const rSub = document.getElementById('rivalGameElo');
-      if (rSub) rSub.textContent = `Negras • ELO ${getAiDisplayElo(currentVar)}`;
-      const pSub = document.getElementById('playerGameElo');
-      if (pSub) pSub.textContent = `Blancas • ELO ${currentUser.elo}`;
-      saveActiveMatchToStorage();
       navigateTo('screenGame');
     }
 
     function startPassAndPlay(bet = 0) {
-      aiSearchToken++;
       isPassAndPlay = true;
       isAcademyMode = false;
       document.getElementById('academyCoachBanner')?.classList.add('hidden');
@@ -3321,15 +2625,10 @@
       initGame(currentVar);
       document.getElementById('rivalName').textContent = 'Jugador 2 (Negras)';
       document.getElementById('rivalAvatar').textContent = '👥';
-      const rSub = document.getElementById('rivalGameElo');
-      if (rSub) rSub.textContent = 'Negras • Modo Local 1v1';
-      const pSub = document.getElementById('playerGameElo');
-      if (pSub) pSub.textContent = `Blancas • Jugador 1`;
-      saveActiveMatchToStorage();
       navigateTo('screenGame');
     }
 
-    // --- ABANDONO DE PARTIDA ---
+    // --- ABANDONO DE PARTIDA (PENA DE SALDO Y DERROTA) ---
     function promptLeaveGame() {
       const desc = document.getElementById('leaveModalDesc');
       if (desc) {
@@ -3337,10 +2636,8 @@
           desc.textContent = 'Estás en una lección interactiva de la Academia. Puedes volver al menú principal en cualquier momento sin penalizaciones.';
         } else if (isPassAndPlay) {
           desc.textContent = 'Partida amistosa local entre 2 personas. Puedes salir al lobby en cualquier momento sin penalización de monedas ni de ELO.';
-        } else if (currentMatchBet === 0) {
-          desc.textContent = 'Partida de Práctica Libre (0 🪙). Puedes volver al menú cuando quieras sin perder ELO.';
         } else {
-          desc.textContent = `Has inscrito ${currentMatchBet} 🪙 virtuales en este desafío. Si sales ahora, se registrará como retirada (-15 ELO).`;
+          desc.textContent = `Ya se han descontado las ${currentMatchBet} 🪙 de entrada. Si abandonas ahora, se considerará derrota por rendición (-15 ELO).`;
         }
       }
       openModal('modalLeaveGame');
@@ -3348,38 +2645,67 @@
 
     function confirmLeaveGame() {
       stopAcademyObservation(true);
-      aiSearchToken++;
       closeModal('modalLeaveGame');
-      clearActiveMatchFromStorage();
 
-      if (!isPassAndPlay && !isAcademyMode && currentMatchBet > 0) {
+      if (!isPassAndPlay && !isAcademyMode) {
+        // Se penaliza con derrota y pérdida de ELO solo contra la IA en partidas con apuesta
         currentUser.losses = (currentUser.losses || 0) + 1;
         currentUser.elo = Math.max(800, currentUser.elo - 15);
         saveUserToStorage();
         updateUserDisplays();
-        showCoinToast(`Has finalizado el desafío (Saldo: ${currentUser.coins.toLocaleString()} 🪙)`);
+        showCoinToast(`Has abandonado la partida (Saldo: ${currentUser.coins.toLocaleString()} 🪙)`);
       } else {
-        showCoinToast(isAcademyMode ? 'Lección finalizada' : 'Partida finalizada sin penalización');
+        showCoinToast(isAcademyMode ? 'Lección finalizada' : 'Partida local finalizada');
       }
 
       sound.click();
       navigateTo('screenLobby');
     }
 
-    // --- PERFIL LOCAL OFFLINE-FIRST ---
-    function handleAuthAction() {
-      const rawNick = (document.getElementById('localNicknameInput')?.value || '').trim();
-      const nickname = rawNick.length > 0 ? rawNick.slice(0, 24) : 'Maestro Local';
+    // --- AUTENTICACIÓN & LOGIN ---
+    function toggleEmailAuthForm() {
+      document.getElementById('emailFormContainer')?.classList.toggle('hidden');
+    }
 
-      currentUser = {
-        isAuth: true,
-        name: nickname,
-        elo: 1250,
-        coins: 1000,
-        wins: 0,
-        losses: 0,
-        captures: 0
-      };
+    function handleAuthAction(type) {
+      if (type === 'guest') {
+        currentUser = {
+          isAuth: true,
+          name: 'Invitado',
+          email: 'invitado@damas.local',
+          isGuest: true,
+          elo: 1250,
+          coins: 1000,
+          wins: 0,
+          losses: 0,
+          captures: 0
+        };
+      } else if (type === 'google') {
+        currentUser = {
+          isAuth: true,
+          name: 'Emmanuel',
+          email: 'emmanuelcamachod@gmail.com',
+          isGuest: false,
+          elo: 1300,
+          coins: 2500,
+          wins: 5,
+          losses: 1,
+          captures: 42
+        };
+      } else {
+        const email = document.getElementById('authEmailInput')?.value || 'jugador@correo.com';
+        currentUser = {
+          isAuth: true,
+          name: email.split('@')[0],
+          email: email,
+          isGuest: false,
+          elo: 1280,
+          coins: 1500,
+          wins: 2,
+          losses: 0,
+          captures: 18
+        };
+      }
 
       saveUserToStorage();
       updateUserDisplays();
@@ -3397,9 +2723,6 @@
     function logoutToSplash() {
       currentUser.isAuth = false;
       localStorage.removeItem('gem_v4_auth_user');
-      clearActiveMatchFromStorage();
-      const nickInput = document.getElementById('localNicknameInput');
-      if (nickInput) nickInput.value = '';
       navigateTo('screenAuth');
     }
 
@@ -3413,43 +2736,14 @@
       try {
         const saved = localStorage.getItem('gem_v4_auth_user');
         if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed && typeof parsed === 'object') {
-            currentUser = {
-              isAuth: Boolean(parsed.isAuth),
-              name: parsed.name || 'Maestro Local',
-              elo: Number(parsed.elo) || 1250,
-              coins: Number.isFinite(Number(parsed.coins)) ? Number(parsed.coins) : 1000,
-              wins: Number(parsed.wins) || 0,
-              losses: Number(parsed.losses) || 0,
-              captures: Number(parsed.captures) || 0
-            };
-          }
+          currentUser = JSON.parse(saved);
         }
       } catch (e) {}
     }
 
-    function computeUserLevel() {
-      const wins = currentUser.wins || 0;
-      const academyDone = Object.keys(academyProgress || {}).length;
-      return 1 + Math.floor((wins + academyDone) / 3);
-    }
-
-    function computeWinRatePercent() {
-      const wins = currentUser.wins || 0;
-      const losses = currentUser.losses || 0;
-      const total = wins + losses;
-      if (total === 0) return 0;
-      return Math.round((wins / total) * 100);
-    }
-
     function updateUserDisplays() {
-      const lvl = computeUserLevel();
-      const winRate = computeWinRatePercent();
       const nameEl = document.getElementById('lobbyUserName');
       if (nameEl) nameEl.textContent = currentUser.name;
-      const lvlLobby = document.getElementById('lobbyUserLevel');
-      if (lvlLobby) lvlLobby.textContent = `Nv.${lvl}`;
       const coinsEl = document.getElementById('lobbyCoinsCount');
       if (coinsEl) coinsEl.textContent = currentUser.coins.toLocaleString();
       const shopCoins = document.getElementById('shopCoinsDisplay');
@@ -3461,23 +2755,17 @@
       const profName = document.getElementById('profileName');
       if (profName) profName.textContent = currentUser.name;
       const profEmail = document.getElementById('profileEmail');
-      if (profEmail) profEmail.textContent = 'Perfil Local • 100% Offline';
+      if (profEmail) profEmail.textContent = currentUser.email;
       const profElo = document.getElementById('profileElo');
       if (profElo) profElo.textContent = currentUser.elo;
-      const profLvl = document.getElementById('profileLevel');
-      if (profLvl) profLvl.textContent = String(lvl);
       const profWins = document.getElementById('profileWins');
       if (profWins) profWins.textContent = currentUser.wins || 0;
       const profLosses = document.getElementById('profileLosses');
       if (profLosses) profLosses.textContent = currentUser.losses || 0;
-      const profWinRate = document.getElementById('profileWinRate');
-      if (profWinRate) profWinRate.textContent = `${winRate}%`;
       const profCaps = document.getElementById('profileCaptures');
       if (profCaps) profCaps.textContent = currentUser.captures || 0;
       const pGameName = document.getElementById('playerGameName');
       if (pGameName) pGameName.textContent = `${currentUser.name} (Tú)`;
-      const pGameElo = document.getElementById('playerGameElo');
-      if (pGameElo && !isPassAndPlay) pGameElo.textContent = `Blancas • ELO ${currentUser.elo}`;
     }
 
     function getTodayDateKey() {
@@ -3506,7 +2794,8 @@
 
     function updateDailyRewardUI() {
       const claimed = hasClaimedDailyRewardToday();
-
+      
+      // 1. Actualizar Banner del Lobby
       const lBanner = document.getElementById('lobbyDailyBanner');
       const lIcon = document.getElementById('lobbyDailyIcon');
       const lTitle = document.getElementById('lobbyDailyTitle');
@@ -3523,6 +2812,7 @@
         if (lBtn) { lBtn.textContent = 'Listo ✓'; lBtn.className = 'px-3 py-1.5 bg-slate-800 text-slate-400 font-bold text-xs rounded-xl'; }
       }
 
+      // 2. Actualizar Banner de la Tienda (Coins)
       const sBanner = document.getElementById('shopDailyBanner');
       const sIcon = document.getElementById('shopDailyIcon');
       const sTitle = document.getElementById('shopDailyTitle');
@@ -3537,6 +2827,7 @@
         if (sBtn) { sBtn.textContent = 'Reclamado ✓'; sBtn.className = 'px-3 py-1 bg-slate-800 text-slate-400 text-xs font-bold rounded-lg'; }
       }
 
+      // 3. Actualizar Botón del Modal
       const mBtn = document.getElementById('modalClaimDailyBtn');
       if (mBtn && claimed) {
         mBtn.textContent = '✓ YA RECLAMADO HOY (VUELVE MAÑANA)';
@@ -3566,14 +2857,12 @@
       showCoinToast('+250 🪙 ¡Recompensa Diaria Reclamada!');
     }
 
-    function triggerHaptic(kind = 'tap') {
-      if (!hapticsEnabled) return;
-      if (typeof navigator === 'undefined' || typeof navigator.vibrate !== 'function') return;
-      try {
-        if (kind === 'king') navigator.vibrate([22, 35, 35]);
-        else if (kind === 'capture') navigator.vibrate(18);
-        else navigator.vibrate(8);
-      } catch (e) {}
+    function buyCoins(amount, price) {
+      currentUser.coins += amount;
+      saveUserToStorage();
+      updateUserDisplays();
+      sound.victory();
+      showCoinToast(`+${amount.toLocaleString()} 🪙 Compradas con éxito`);
     }
 
     // --- SONIDOS (WEB AUDIO API) ---
@@ -3633,137 +2922,57 @@
     let stats = { moves: 0, caps: 0, kings: 0 };
     let capturedWhite = 0;
     let capturedBlack = 0;
-    let pendingChain = null;
-    let lastMoveMarker = null;
-    let coachHintSquares = null;
-    let huffablePositions = [];
-    let quietHalfMoves = 0;
-    let boardHistoryCounts = {};
-    let moveHistoryStack = [];
-    let aiSearchToken = 0;
-
-    function recordCurrentBoardSignature() {
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const sig = computeBoardSignaturePure(board, cfg, turn);
-      boardHistoryCounts[sig] = (boardHistoryCounts[sig] || 0) + 1;
-      return boardHistoryCounts[sig];
-    }
-
-    function updateEvalHud(whiteCp) {
-      const el = document.getElementById('evalScore');
-      if (!el) return;
-      const pawns = (whiteCp / 100).toFixed(1);
-      el.textContent = `${whiteCp >= 0 ? '+' : ''}${pawns} cp`;
-    }
-
-    function updateGameActionButtons() {
-      const undoBtn = document.getElementById('btnUndoMove');
-      const drawBtn = document.getElementById('btnDrawMatch');
-      const canUndo = !isAcademyMode && !isPassAndPlay && currentMatchBet === 0 && (moveHistoryStack.length > 0 || pendingChain !== null);
-      if (undoBtn) {
-        undoBtn.disabled = !canUndo;
-        undoBtn.title = currentMatchBet > 0 ? 'Deshacer no disponible en desafíos con monedas' : 'Deshacer última jugada';
-      }
-      if (drawBtn) {
-        drawBtn.disabled = isAcademyMode;
-      }
-    }
 
     function initGame(variantId) {
       currentVar = variantId || currentVar;
-      const cfg = RULES[currentVar] || RULES.spanish;
-      aiSearchToken++;
+      const cfg = RULES[currentVar];
+      const sz = cfg.size;
 
-      const badgeEl = document.getElementById('gameActiveVariantBadge');
-      if (badgeEl) badgeEl.textContent = `${cfg.flag} ${cfg.name}`;
-      const heroTitleEl = document.getElementById('heroActiveVariantTitle');
-      if (heroTitleEl) heroTitleEl.textContent = `${cfg.flag} ${cfg.name}`;
-      const heroDescEl = document.getElementById('heroActiveVariantDesc');
-      if (heroDescEl && cfg.desc) heroDescEl.textContent = cfg.desc;
+      document.getElementById('gameActiveVariantBadge').textContent = `${cfg.flag} ${cfg.name}`;
+      document.getElementById('heroActiveVariantTitle').textContent = `${cfg.flag} ${cfg.name}`;
 
-      board = createInitialBoardPure(cfg.id);
+      board = [];
+      for (let r = 0; r < sz; r++) {
+        board[r] = [];
+        for (let c = 0; c < sz; c++) board[r][c] = null;
+      }
+
+      if (cfg.turkishMove) {
+        for (let r = 1; r <= 2; r++) {
+          for (let c = 0; c < sz; c++) board[r][c] = { col: 'b', king: false };
+        }
+        for (let r = 5; r <= 6; r++) {
+          for (let c = 0; c < sz; c++) board[r][c] = { col: 'w', king: false };
+        }
+      } else {
+        const rowsOfPieces = sz === 10 ? 4 : 3;
+        for (let r = 0; r < rowsOfPieces; r++) {
+          for (let c = 0; c < sz; c++) {
+            if ((r + c) % 2 === 1) board[r][c] = { col: 'b', king: false };
+          }
+        }
+        for (let r = sz - rowsOfPieces; r < sz; r++) {
+          for (let c = 0; c < sz; c++) {
+            if ((r + c) % 2 === 1) board[r][c] = { col: 'w', king: false };
+          }
+        }
+      }
+
       turn = 'w';
       selectedCell = null;
-      legalMoves = [];
       stats = { moves: 0, caps: 0, kings: 0 };
       capturedWhite = 0;
       capturedBlack = 0;
-      pendingChain = null;
-      lastMoveMarker = null;
-      coachHintSquares = null;
-      huffablePositions = [];
-      quietHalfMoves = 0;
-      boardHistoryCounts = {};
-      moveHistoryStack = [];
-      recordCurrentBoardSignature();
-
-      updateEvalHud(0);
-      const hudEl = document.getElementById('aiThinkingHud');
-      if (hudEl) hudEl.textContent = `Motor Alfa-Beta (${aiDifficulty.toUpperCase()}) listo`;
+      boardHistory = [];
 
       renderBoard();
       updateTurnStatus();
-      updateGameActionButtons();
-    }
-
-    function animatePieceMove(fromR, fromC, toR, toC, piece) {
-      if (!piece) return;
-      const overlay = document.getElementById('boardAnimationOverlay');
-      if (!overlay) return;
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const sz = cfg.size || 8;
-      const stepPct = 100 / sz;
-
-      const ghost = document.createElement('div');
-      ghost.className = 'piece-glide-ghost';
-      ghost.style.width = `${stepPct}%`;
-      ghost.style.height = `${stepPct}%`;
-      ghost.style.transform = `translate3d(${fromC * 100}%, ${fromR * 100}%, 0)`;
-
-      const colorClass = (piece.col === 'w' ? 'piece-white' : 'piece-black')
-        + (piece.king ? (piece.col === 'w' ? ' piece-king-white' : ' piece-king-black') : '');
-      const ribClass = piece.col === 'w' ? 'inner-rib-white' : 'inner-rib-black';
-      const crownSvg = piece.king
-        ? `<svg class="w-4 h-4 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]" viewBox="0 0 24 24" fill="currentColor" style="color: var(--king-accent);"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>`
-        : '';
-
-      ghost.innerHTML = `<div class="w-[82%] h-[82%] rounded-full flex items-center justify-center piece-token ${colorClass}"><div class="inner-rib ${ribClass}">${crownSvg}</div></div>`;
-      overlay.appendChild(ghost);
-      ghost.getBoundingClientRect();
-      ghost.style.transform = `translate3d(${toC * 100}%, ${toR * 100}%, 0)`;
-
-      setTimeout(() => {
-        if (ghost && ghost.parentNode) ghost.parentNode.removeChild(ghost);
-      }, 220);
-    }
-
-    function isCoordHighlightedInList(list, r, c) {
-      if (!list || list.length === 0) return false;
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].r === r && list[i].c === c) return true;
-      }
-      return false;
-    }
-
-    function getAcademyHintFlags(r, c) {
-      if (!isAcademyMode || currentAcademyLessonIdx === null) return { hintOrigin: false, hintTarget: false };
-      const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
-      if (!les) return { hintOrigin: false, hintTarget: false };
-      const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
-      const currentStep = path[academyCurrentStepIndex];
-      const prevStep = academyCurrentStepIndex > 0 ? path[academyCurrentStepIndex - 1] : les.expectedFrom;
-      const currentLvl = les.levelNum || (les.id + 1);
-      const autoTarget = currentLvl <= 25;
-      return {
-        hintOrigin: !selectedCell && prevStep && prevStep.r === r && prevStep.c === c,
-        hintTarget: (Boolean(selectedCell) || autoTarget) && currentStep && currentStep.r === r && currentStep.c === c
-      };
     }
 
     function renderBoard() {
       const grid = document.getElementById('boardGrid');
       if (!grid) return;
-      const cfg = RULES[currentVar] || RULES.spanish;
+      const cfg = RULES[currentVar];
       const sz = cfg.size;
 
       grid.style.gridTemplateColumns = `repeat(${sz}, minmax(0, 1fr))`;
@@ -3771,22 +2980,29 @@
 
       for (let r = 0; r < sz; r++) {
         for (let c = 0; c < sz; c++) {
-          const isDark = cfg.turkishMove ? ((r + c) % 2 === 1) : ((r + c) % 2 === 1);
+          const isDark = (r + c) % 2 === 1;
           const isSel = selectedCell && selectedCell.r === r && selectedCell.c === c;
-          const isTgt = (selectedCell || pendingChain) && legalMoves.some(m => m.toR === r && m.toC === c);
-          const { hintOrigin, hintTarget } = getAcademyHintFlags(r, c);
-          const isLastFrom = !isAcademyMode && lastMoveMarker && lastMoveMarker.fromR === r && lastMoveMarker.fromC === c;
-          const isLastTo = !isAcademyMode && lastMoveMarker && lastMoveMarker.toR === r && lastMoveMarker.toC === c;
-          const isCoach = coachHintSquares && ((coachHintSquares.fromR === r && coachHintSquares.fromC === c) || (coachHintSquares.toR === r && coachHintSquares.toC === c));
-          const isHuffTarget = !isAcademyMode && huffingEnabled && isCoordHighlightedInList(huffablePositions, r, c);
-          const isPendingCap = !isAcademyMode && pendingChain && isCoordHighlightedInList(pendingChain.capturedPositions, r, c);
+          const isTgt = selectedCell && legalMoves.some(m => m.toR === r && m.toC === c);
+
+          let hintOrigin = false;
+          let hintTarget = false;
+          if (isAcademyMode && currentAcademyLessonIdx !== null) {
+            const les = currentAcademyLesson || getAcademyLesson(currentAcademyLessonIdx);
+            if (les) {
+              const path = les.path || (les.expectedTo ? [les.expectedTo[0]] : []);
+              const currentStep = path[academyCurrentStepIndex];
+              const prevStep = academyCurrentStepIndex > 0 ? path[academyCurrentStepIndex - 1] : les.expectedFrom;
+
+              const currentLvl = (les.levelNum || (les.id + 1));
+              const autoTarget = currentLvl <= 25; // Asistencia visual inicial
+
+              hintOrigin = !selectedCell && prevStep && prevStep.r === r && prevStep.c === c;
+              hintTarget = (!!selectedCell || autoTarget) && currentStep && currentStep.r === r && currentStep.c === c;
+            }
+          }
 
           const cell = document.createElement('div');
           let base = isDark ? 'board-cell-dark' : 'board-cell-light';
-          if (isLastFrom) base += ' board-cell-last-from';
-          if (isLastTo) base += ' board-cell-last-to';
-          if (isCoach) base += ' board-cell-coach';
-          if (isHuffTarget) base += ' board-cell-huff';
           if (isTgt) base += ' board-cell-target';
           if (hintOrigin) base += ' board-cell-hint-origin';
           if (hintTarget) base += ' board-cell-hint-target';
@@ -3801,9 +3017,8 @@
             if (p.king) {
               colorClass += p.col === 'w' ? ' piece-king-white' : ' piece-king-black';
             }
-            const selClass = isSel ? ' piece-selected' : '';
-            const capPendingClass = isPendingCap ? ' piece-captured-pending' : '';
-            token.className = `w-[82%] h-[82%] rounded-full flex items-center justify-center piece-token cursor-pointer ${colorClass}${selClass}${capPendingClass}`;
+            const selClass = isSel ? 'piece-selected' : '';
+            token.className = `w-[82%] h-[82%] rounded-full flex items-center justify-center piece-token cursor-pointer ${colorClass} ${selClass}`;
 
             const rib = document.createElement('div');
             rib.className = `inner-rib ${p.col === 'w' ? 'inner-rib-white' : 'inner-rib-black'}`;
@@ -3821,47 +3036,10 @@
         }
       }
 
-      document.getElementById('whiteGraveyard').innerHTML = capturedWhite > 0
+      document.getElementById('whiteGraveyard').innerHTML = capturedWhite > 0 
         ? `<span class="text-emerald-400 font-mono font-bold">+${capturedWhite}</span> <span>♛</span>` : '';
-      document.getElementById('blackGraveyard').innerHTML = capturedBlack > 0
+      document.getElementById('blackGraveyard').innerHTML = capturedBlack > 0 
         ? `<span class="text-red-400 font-mono font-bold">+${capturedBlack}</span> <span>♛</span>` : '';
-    }
-
-    function pushUndoSnapshotIfEligible() {
-      if (isAcademyMode || isPassAndPlay || currentMatchBet !== 0) return;
-      moveHistoryStack.push({
-        board: cloneBoardPure(board),
-        turn,
-        stats: { ...stats },
-        capturedWhite,
-        capturedBlack,
-        lastMoveMarker: lastMoveMarker ? { ...lastMoveMarker } : null,
-        huffablePositions: huffablePositions.map(p => ({ ...p })),
-        quietHalfMoves,
-        boardHistoryCounts: { ...boardHistoryCounts }
-      });
-      if (moveHistoryStack.length > 30) moveHistoryStack.shift();
-    }
-
-    function buildStepTargetsFromCandidates(curR, curC, stepIdx, candidates) {
-      const seen = {};
-      const list = [];
-      for (let i = 0; i < candidates.length; i++) {
-        const mv = candidates[i];
-        const step = mv.stepPath[stepIdx];
-        if (!step) continue;
-        const key = `${step.r},${step.c}`;
-        if (seen[key]) continue;
-        seen[key] = true;
-        list.push({
-          fromR: curR,
-          fromC: curC,
-          toR: step.r,
-          toC: step.c,
-          cap: mv.captures[stepIdx] ? { r: mv.captures[stepIdx].r, c: mv.captures[stepIdx].c } : null
-        });
-      }
-      return list;
     }
 
     function handleCellClick(r, c) {
@@ -3871,41 +3049,6 @@
       }
       if (!isPassAndPlay && turn !== 'w') return;
 
-      if (isAcademyMode) {
-        handleAcademyCellClick(r, c);
-        return;
-      }
-
-      coachHintSquares = null;
-
-      if (pendingChain) {
-        const nextStep = legalMoves.find(m => m.toR === r && m.toC === c);
-        if (nextStep) {
-          executeHumanChainStep(r, c);
-        } else {
-          sound.click();
-          showCoinToast('⚡ Debes completar la cadena de captura obligatoria.');
-        }
-        return;
-      }
-
-      if (huffingEnabled && isCoordHighlightedInList(huffablePositions, r, c)) {
-        applyPlayerHuff(r, c);
-        return;
-      }
-
-      if (selectedCell) {
-        const target = legalMoves.find(m => m.toR === r && m.toC === c);
-        if (target) {
-          startHumanMoveTo(r, c);
-          return;
-        }
-      }
-
-      selectHumanPieceAt(r, c);
-    }
-
-    function handleAcademyCellClick(r, c) {
       const p = board[r][c];
       if (selectedCell) {
         const move = legalMoves.find(m => m.toR === r && m.toC === c);
@@ -3921,6 +3064,7 @@
       if (p && p.col === turn) {
         const candidateMoves = getMovesForPiece(r, c);
         const { anyCapture } = getCaptureStatusForColor(turn);
+
         if (anyCapture) {
           const capMoves = candidateMoves.filter(m => m.cap);
           if (capMoves.length === 0) {
@@ -3937,239 +3081,13 @@
           selectedCell = { r, c };
           legalMoves = candidateMoves;
         }
+
         sound.click();
         renderBoard();
       } else {
         selectedCell = null;
         legalMoves = [];
         renderBoard();
-      }
-    }
-
-    function applyPlayerHuff(r, c) {
-      const victim = board[r][c];
-      if (!victim || victim.col === turn) return;
-      board[r][c] = null;
-      if (turn === 'w') {
-        capturedWhite++;
-        stats.caps++;
-        currentUser.captures = (currentUser.captures || 0) + 1;
-        saveUserToStorage();
-        updateUserDisplays();
-      } else {
-        capturedBlack++;
-      }
-      huffablePositions = [];
-      quietHalfMoves = 0;
-      selectedCell = null;
-      legalMoves = [];
-      sound.capture();
-      triggerHaptic('capture');
-      saveActiveMatchToStorage();
-      renderBoard();
-      updateTurnStatus();
-      updateGameActionButtons();
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const opp = turn === 'w' ? 'b' : 'w';
-      const oppLegal = generateLegalMovesPure(board, cfg, opp, huffingEnabled);
-      if (oppLegal.moves.length === 0) {
-        if (isPassAndPlay) {
-          const winner = turn === 'w' ? 'Jugador 1 (Blancas)' : 'Jugador 2 (Negras)';
-          endGame(`¡VICTORIA DE ${turn === 'w' ? 'BLANCAS' : 'NEGRAS'}!`, `${winner} aplicó el soplido definitivo.`, 'pvp_win');
-        } else {
-          endGame('¡VICTORIA ÉPICA!', 'Has eliminado la última resistencia rival mediante el soplido.', 'win');
-        }
-        return;
-      }
-      showCoinToast('💨 ¡Soplido aplicado! Pieza infractora retirada del tablero.');
-    }
-
-    function selectHumanPieceAt(r, c) {
-      const p = board[r][c];
-      if (!p || p.col !== turn) {
-        selectedCell = null;
-        legalMoves = [];
-        renderBoard();
-        return;
-      }
-
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const gen = generateLegalMovesPure(board, cfg, turn, huffingEnabled);
-      const pieceMoves = gen.moves.filter(m => m.fromR === r && m.fromC === c);
-
-      if (pieceMoves.length === 0) {
-        sound.click();
-        if (gen.hasMandatoryCapture && !huffingEnabled) {
-          showCoinToast('🚨 ¡Captura obligatoria! Elige la ficha que cumpla Ley de Cantidad/Calidad.');
-        } else {
-          showCoinToast('Esta ficha no tiene movimientos legales.');
-        }
-        selectedCell = null;
-        legalMoves = [];
-        renderBoard();
-        return;
-      }
-
-      selectedCell = { r, c };
-      selectedPieceCandidates = pieceMoves;
-      turnStartMandatoryFroms = gen.mandatoryCaptureFroms;
-      legalMoves = buildStepTargetsFromCandidates(r, c, 0, pieceMoves);
-      sound.click();
-      triggerHaptic('tap');
-      renderBoard();
-    }
-
-    let selectedPieceCandidates = [];
-    let turnStartMandatoryFroms = [];
-
-    function startHumanMoveTo(toR, toC) {
-      pushUndoSnapshotIfEligible();
-      const matching = selectedPieceCandidates.filter(m => m.stepPath[0] && m.stepPath[0].r === toR && m.stepPath[0].c === toC);
-      assertDomain(matching.length > 0, `Paso inicial inválido hacia (${toR},${toC})`);
-      const origin = { r: selectedCell.r, c: selectedCell.c };
-      pendingChain = {
-        originR: origin.r,
-        originC: origin.c,
-        curR: origin.r,
-        curC: origin.c,
-        stepIdx: 0,
-        candidates: matching,
-        capturedPositions: [],
-        turnStartMandatoryFroms: [...turnStartMandatoryFroms]
-      };
-      executeHumanChainStep(toR, toC);
-    }
-
-    function executeHumanChainStep(toR, toC) {
-      assertDomain(Boolean(pendingChain), 'executeHumanChainStep sin pendingChain');
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const idx = pendingChain.stepIdx;
-      const matching = pendingChain.candidates.filter(m => m.stepPath[idx] && m.stepPath[idx].r === toR && m.stepPath[idx].c === toC);
-      assertDomain(matching.length > 0, `Paso encadenado inválido hacia (${toR},${toC})`);
-
-      const curR = pendingChain.curR;
-      const curC = pendingChain.curC;
-      const movingPiece = board[curR][curC];
-      assertDomain(Boolean(movingPiece), 'Ficha inexistente en paso encadenado');
-
-      animatePieceMove(curR, curC, toR, toC, movingPiece);
-      board[toR][toC] = movingPiece;
-      board[curR][curC] = null;
-
-      const sample = matching[0];
-      const hasCap = sample.captures.length > idx;
-      if (hasCap) {
-        const capPos = sample.captures[idx];
-        pendingChain.capturedPositions.push({ r: capPos.r, c: capPos.c });
-        if (cfg.immediateCaptureRemoval) {
-          board[capPos.r][capPos.c] = null;
-        }
-        sound.capture();
-        triggerHaptic('capture');
-      } else {
-        sound.move();
-        triggerHaptic('tap');
-      }
-
-      if (cfg.promoteMidJump && !movingPiece.king && hasCap && toR === getPromoRowPure(cfg, movingPiece.col)) {
-        movingPiece.king = true;
-        if (movingPiece.col === 'w') stats.kings++;
-        sound.king();
-        triggerHaptic('king');
-      }
-
-      const nextIdx = idx + 1;
-      const remaining = matching.filter(m => m.stepPath.length > nextIdx);
-      if (remaining.length > 0) {
-        pendingChain.curR = toR;
-        pendingChain.curC = toC;
-        pendingChain.stepIdx = nextIdx;
-        pendingChain.candidates = remaining;
-        selectedCell = { r: toR, c: toC };
-        legalMoves = buildStepTargetsFromCandidates(toR, toC, nextIdx, remaining);
-        renderBoard();
-        updateGameActionButtons();
-        showCoinToast(`⚡ ¡Captura encadenada! Elige el siguiente salto (${remaining[0].captures.length} en total).`);
-        return;
-      }
-
-      finalizeHumanTurn(sample);
-    }
-
-    function finalizeHumanTurn(completedMove) {
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const moverCol = turn;
-      const movingPiece = board[completedMove.toR][completedMove.toC];
-
-      for (let i = 0; i < pendingChain.capturedPositions.length; i++) {
-        const pos = pendingChain.capturedPositions[i];
-        board[pos.r][pos.c] = null;
-      }
-
-      if (completedMove.captures.length > 0) {
-        if (moverCol === 'w') {
-          capturedWhite += completedMove.captures.length;
-          stats.caps += completedMove.captures.length;
-          currentUser.captures = (currentUser.captures || 0) + completedMove.captures.length;
-          saveUserToStorage();
-        } else {
-          capturedBlack += completedMove.captures.length;
-        }
-      }
-
-      if (!movingPiece.king && (completedMove.promotesToKing || completedMove.toR === getPromoRowPure(cfg, moverCol))) {
-        movingPiece.king = true;
-        if (moverCol === 'w') stats.kings++;
-        sound.king();
-        triggerHaptic('king');
-      }
-
-      stats.moves++;
-      lastMoveMarker = { fromR: completedMove.fromR, fromC: completedMove.fromC, toR: completedMove.toR, toC: completedMove.toC };
-      huffablePositions = huffingEnabled
-        ? computeHuffableTargetsPure(pendingChain.turnStartMandatoryFroms, completedMove)
-        : [];
-      quietHalfMoves = (completedMove.captures.length > 0 || !completedMove.wasKing) ? 0 : (quietHalfMoves + 1);
-
-      pendingChain = null;
-      selectedCell = null;
-      legalMoves = [];
-
-      const nextTurn = moverCol === 'w' ? 'b' : 'w';
-      turn = nextTurn;
-      const repCount = recordCurrentBoardSignature();
-
-      updateUserDisplays();
-      renderBoard();
-      updateTurnStatus();
-      updateGameActionButtons();
-
-      const whiteScoreCp = evaluateBoardPure(board, cfg, 'w');
-      updateEvalHud(whiteScoreCp);
-
-      if (quietHalfMoves >= 80) {
-        endGame('🤝 TABLAS REGLAMENTARIAS', '40 jugadas completas (80 medios turnos) sin capturas ni avance de peón.', 'draw');
-        return;
-      }
-      if (repCount >= 3) {
-        endGame('🤝 TABLAS POR REPETICIÓN', 'La misma posición se ha repetido 3 veces en el tablero.', 'draw');
-        return;
-      }
-
-      const oppLegal = generateLegalMovesPure(board, cfg, nextTurn, huffingEnabled);
-      if (oppLegal.moves.length === 0) {
-        if (isPassAndPlay) {
-          const winner = moverCol === 'w' ? 'Jugador 1 (Blancas)' : 'Jugador 2 (Negras)';
-          endGame(`¡VICTORIA DE ${moverCol === 'w' ? 'BLANCAS' : 'NEGRAS'}!`, `${winner} ha dejado sin jugadas al rival.`, 'pvp_win');
-        } else {
-          endGame('¡VICTORIA ÉPICA!', 'Has doblegado a la IA Némesis con maestría táctica.', 'win');
-        }
-        return;
-      }
-
-      saveActiveMatchToStorage();
-      if (!isPassAndPlay && turn === 'b') {
-        setTimeout(runAiTurn, 260);
       }
     }
 
@@ -4187,14 +3105,70 @@
       return { anyCapture: false };
     }
 
-    function getAcademySingleStepMoves(r, c) {
+    function getMovesForPiece(r, c) {
       const p = board[r][c];
       if (!p) return [];
       const cfg = RULES[currentVar] || RULES.spanish;
       const sz = cfg.size;
       const moves = [];
-      const isFlying = Boolean(p.king);
 
+      const isFlying = (p.king && (isAcademyMode || currentVar === 'spanish' || currentVar === 'international' || currentVar === 'brazilian' || currentVar === 'russian' || currentVar === 'turkish'));
+
+      if (cfg.turkishMove) {
+        const dirs = p.king 
+          ? [[-1, 0], [1, 0], [0, -1], [0, 1]]
+          : (p.col === 'w' ? [[-1, 0], [0, -1], [0, 1]] : [[1, 0], [0, -1], [0, 1]]);
+        
+        if (isFlying) {
+          for (const [dr, dc] of dirs) {
+            for (let step = 1; step < sz; step++) {
+              const nr = r + dr * step, nc = c + dc * step;
+              if (nr < 0 || nr >= sz || nc < 0 || nc >= sz || board[nr][nc]) break;
+              moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
+            }
+          }
+          for (const [dr, dc] of dirs) {
+            let foundMid = null;
+            for (let step = 1; step < sz; step++) {
+              const mr = r + dr * step, mc = c + dc * step;
+              if (mr < 0 || mr >= sz || mc < 0 || mc >= sz) break;
+              const cellP = board[mr][mc];
+              if (!foundMid) {
+                if (cellP) {
+                  if (cellP.col !== p.col) foundMid = { r: mr, c: mc };
+                  else break;
+                }
+              } else {
+                if (!cellP) {
+                  moves.unshift({ fromR: r, fromC: c, toR: mr, toC: mc, cap: foundMid });
+                } else {
+                  break;
+                }
+              }
+            }
+          }
+        } else {
+          for (const [dr, dc] of dirs) {
+            const nr = r + dr, nc = c + dc;
+            if (nr >= 0 && nr < sz && nc >= 0 && nc < sz && !board[nr][nc]) {
+              moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
+            }
+          }
+          for (const [dr, dc] of dirs) {
+            const midR = r + dr, midC = c + dc;
+            const landR = r + dr * 2, landC = c + dc * 2;
+            if (landR >= 0 && landR < sz && landC >= 0 && landC < sz) {
+              const midP = board[midR][midC];
+              if (midP && midP.col !== p.col && !board[landR][landC]) {
+                moves.unshift({ fromR: r, fromC: c, toR: landR, toC: landC, cap: { r: midR, c: midC } });
+              }
+            }
+          }
+        }
+        return moves;
+      }
+
+      // Variantes diagonales
       if (isFlying) {
         const diagDirs = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
         for (const [dr, dc] of diagDirs) {
@@ -4216,47 +3190,65 @@
                 else break;
               }
             } else {
-              if (!cellP) moves.unshift({ fromR: r, fromC: c, toR: mr, toC: mc, cap: foundMid });
-              else break;
+              if (!cellP) {
+                moves.unshift({ fromR: r, fromC: c, toR: mr, toC: mc, cap: foundMid });
+              } else {
+                break;
+              }
             }
           }
         }
         return moves;
       }
 
-      const dirs = p.col === 'w' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]];
+      // Pieza corta estándar (Peón o Dama corta en Inglesa/Italiana)
+      const dirs = p.king 
+        ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] 
+        : (p.col === 'w' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]);
+
       for (const [dr, dc] of dirs) {
-        const nr = r + dr, nc = c + dc;
+        const nr = r + dr;
+        const nc = c + dc;
         if (nr >= 0 && nr < sz && nc >= 0 && nc < sz && !board[nr][nc]) {
           moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
         }
       }
-      for (const [dr, dc] of dirs) {
+
+      const canCapBackward = p.king || currentVar === 'international' || currentVar === 'brazilian' || currentVar === 'russian';
+      const capDirs = canCapBackward ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] : (p.col === 'w' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]);
+
+      for (const [dr, dc] of capDirs) {
         const midR = r + dr, midC = c + dc;
         const landR = r + dr * 2, landC = c + dc * 2;
         if (landR >= 0 && landR < sz && landC >= 0 && landC < sz) {
           const midP = board[midR][midC];
           if (midP && midP.col !== p.col && !board[landR][landC]) {
+            if (currentVar === 'italian' && !p.king && midP.king) {
+              continue;
+            }
             moves.unshift({ fromR: r, fromC: c, toR: landR, toC: landC, cap: { r: midR, c: midC } });
           }
         }
       }
+
       return moves;
     }
 
-    function getMovesForPiece(r, c) {
-      if (isAcademyMode) return getAcademySingleStepMoves(r, c);
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const gen = generateLegalMovesPure(board, cfg, turn, huffingEnabled);
-      const mine = gen.moves.filter(m => m.fromR === r && m.fromC === c);
-      return buildStepTargetsFromCandidates(r, c, 0, mine);
-    }
-
-    function executeMove(m) {
+        function executeMove(m) {
+      // Snapshot para Deshacer (Undo)
+      try {
+        if (!isAcademyMode) {
+          boardHistory.push({
+            board: JSON.parse(JSON.stringify(board)),
+            turn: turn,
+            stats: { ...stats },
+            capturedWhite: capturedWhite,
+            capturedBlack: capturedBlack
+          });
+          if (boardHistory.length > 40) boardHistory.shift();
+        }
+      } catch (err) {}
       const p = board[m.fromR][m.fromC];
-      if (!p) return;
-      if (!isAcademyMode && !isAcademyObserving) animatePieceMove(m.fromR, m.fromC, m.toR, m.toC, p);
-
       board[m.toR][m.toC] = p;
       board[m.fromR][m.fromC] = null;
 
@@ -4289,6 +3281,7 @@
       if (!isAcademyObserving) stats.moves++;
 
       // BLINDAJE ANTIAUTOCOMPLETADO (Directiva D-01):
+      // En modo demostración/observación solo muta el tablero físico y retorna de inmediato
       if (isAcademyObserving) return;
 
       if (isAcademyMode) {
@@ -4301,6 +3294,7 @@
           if (isCorrectStep) {
             academyCurrentStepIndex++;
             if (academyCurrentStepIndex < path.length) {
+              // Paso intermedio completado con éxito: continuar la cadena
               const nextStep = path[academyCurrentStepIndex];
               showCoinToast(`⚡ ¡Gran golpe! Siguiente salto hacia fila ${nextStep.r + 1}, columna ${nextStep.c + 1}...`);
               selectedCell = { r: m.toR, c: m.toC };
@@ -4310,6 +3304,7 @@
               return;
             }
 
+            // ¡Combinación completada con éxito!
             academyTacticalStreak = (academyTacticalStreak || 0) + 1;
             const streakBonus = Math.min(25, academyTacticalStreak * 2);
             const totalCoinsWon = 15 + streakBonus;
@@ -4338,9 +3333,11 @@
               `;
               sound.victory();
               openModal('modalLessonCompleted');
+              try { confetti({ particleCount: 75, spread: 65, origin: { y: 0.6 } }); } catch(e) {}
             }, 300);
             return;
           } else {
+            // Jugada errónea: reiniciar limpiamente sin trabas ni estados huérfanos
             academyTacticalStreak = 0;
             const streakEl = document.getElementById('academyStreakCount');
             if (streakEl) streakEl.textContent = '0';
@@ -4353,203 +3350,80 @@
         }
         return;
       }
+
+      if (turn === 'w') {
+        turn = 'b';
+        updateTurnStatus();
+        if (!isPassAndPlay) {
+          setTimeout(runAiTurn, 500);
+        } else {
+          if (!hasAnyMoves('b')) {
+            endGame('¡VICTORIA DE BLANCAS!', 'Jugador 1 (Blancas) ha ganado la partida.');
+          }
+        }
+      } else {
+        turn = 'w';
+        updateTurnStatus();
+        if (isPassAndPlay) {
+          if (!hasAnyMoves('w')) {
+            endGame('¡VICTORIA DE NEGRAS!', 'Jugador 2 (Negras) ha ganado la partida.');
+          }
+        }
+      }
+    }
+
+    function hasAnyMoves(col) {
+      const cfg = RULES[currentVar];
+      const sz = cfg.size;
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          if (board[r][c] && board[r][c].col === col && getMovesForPiece(r, c).length > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
     }
 
     function runAiTurn() {
-      if (isPassAndPlay || isAcademyMode || turn !== 'b') return;
-      const token = ++aiSearchToken;
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const hudEl = document.getElementById('aiThinkingHud');
-      if (hudEl) hudEl.textContent = `🤔 IA Némesis (${aiDifficulty.toUpperCase()}) calculando...`;
+      if (isPassAndPlay || turn !== 'b') return;
+      const cfg = RULES[currentVar];
+      const sz = cfg.size;
 
-      setTimeout(() => {
-        if (token !== aiSearchToken || isPassAndPlay || isAcademyMode || turn !== 'b') return;
-
-        if (huffingEnabled && huffablePositions.length > 0) {
-          const previewDecision = findBestAiDecisionPure(board, cfg, 'b', aiDifficulty, huffingEnabled, huffablePositions, Math.random);
-          if (previewDecision.huffTarget) {
-            const ht = previewDecision.huffTarget;
-            if (board[ht.r][ht.c] && board[ht.r][ht.c].col === 'w') {
-              board[ht.r][ht.c] = null;
-              capturedBlack++;
-              quietHalfMoves = 0;
-              sound.capture();
-              triggerHaptic('capture');
-              showCoinToast('💨 IA Némesis aplicó la regla del soplido.');
-            }
+      const allMoves = [];
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          if (board[r][c] && board[r][c].col === 'b') {
+            allMoves.push(...getMovesForPiece(r, c));
           }
         }
+      }
 
-        const genBeforeAi = generateLegalMovesPure(board, cfg, 'b', huffingEnabled);
-        if (genBeforeAi.moves.length === 0) {
-          endGame('¡VICTORIA ÉPICA!', 'Has doblegado a la IA Némesis.', 'win');
-          return;
-        }
-
-        const decision = findBestAiDecisionPure(board, cfg, 'b', aiDifficulty, huffingEnabled, [], Math.random);
-        if (!decision.move) {
-          endGame('¡VICTORIA ÉPICA!', 'Has doblegado a la IA Némesis.', 'win');
-          return;
-        }
-
-        animateAndCommitAiMove(decision, genBeforeAi.mandatoryCaptureFroms, token);
-      }, 180);
-    }
-
-    function animateAndCommitAiMove(decision, mandatoryFroms, token) {
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const mv = decision.move;
-      let curR = mv.fromR;
-      let curC = mv.fromC;
-      const steps = mv.stepPath;
-
-      const runStep = (idx) => {
-        if (token !== aiSearchToken || isPassAndPlay || isAcademyMode) return;
-        const target = steps[idx];
-        const piece = board[curR][curC];
-        if (!piece) return;
-
-        animatePieceMove(curR, curC, target.r, target.c, piece);
-        board[target.r][target.c] = piece;
-        board[curR][curC] = null;
-
-        const hasCap = mv.captures.length > idx;
-        if (hasCap) {
-          if (cfg.immediateCaptureRemoval) board[mv.captures[idx].r][mv.captures[idx].c] = null;
-          sound.capture();
-          triggerHaptic('capture');
-        } else {
-          sound.move();
-        }
-
-        if (cfg.promoteMidJump && !piece.king && hasCap && target.r === getPromoRowPure(cfg, 'b')) {
-          piece.king = true;
-          sound.king();
-          triggerHaptic('king');
-        }
-
-        curR = target.r;
-        curC = target.c;
-
-        if (idx + 1 < steps.length) {
-          renderBoard();
-          setTimeout(() => runStep(idx + 1), 240);
-          return;
-        }
-
-        for (let i = 0; i < mv.captures.length; i++) {
-          board[mv.captures[i].r][mv.captures[i].c] = null;
-        }
-        capturedBlack += mv.captures.length;
-
-        if (!piece.king && (mv.promotesToKing || mv.toR === getPromoRowPure(cfg, 'b'))) {
-          piece.king = true;
-          sound.king();
-          triggerHaptic('king');
-        }
-
-        stats.moves++;
-        lastMoveMarker = { fromR: mv.fromR, fromC: mv.fromC, toR: mv.toR, toC: mv.toC };
-        huffablePositions = huffingEnabled ? computeHuffableTargetsPure(mandatoryFroms, mv) : [];
-        quietHalfMoves = (mv.captures.length > 0 || !mv.wasKing) ? 0 : (quietHalfMoves + 1);
-
-        turn = 'w';
-        const repCount = recordCurrentBoardSignature();
-        updateEvalHud(decision.scoreWhiteCp);
-        const depth = getDifficultyParamsPure(aiDifficulty, cfg).depth;
-        const hudEl = document.getElementById('aiThinkingHud');
-        if (hudEl) hudEl.textContent = `Motor Alfa-Beta (Prof. ${depth}) • Turno listo`;
-
-        renderBoard();
-        updateTurnStatus();
-        updateGameActionButtons();
-
-        if (quietHalfMoves >= 80) {
-          endGame('🤝 TABLAS REGLAMENTARIAS', '40 jugadas completas (80 medios turnos) sin capturas ni avance de peón.', 'draw');
-          return;
-        }
-        if (repCount >= 3) {
-          endGame('🤝 TABLAS POR REPETICIÓN', 'La misma posición se ha repetido 3 veces en el tablero.', 'draw');
-          return;
-        }
-
-        const whiteLegal = generateLegalMovesPure(board, cfg, 'w', huffingEnabled);
-        if (whiteLegal.moves.length === 0) {
-          endGame('DERROTA', 'La IA Némesis ha capturado o bloqueado todas tus fichas.', 'loss');
-          return;
-        }
-
-        saveActiveMatchToStorage();
-      };
-
-      runStep(0);
-    }
-
-    function undoLastTurn() {
-      if (isAcademyMode || isPassAndPlay || currentMatchBet !== 0) {
-        showCoinToast('Deshacer solo está disponible en Práctica Libre (0🪙).');
+      if (allMoves.length === 0) {
+        endGame('¡VICTORIA ÉPICA!', 'Has doblegado a la IA rival.');
         return;
       }
-      if (pendingChain && moveHistoryStack.length === 0) return;
-      if (moveHistoryStack.length === 0) return;
 
-      aiSearchToken++;
-      const snap = moveHistoryStack.pop();
-      board = cloneBoardPure(snap.board);
-      turn = snap.turn;
-      stats = { ...snap.stats };
-      capturedWhite = snap.capturedWhite;
-      capturedBlack = snap.capturedBlack;
-      lastMoveMarker = snap.lastMoveMarker ? { ...snap.lastMoveMarker } : null;
-      huffablePositions = snap.huffablePositions.map(p => ({ ...p }));
-      quietHalfMoves = snap.quietHalfMoves;
-      boardHistoryCounts = { ...snap.boardHistoryCounts };
-      pendingChain = null;
-      selectedCell = null;
-      legalMoves = [];
-      coachHintSquares = null;
-
-      const cfg = RULES[currentVar] || RULES.spanish;
-      updateEvalHud(evaluateBoardPure(board, cfg, 'w'));
-      sound.click();
-      triggerHaptic('tap');
+      allMoves.sort((a, b) => (b.cap ? 1 : 0) - (a.cap ? 1 : 0));
+      executeMove(allMoves[0]);
       renderBoard();
-      updateTurnStatus();
-      updateGameActionButtons();
-      saveActiveMatchToStorage();
-      showCoinToast('↩ Jugada deshecha.');
-    }
 
-    function offerOrClaimDraw() {
-      if (isAcademyMode) {
-        showCoinToast('En la Academia debes completar el reto táctico.');
-        return;
+      let whiteHasMoves = false;
+      for (let r = 0; r < sz; r++) {
+        for (let c = 0; c < sz; c++) {
+          if (board[r][c] && board[r][c].col === 'w' && getMovesForPiece(r, c).length > 0) {
+            whiteHasMoves = true;
+          }
+        }
       }
-      if (isPassAndPlay) {
-        endGame('🤝 TABLAS ACORDADAS', 'Empate amistoso entre Jugador 1 y Jugador 2.', 'draw');
-        return;
-      }
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const sig = computeBoardSignaturePure(board, cfg, turn);
-      if (quietHalfMoves >= 80 || (boardHistoryCounts[sig] || 0) >= 3) {
-        endGame('🤝 TABLAS REGLAMENTARIAS', 'Tablas reclamadas según reglamento oficial.', 'draw');
-        return;
-      }
-      if (stats.moves < 8) {
-        showCoinToast('Juega al menos 8 movimientos antes de ofrecer tablas.');
-        return;
-      }
-      const evalWhite = evaluateBoardPure(board, cfg, 'w');
-      if (evalWhite >= -60) {
-        endGame('🤝 TABLAS ACORDADAS', 'La IA Némesis acepta el empate por posición equilibrada.', 'draw');
-      } else {
-        showCoinToast('🤖 IA Némesis rechaza las tablas: mantiene ventaja decisiva.');
+
+      if (!whiteHasMoves) {
+        endGame('DERROTA', 'La IA rival ha capturado todas tus fichas.');
       }
     }
 
     function updateTurnStatus() {
       const info = document.getElementById('infoText');
-      if (!info) return;
       if (isAcademyMode && currentAcademyLessonIdx !== null) {
         const les = getAcademyLesson(currentAcademyLessonIdx);
         if (les) {
@@ -4557,66 +3431,49 @@
           return;
         }
       }
-      if (huffingEnabled && huffablePositions.length > 0 && (isPassAndPlay || turn === 'w')) {
-        info.innerHTML = '<span class="text-rose-400 font-bold">💨 ¡Soplido disponible!</span> Toca la pieza roja rival o mueve tu ficha';
-        return;
-      }
-      if (pendingChain) {
-        info.innerHTML = '<span class="text-emerald-400 font-bold">⚡ ¡Cadena activa!</span> Completa los saltos obligatorios';
-        return;
-      }
       if (isPassAndPlay) {
-        info.innerHTML = turn === 'w'
-          ? '<span class="text-amber-400 font-bold">⚪ Turno de Blancas (Jugador 1):</span> Toca una ficha blanca para mover'
-          : '<span class="text-sky-400 font-bold">⚫ Turno de Negras (Jugador 2):</span> Toca una ficha negra para mover';
-        return;
+        if (turn === 'w') {
+          info.innerHTML = '<span class="text-amber-400 font-bold">⚪ Turno de Blancas (Jugador 1):</span> Toca una ficha blanca para mover';
+        } else {
+          info.innerHTML = '<span class="text-sky-400 font-bold">⚫ Turno de Negras (Jugador 2):</span> Toca una ficha negra para mover';
+        }
+      } else {
+        if (turn === 'w') {
+          info.innerHTML = '<span class="text-amber-400">⚪ Tu turno:</span> Toca una ficha blanca para mover';
+        } else {
+          info.innerHTML = '<span class="text-slate-400">⚫ Turno de la IA:</span> Calculando mejor movimiento...';
+        }
       }
-      info.innerHTML = turn === 'w'
-        ? '<span class="text-amber-400">⚪ Tu turno:</span> Toca una ficha blanca para mover'
-        : '<span class="text-slate-400">⚫ Turno de la IA:</span> Calculando mejor movimiento...';
     }
 
-    function endGame(title, subtitle, outcome = 'auto') {
-      aiSearchToken++;
-      clearActiveMatchFromStorage();
-      const iconEl = document.getElementById('victoryIcon');
-      const headingEl = document.getElementById('victoryHeading');
-
-      if (outcome === 'draw') {
-        if (currentMatchBet > 0 && !isPassAndPlay) {
-          currentUser.coins += currentMatchBet;
-          saveUserToStorage();
-        }
-        document.getElementById('victoryPrize').textContent = currentMatchBet > 0 && !isPassAndPlay
-          ? `+${currentMatchBet} 🪙 (Devuelto)`
-          : 'Tablas';
-        document.getElementById('victoryElo').textContent = '0 🏆';
-        if (iconEl) iconEl.textContent = '🤝';
-        if (headingEl) headingEl.className = 'text-xl font-black text-cyan-300 tracking-tight';
-      } else if (isPassAndPlay || outcome === 'pvp_win') {
-        document.getElementById('victoryPrize').textContent = 'Amistoso';
-        document.getElementById('victoryElo').textContent = 'Sin ELO';
-        if (iconEl) iconEl.textContent = '🏆';
-        if (headingEl) headingEl.className = 'text-xl font-black text-amber-400 tracking-tight';
+    function endGame(title, subtitle) {
+      if (isPassAndPlay) {
+        const rakeEl = document.getElementById('victoryRake');
+        if (rakeEl) rakeEl.textContent = '0 🪙 (Amistoso)';
+        document.getElementById('victoryPrize').textContent = 'Partida Local';
+        document.getElementById('victoryElo').textContent = 'Sin Apuesta';
       } else {
-        const isWin = outcome === 'win' || (outcome === 'auto' && title.includes('VICTORIA'));
-        const prize = currentMatchBet * 2;
+        const isWin = title.includes('VICTORIA');
+        const totalPot = currentMatchBet * 2;
+        // Comisión oficial de la casa: 10% del pozo total
+        const houseCommission = Math.round(totalPot * 0.10);
+        // Premio neto para el ganador: 90% del pozo (ej. 90 monedas en mesa de 50)
+        const prize = totalPot - houseCommission;
+
+        const rakeEl = document.getElementById('victoryRake');
+        if (rakeEl) rakeEl.textContent = `${houseCommission} 🪙 (10%)`;
 
         if (isWin) {
           currentUser.coins += prize;
           currentUser.wins = (currentUser.wins || 0) + 1;
-          if (currentMatchBet > 0) currentUser.elo += 25;
-          document.getElementById('victoryPrize').textContent = currentMatchBet > 0 ? `+${prize} 🪙` : 'Práctica';
-          document.getElementById('victoryElo').textContent = currentMatchBet > 0 ? '+25 🏆' : '0 🏆';
-          if (iconEl) iconEl.textContent = '🏆';
-          if (headingEl) headingEl.className = 'text-xl font-black text-amber-400 tracking-tight';
+          currentUser.elo += 25;
+          document.getElementById('victoryPrize').textContent = `+${prize} 🪙`;
+          document.getElementById('victoryElo').textContent = '+25 🏆';
         } else {
           currentUser.losses = (currentUser.losses || 0) + 1;
-          if (currentMatchBet > 0) currentUser.elo = Math.max(800, currentUser.elo - 15);
+          currentUser.elo = Math.max(800, currentUser.elo - 15);
           document.getElementById('victoryPrize').textContent = '0 🪙';
-          document.getElementById('victoryElo').textContent = currentMatchBet > 0 ? '-15 🏆' : '0 🏆';
-          if (iconEl) iconEl.textContent = '🛡️';
-          if (headingEl) headingEl.className = 'text-xl font-black text-red-400 tracking-tight';
+          document.getElementById('victoryElo').textContent = '-15 🏆';
         }
 
         saveUserToStorage();
@@ -4630,17 +3487,52 @@
       openModal('modalVictory');
     }
 
+        // --- FUNCIÓN DESHACER (UNDO) DE JUGADAS SOFT-3D ---
+    function undoLastMove() {
+      if (isAcademyMode) {
+        if (typeof currentAcademyLessonIdx !== 'undefined' && currentAcademyLessonIdx !== null) {
+          startAcademyLesson(currentAcademyLessonIdx);
+          showCoinToast('↺ Lección reiniciada al inicio');
+        }
+        return;
+      }
+
+      if (!boardHistory || boardHistory.length === 0) {
+        showCoinToast('ℹ️ No hay movimientos previos para deshacer');
+        return;
+      }
+
+      // Si es contra la IA, deshaz 2 pasos (el de la IA y el del jugador) para volver al turno del jugador
+      const stepsToUndo = isPassAndPlay ? 1 : (boardHistory.length >= 2 ? 2 : 1);
+      let snapshot = null;
+      for (let i = 0; i < stepsToUndo; i++) {
+        if (boardHistory.length > 0) {
+          snapshot = boardHistory.pop();
+        }
+      }
+
+      if (snapshot) {
+        board = snapshot.board;
+        turn = snapshot.turn;
+        stats = snapshot.stats;
+        capturedWhite = snapshot.capturedWhite;
+        capturedBlack = snapshot.capturedBlack;
+        selectedCell = null;
+        legalMoves = [];
+        renderBoard();
+        updateTurnStatus();
+        showCoinToast('↺ Jugada deshecha');
+        sound.move();
+      }
+    }
+
     function restartGame() {
       closeModal('modalVictory');
       if (isAcademyMode) {
         startAcademyLesson(currentAcademyLessonIdx);
-        return;
+      } else {
+        startMatchWithBet(currentVar, currentMatchBet);
       }
-      if (isPassAndPlay) {
-        startPassAndPlay(0);
-        return;
-      }
-      startMatchWithBet(currentVar, currentMatchBet);
     }
 
     function requestCoachHint() {
@@ -4652,47 +3544,14 @@
           return;
         }
       }
-      if (!isPassAndPlay && turn !== 'w') {
-        showCoinToast('Espera a que la IA Némesis complete su turno.');
-        return;
-      }
-      if (pendingChain && pendingChain.candidates.length > 0) {
-        const nextStep = pendingChain.candidates[0].stepPath[pendingChain.stepIdx];
-        coachHintSquares = { fromR: pendingChain.curR, fromC: pendingChain.curC, toR: nextStep.r, toC: nextStep.c };
-        renderBoard();
-        showCoinToast('💡 Coach: Continúa tu captura múltiple por la casilla resaltada en cian.');
-        return;
-      }
-
-      const cfg = RULES[currentVar] || RULES.spanish;
-      const decision = findBestAiDecisionPure(board, cfg, turn, 'hard', huffingEnabled, huffablePositions, Math.random);
-      if (decision.huffTarget) {
-        coachHintSquares = { fromR: decision.huffTarget.r, fromC: decision.huffTarget.c, toR: decision.huffTarget.r, toC: decision.huffTarget.c };
-        renderBoard();
-        showCoinToast('💡 Coach: ¡Aplica el soplido a la ficha rival descuidada!');
-        return;
-      }
-      if (!decision.move) {
-        showCoinToast('No hay jugadas legales disponibles.');
-        return;
-      }
-
-      const firstStep = decision.move.stepPath[0];
-      coachHintSquares = { fromR: decision.move.fromR, fromC: decision.move.fromC, toR: firstStep.r, toC: firstStep.c };
-      renderBoard();
-      updateEvalHud(decision.scoreWhiteCp);
-
-      const reasonMap = {
-        capture_multi: `💡 Coach: ¡Ejecuta la captura múltiple (${decision.move.captures.length} piezas)!`,
-        capture: '💡 Coach: Captura obligatoria / táctica ganadora.',
-        promotion: '💡 Coach: Corona tu ficha para obtener ventaja decisiva.',
-        center: '💡 Coach: Toma el centro del tablero para dominar las diagonales.',
-        positional: '💡 Coach: Jugada sólida para reforzar tu estructura.'
-      };
-      showCoinToast(reasonMap[decision.reason] || '💡 Coach: Jugada recomendada marcada en cian.');
+      const hint = legalMoves.length > 0 ? 'Mueve hacia el centro para dominar las diagonales clave.' : 'Selecciona una ficha para evaluar tus mejores jugadas.';
+      showCoinToast(`💡 Pista: ${hint}`);
     }
 
-    const THEME_INFO = {
+        const THEME_INFO = {
+      'neo-tactile': { title: 'Neo-Tactile Studio', badge: '🎨 NEO-TACTILE STUDIO' },
+      'arcade-espresso': { title: 'Arcade Espresso', badge: '☕ APPLE ARCADE ESPRESSO' },
+      'obsidian-copper': { title: 'Obsidian Glass', badge: '🔮 OBSIDIAN & COPPER GLASS' },
       wood: { title: 'Nogal & Arce', badge: '🪵 TABLERO DE NOGAL ARTESANAL' },
       leather: { title: 'Cuero Toscano', badge: '🐂 CUERO TOSCANO REPUJADO' },
       marble: { title: 'Mármol Real', badge: '🏛️ MÁRMOL REAL IMPERIAL' },
@@ -4703,15 +3562,15 @@
     // MobX Reactive Store Pattern (ES6 Proxy Observable + Autorun Reactions - 100% Offline-First)
     const ThemeStore = (() => {
       const listeners = [];
-      let initialTheme = 'wood';
+      let initialTheme = 'neo-tactile';
       try {
-        initialTheme = localStorage.getItem('gem_v4_theme') || 'wood';
-        if (!THEME_INFO[initialTheme]) initialTheme = 'wood';
+        initialTheme = localStorage.getItem('gem_v4_theme') || 'neo-tactile';
+        if (!THEME_INFO[initialTheme]) initialTheme = 'neo-tactile';
       } catch (e) {}
 
       const state = new Proxy({
         activeTheme: initialTheme,
-        themes: ['wood', 'leather', 'marble', 'cyber', 'jade']
+        themes: ['neo-tactile', 'arcade-espresso', 'obsidian-copper', 'wood', 'leather', 'marble', 'cyber', 'jade']
       }, {
         set(target, prop, value) {
           if (target[prop] === value) return true;
@@ -4735,33 +3594,33 @@
           });
         },
         setTheme(th) {
-          if (!th || !THEME_INFO[th]) th = 'wood';
+          if (!th || !THEME_INFO[th]) th = 'neo-tactile';
           state.activeTheme = th;
           try { localStorage.setItem('gem_v4_theme', th); } catch (e) {}
         }
       };
     })();
 
-    // Reacción MobX: Sincroniza dinámicamente borde amarillo, badges y renderizador
+    // Reacción MobX: Sincroniza dinámicamente borde, badges y renderizador
     ThemeStore.autorun((state) => {
       const current = state.activeTheme;
       activeTheme = current;
       document.body.setAttribute('data-theme', current);
 
+      // Sincronizar bordes de temas en la Tienda
       state.themes.forEach(t => {
         const btn = document.getElementById('shopThemeBtn-' + t);
         const status = document.getElementById('shopThemeStatus-' + t);
         if (!btn) return;
-        const spanCls = t === 'jade' ? 'col-span-2 ' : '';
         const isSelected = (t === current);
         if (isSelected) {
-          btn.className = `${spanCls}p-3 rounded-xl bg-slate-900 border-2 border-amber-500 text-left transition shadow-md shadow-amber-500/15 ring-1 ring-amber-500/40 active:scale-98`;
+          btn.className = 'p-3 rounded-xl bg-[#222832] border-2 border-[#b86b4b] text-left transition shadow-md shadow-[#b86b4b]/20 ring-1 ring-[#b86b4b]/40 active:scale-98';
           if (status) {
-            status.className = 'text-[10px] text-amber-400 font-bold flex items-center gap-1';
+            status.className = 'text-[10px] text-[#e6c89c] font-bold flex items-center gap-1';
             status.innerHTML = '<span>✓</span> <span>Seleccionado</span>';
           }
         } else {
-          btn.className = `${spanCls}p-3 rounded-xl bg-slate-900 border border-slate-800 text-left transition hover:border-slate-700 active:scale-98`;
+          btn.className = 'p-3 rounded-xl bg-[#222832] border border-white/10 text-left transition hover:border-white/20 active:scale-98';
           if (status) {
             status.className = 'text-[10px] text-slate-400 font-medium';
             status.textContent = 'Disponible';
@@ -4769,11 +3628,13 @@
         }
       });
 
+      // Sincronizar badge de tema en el Hero del Lobby
       const badge = document.getElementById('heroActiveThemeBadge');
       if (badge && THEME_INFO[current]) {
         badge.textContent = THEME_INFO[current].badge;
       }
 
+      // Redibujar tablero si está instanciado
       if (typeof board !== 'undefined' && Array.isArray(board) && board.length > 0) {
         renderBoard();
       }
@@ -4787,283 +3648,47 @@
       }
     }
 
-    function saveSettingsToStorage() {
-      try {
-        localStorage.setItem('gem_v4_settings', JSON.stringify({
-          soundEnabled,
-          huffingEnabled,
-          hapticsEnabled,
-          aiDifficulty,
-          currentVar
-        }));
-      } catch (e) {}
+    function toggleSoundSetting() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('settingSoundBtn');
+      if (btn) {
+        btn.textContent = soundEnabled ? 'ACTIVO' : 'SILENCIADO';
+        btn.className = soundEnabled 
+          ? 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs'
+          : 'px-3 py-1.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs';
+      }
     }
 
-    function syncSettingsUI() {
-      const sBtn = document.getElementById('settingSoundBtn');
-      if (sBtn) {
-        sBtn.textContent = soundEnabled ? 'ACTIVO' : 'SILENCIADO';
-        sBtn.className = soundEnabled
+    function toggleHuffingSetting() {
+      huffingEnabled = !huffingEnabled;
+      const btn = document.getElementById('settingHuffBtn');
+      if (btn) {
+        btn.textContent = huffingEnabled ? 'ACTIVO' : 'NO';
+        btn.className = huffingEnabled 
           ? 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs'
           : 'px-3 py-1.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs';
       }
-      const hBtn = document.getElementById('settingHuffBtn');
-      if (hBtn) {
-        hBtn.textContent = huffingEnabled ? 'ACTIVO' : 'NO';
-        hBtn.className = huffingEnabled
-          ? 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs'
-          : 'px-3 py-1.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs';
-      }
-      const vibBtn = document.getElementById('settingHapticsBtn');
-      if (vibBtn) {
-        vibBtn.textContent = hapticsEnabled ? 'ACTIVO' : 'NO';
-        vibBtn.className = hapticsEnabled
-          ? 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs'
-          : 'px-3 py-1.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs';
-      }
+    }
+
+    function setAiDiff(d) {
+      aiDifficulty = d;
       ['Easy', 'Med', 'Hard', 'Master'].forEach(k => {
         const b = document.getElementById('btnDiff' + k);
         if (b) b.className = 'py-2 rounded-xl bg-slate-800 text-slate-300 text-[10px] font-bold';
       });
       const map = { easy: 'btnDiffEasy', medium: 'btnDiffMed', hard: 'btnDiffHard', master: 'btnDiffMaster' };
-      if (map[aiDifficulty] && document.getElementById(map[aiDifficulty])) {
-        document.getElementById(map[aiDifficulty]).className = 'py-2 rounded-xl bg-amber-500 text-slate-950 text-[10px] font-black';
+      if (map[d] && document.getElementById(map[d])) {
+        document.getElementById(map[d]).className = 'py-2 rounded-xl bg-amber-500 text-slate-950 text-[10px] font-black';
       }
-      const cfg = RULES[currentVar];
-      if (cfg) {
-        const heroTitleEl = document.getElementById('heroActiveVariantTitle');
-        if (heroTitleEl) heroTitleEl.textContent = `${cfg.flag} ${cfg.name}`;
-        const heroDescEl = document.getElementById('heroActiveVariantDesc');
-        if (heroDescEl && cfg.desc) heroDescEl.textContent = cfg.desc;
-      }
-    }
-
-    function loadSettingsFromStorage() {
-      try {
-        const raw = localStorage.getItem('gem_v4_settings');
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (parsed && typeof parsed === 'object') {
-            if (typeof parsed.soundEnabled === 'boolean') soundEnabled = parsed.soundEnabled;
-            if (typeof parsed.huffingEnabled === 'boolean') huffingEnabled = parsed.huffingEnabled;
-            if (typeof parsed.hapticsEnabled === 'boolean') hapticsEnabled = parsed.hapticsEnabled;
-            if (['easy', 'medium', 'hard', 'master'].includes(parsed.aiDifficulty)) aiDifficulty = parsed.aiDifficulty;
-            if (parsed.currentVar && RULES[parsed.currentVar]) currentVar = parsed.currentVar;
-          }
-        }
-      } catch (e) {}
-      syncSettingsUI();
-    }
-
-    function toggleSoundSetting() {
-      soundEnabled = !soundEnabled;
-      syncSettingsUI();
-      saveSettingsToStorage();
-    }
-
-    function toggleHuffingSetting() {
-      huffingEnabled = !huffingEnabled;
-      syncSettingsUI();
-      saveSettingsToStorage();
-    }
-
-    function toggleHapticsSetting() {
-      hapticsEnabled = !hapticsEnabled;
-      syncSettingsUI();
-      saveSettingsToStorage();
-      if (hapticsEnabled) triggerHaptic('tap');
-    }
-
-    function setAiDiff(d) {
-      if (!['easy', 'medium', 'hard', 'master'].includes(d)) return;
-      aiDifficulty = d;
-      syncSettingsUI();
-      saveSettingsToStorage();
-      if (!isAcademyMode && !isPassAndPlay) {
-        const rSub = document.getElementById('rivalGameElo');
-        if (rSub) rSub.textContent = `Negras • ELO ${getAiDisplayElo(currentVar)}`;
-      }
-    }
-
-    function saveActiveMatchToStorage() {
-      if (isAcademyMode || !Array.isArray(board) || board.length === 0) return;
-      try {
-        localStorage.setItem('gem_v4_active_match', JSON.stringify({
-          variantId: currentVar,
-          board,
-          turn,
-          isPassAndPlay,
-          currentMatchBet,
-          stats,
-          capturedWhite,
-          capturedBlack,
-          lastMoveMarker,
-          huffablePositions,
-          quietHalfMoves,
-          boardHistoryCounts,
-          savedAt: Date.now()
-        }));
-      } catch (e) {}
-    }
-
-    function clearActiveMatchFromStorage() {
-      try {
-        localStorage.removeItem('gem_v4_active_match');
-      } catch (e) {}
-      refreshResumeMatchBanner();
-    }
-
-    function loadActiveMatchFromStorage() {
-      try {
-        const raw = localStorage.getItem('gem_v4_active_match');
-        if (!raw) return null;
-        const data = JSON.parse(raw);
-        if (!data || !RULES[data.variantId] || !Array.isArray(data.board)) return null;
-        if (data.board.length !== RULES[data.variantId].size) return null;
-        return data;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function refreshResumeMatchBanner() {
-      const banner = document.getElementById('resumeMatchBanner');
-      const sub = document.getElementById('resumeMatchSub');
-      if (!banner) return;
-      const saved = loadActiveMatchFromStorage();
-      if (!saved) {
-        banner.classList.add('hidden');
-        return;
-      }
-      const cfg = RULES[saved.variantId];
-      if (sub && cfg) {
-        const modeLabel = saved.isPassAndPlay ? '1v1 Local' : (saved.currentMatchBet > 0 ? `Desafío ${saved.currentMatchBet * 2}🪙` : 'Práctica Libre');
-        sub.textContent = `${cfg.flag} ${cfg.name} • ${modeLabel} • ${(saved.stats && saved.stats.moves) || 0} jugadas`;
-      }
-      banner.classList.remove('hidden');
-    }
-
-    function resumeSavedMatch() {
-      const saved = loadActiveMatchFromStorage();
-      if (!saved) {
-        refreshResumeMatchBanner();
-        return;
-      }
-      aiSearchToken++;
-      isAcademyMode = false;
-      isPassAndPlay = Boolean(saved.isPassAndPlay);
-      currentVar = saved.variantId;
-      currentMatchBet = Number(saved.currentMatchBet) || 0;
-      board = cloneBoardPure(saved.board);
-      turn = saved.turn === 'b' ? 'b' : 'w';
-      stats = saved.stats ? { ...saved.stats } : { moves: 0, caps: 0, kings: 0 };
-      capturedWhite = Number(saved.capturedWhite) || 0;
-      capturedBlack = Number(saved.capturedBlack) || 0;
-      lastMoveMarker = saved.lastMoveMarker || null;
-      huffablePositions = Array.isArray(saved.huffablePositions) ? saved.huffablePositions : [];
-      quietHalfMoves = Number(saved.quietHalfMoves) || 0;
-      boardHistoryCounts = saved.boardHistoryCounts || {};
-      pendingChain = null;
-      selectedCell = null;
-      legalMoves = [];
-      coachHintSquares = null;
-      moveHistoryStack = [];
-
-      const cfg = RULES[currentVar];
-      document.getElementById('academyCoachBanner')?.classList.add('hidden');
-      document.getElementById('gameActiveVariantBadge').textContent = `${cfg.flag} ${cfg.name}`;
-      if (isPassAndPlay) {
-        document.getElementById('rivalName').textContent = 'Jugador 2 (Negras)';
-        document.getElementById('rivalAvatar').textContent = '👥';
-        const rSub = document.getElementById('rivalGameElo');
-        if (rSub) rSub.textContent = 'Negras • Modo Local 1v1';
-        const pSub = document.getElementById('playerGameElo');
-        if (pSub) pSub.textContent = 'Blancas • Jugador 1';
-      } else {
-        document.getElementById('rivalName').textContent = 'IA Némesis';
-        document.getElementById('rivalAvatar').textContent = '🤖';
-        const rSub = document.getElementById('rivalGameElo');
-        if (rSub) rSub.textContent = `Negras • ELO ${getAiDisplayElo(currentVar)}`;
-        const pSub = document.getElementById('playerGameElo');
-        if (pSub) pSub.textContent = `Blancas • ELO ${currentUser.elo}`;
-      }
-
-      updateEvalHud(evaluateBoardPure(board, cfg, 'w'));
-      renderBoard();
-      updateTurnStatus();
-      updateGameActionButtons();
-      navigateTo('screenGame');
-
-      if (!isPassAndPlay && turn === 'b') {
-        setTimeout(runAiTurn, 300);
-      }
-    }
-
-    function discardSavedMatch() {
-      clearActiveMatchFromStorage();
-      showCoinToast('Partida guardada descartada.');
-    }
-
-    function setupAndroidBackNavigation() {
-      const cap = window.Capacitor;
-      const appPlugin = cap && cap.Plugins && cap.Plugins.App;
-      if (!appPlugin || typeof appPlugin.addListener !== 'function') return;
-
-      const modalIds = [
-        'modalVariantRules',
-        'modalPrivacyPolicy',
-        'modalSettings',
-        'modalDailyReward',
-        'modalBetRooms',
-        'modalAcademy',
-        'modalLessonCompleted',
-        'modalVictory',
-        'modalLeaveGame'
-      ];
-
-      appPlugin.addListener('backButton', () => {
-        const openModalId = modalIds.find((id) => {
-          const el = document.getElementById(id);
-          return el && !el.classList.contains('hidden');
-        });
-        if (openModalId) {
-          closeModal(openModalId);
-          return;
-        }
-        if (currentScreen === 'screenGame') {
-          promptLeaveGame();
-          return;
-        }
-        if (currentScreen !== 'screenLobby' && currentScreen !== 'screenAuth') {
-          navigateTo('screenLobby');
-          return;
-        }
-        if (typeof appPlugin.exitApp === 'function') {
-          appPlugin.exitApp();
-        }
-      });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      ThemeStore.setTheme(localStorage.getItem('gem_v4_theme') || 'neo-tactile');
       ThemeStore.triggerReaction();
-      loadAcademyProgress();
-      loadSettingsFromStorage();
       loadUserFromStorage();
       updateDailyRewardUI();
-      setupAndroidBackNavigation();
-
-      const isNativeCap = Boolean(
-        window.Capacitor &&
-        typeof window.Capacitor.isNativePlatform === 'function' &&
-        window.Capacitor.isNativePlatform()
-      );
-      if ('serviceWorker' in navigator && !isNativeCap) {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-      }
-
       if (currentUser && currentUser.isAuth) {
         updateUserDisplays();
-        refreshResumeMatchBanner();
         navigateTo('screenLobby');
       } else {
         navigateTo('screenAuth');
