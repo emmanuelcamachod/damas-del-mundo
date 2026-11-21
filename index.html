@@ -192,6 +192,69 @@
       box-shadow: 0 12px 18px -2px rgba(0, 0, 0, 0.55), 0 0 0 2.5px #38bdf8 !important;
       z-index: 10;
     }
+
+    /* --- ESTILOS DE PIEZAS Y CASILLAS NEO-TACTILE STUDIO (MOCKUP OPCIÓN F) --- */
+    body[data-theme="neo-tactile"] .piece-white {
+      background: radial-gradient(circle at 40% 35%, #fffdfa 0%, #ecdcc9 55%, #cbbaa5 100%);
+      border: 2px solid #bfa891;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.35), inset 0 2px 3px rgba(255,255,255,0.9), inset 0 -2px 3px rgba(0,0,0,0.15);
+    }
+    body[data-theme="neo-tactile"] .piece-black {
+      background: radial-gradient(circle at 40% 35%, #b86b4b 0%, #9f5739 60%, #7a3b22 100%);
+      border: 2px solid #8c4e33;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5), inset 0 2px 3px rgba(255,255,255,0.4), inset 0 -2px 3px rgba(0,0,0,0.3);
+    }
+    body[data-theme="neo-tactile"] .inner-rib-white {
+      border: 2px solid #bfa891;
+      background: radial-gradient(circle, #f5ede0 0%, #d8c4a9 100%);
+      box-shadow: inset 0 2px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(255,255,255,0.8);
+    }
+    body[data-theme="neo-tactile"] .inner-rib-black {
+      border: 2px solid #7a3b22;
+      background: radial-gradient(circle, #b86b4b 0%, #8c4e33 100%);
+      box-shadow: inset 0 2px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(255,255,255,0.25);
+    }
+
+    /* --- ESTILOS DE PIEZAS ARCADE ESPRESSO (OPCIÓN D) --- */
+    body[data-theme="arcade-espresso"] .piece-white {
+      background: radial-gradient(circle at 40% 35%, #ffffff 0%, #f7edd8 60%, #dfcaa7 100%);
+      border: 2px solid #d4af37;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.95);
+    }
+    body[data-theme="arcade-espresso"] .piece-black {
+      background: radial-gradient(circle at 40% 35%, #3a2214 0%, #201209 70%, #0d0703 100%);
+      border: 2px solid #a16207;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 1px 2px rgba(212,175,55,0.4);
+    }
+    body[data-theme="arcade-espresso"] .inner-rib-white {
+      border: 1.5px solid #d4af37;
+      background: radial-gradient(circle, #fffff0 0%, #ebd8be 100%);
+    }
+    body[data-theme="arcade-espresso"] .inner-rib-black {
+      border: 1.5px solid #a16207;
+      background: radial-gradient(circle, #2a160d 0%, #120904 100%);
+    }
+
+    /* --- ESTILOS DE PIEZAS OBSIDIAN & COPPER GLASS (OPCIÓN E) --- */
+    body[data-theme="obsidian-copper"] .piece-white {
+      background: radial-gradient(circle at 40% 35%, #cbd5e1 0%, #94a3b8 65%, #475569 100%);
+      border: 2px solid #ea580c;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 2px 4px rgba(255,255,255,0.7), 0 0 10px rgba(234, 88, 12, 0.4);
+    }
+    body[data-theme="obsidian-copper"] .piece-black {
+      background: radial-gradient(circle at 40% 35%, #1e293b 0%, #0f172a 70%, #030712 100%);
+      border: 2px solid #c2410c;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.9), inset 0 1px 2px rgba(234, 88, 12, 0.3), 0 0 8px rgba(194, 65, 12, 0.3);
+    }
+    body[data-theme="obsidian-copper"] .inner-rib-white {
+      border: 1.5px solid #ea580c;
+      background: radial-gradient(circle, #cbd5e1 0%, #64748b 100%);
+    }
+    body[data-theme="obsidian-copper"] .inner-rib-black {
+      border: 1.5px solid #c2410c;
+      background: radial-gradient(circle, #1e293b 0%, #020617 100%);
+    }
+
     .piece-white {
       background-color: #f8fafc;
       background: var(--piece-w-grad);
@@ -975,9 +1038,9 @@
     <!-- ========================================================
          PANTALLA 1: SPLASH & INICIO DE SESIÓN / INTRO
          ======================================================== -->
-    <section id="screenAuth" class="app-screen active min-h-screen px-6 py-8 justify-between relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <section id="screenAuth" class="app-screen active min-h-screen px-6 py-8 justify-between relative overflow-hidden bg-[#181c24] text-[#ecdcc9]">
       
-      <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#f59e0b 1px, transparent 1px); background-size: 24px 24px;"></div>
+      <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#b86b4b 1px, transparent 1px); background-size: 24px 24px;"></div>
 
       <div class="pt-8 text-center relative z-10 flex flex-col items-center">
         <!-- Logo Heroico con Corona Real SVG -->
@@ -1254,29 +1317,29 @@
     <!-- ========================================================
          PANTALLA 3: SELECTOR VISUAL DE VARIANTES
          ======================================================== -->
-    <section id="screenVariants" class="app-screen min-h-screen pb-24 overflow-y-auto">
-      <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center gap-3 shadow-md">
-        <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 text-sm transition">
-          ⬅
+    <section id="screenVariants" class="app-screen min-h-screen pb-24 overflow-y-auto select-none">
+      <header class="sticky top-0 z-30 bg-[#1c2026]/95 backdrop-blur-md border-b border-white/10 px-4 py-3 flex items-center gap-3 shadow-md">
+        <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-[#20252e] hover:bg-[#2a323f] border border-white/10 flex items-center justify-center text-slate-300 text-sm transition active:scale-95 cursor-pointer">
+          ←
         </button>
         <div>
-          <h2 class="text-sm font-black text-white">Elige tu Tipo de Damas</h2>
-          <p class="text-[10px] text-slate-400">Reglas oficiales y tableros de madera</p>
+          <h2 class="text-sm font-black text-white">Variantes Mundiales de Damas</h2>
+          <p class="text-[10px] text-slate-400">7 Reglamentos Oficiales Internacionales</p>
         </div>
       </header>
 
-      <main class="p-4 space-y-3">
+      <main class="p-4 space-y-3 max-w-sm mx-auto">
         <!-- 1. Española -->
-        <div onclick="startMatchWithBet('spanish', 50)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
+        <div onclick="startMatchWithBet('spanish', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <span class="text-2xl">🇪🇸</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Españolas</h3>
-                <span class="text-[10px] font-mono text-amber-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
+                <span class="text-[10px] font-mono text-[#e6c89c] font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Damas de vuelo libre de largo alcance. Peón come hacia adelante. Regla de calidad en captura.
@@ -1284,16 +1347,16 @@
         </div>
 
         <!-- 2. Internacional -->
-        <div onclick="startMatchWithBet('international', 50)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
+        <div onclick="startMatchWithBet('international', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <span class="text-2xl">🌍</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Internacionales</h3>
                 <span class="text-[10px] font-mono text-cyan-400 font-bold">Tablero 10x10 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Tablero gigante de 100 casillas. Peones comen hacia adelante y atrás. Regla de mayoría obligatoria.
@@ -1301,33 +1364,33 @@
         </div>
 
         <!-- 3. Brasileña -->
-        <div onclick="startMatchWithBet('brazilian', 50)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
+        <div onclick="startMatchWithBet('brazilian', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <span class="text-2xl">🇧🇷</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Brasileñas</h3>
                 <span class="text-[10px] font-mono text-emerald-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Reglas internacionales adaptadas al tablero clásico de 64 casillas.
+            Reglas internacionales completas aplicadas al tablero clásico de 64 casillas.
           </p>
         </div>
 
         <!-- 4. Inglesa -->
-        <div onclick="startMatchWithBet('english', 50)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
+        <div onclick="startMatchWithBet('english', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <span class="text-2xl">🇬🇧</span>
               <div>
                 <h3 class="text-sm font-black text-white">Checkers / Inglesas</h3>
                 <span class="text-[10px] font-mono text-purple-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Sin capturas hacia atrás para peones. Reyes de un solo paso diagonal.
@@ -1335,16 +1398,16 @@
         </div>
 
         <!-- 5. Rusa -->
-        <div onclick="startMatchWithBet('russian', 50)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
+        <div onclick="startMatchWithBet('russian', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <span class="text-2xl">🇷🇺</span>
               <div>
                 <h3 class="text-sm font-black text-white">Shashki / Rusas</h3>
                 <span class="text-[10px] font-mono text-blue-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Damas voladoras y coronación en pleno vuelo durante saltos encadenados.
@@ -1352,16 +1415,16 @@
         </div>
 
         <!-- 6. Italiana -->
-        <div onclick="startMatchWithBet('italian', 50)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
+        <div onclick="startMatchWithBet('italian', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <span class="text-2xl">🇮🇹</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Italianas</h3>
                 <span class="text-[10px] font-mono text-green-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Peones nunca comen a damas. Jerarquía estricta de piezas.
@@ -1369,16 +1432,16 @@
         </div>
 
         <!-- 7. Turca -->
-        <div onclick="startMatchWithBet('turkish', 50)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
+        <div onclick="startMatchWithBet('turkish', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <span class="text-2xl">🇹🇷</span>
               <div>
                 <h3 class="text-sm font-black text-white">Damas Turcas</h3>
                 <span class="text-[10px] font-mono text-red-400 font-bold">Tablero 8x8 • Apuesta: 50 🪙</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">JUGAR</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Movimientos y saltos ortogonales (rectos y laterales).
@@ -1392,9 +1455,9 @@
          PANTALLA 4: TIENDA DE MONEDAS & ASPECTOS
          ======================================================== -->
     <section id="screenShop" class="app-screen min-h-screen pb-24 overflow-y-auto">
-      <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between shadow-md">
+      <header class="sticky top-0 z-30 bg-[#181c24]/95 backdrop-blur-md border-b border-[#2d3440] px-4 py-3 flex items-center justify-between shadow-md">
         <div class="flex items-center gap-3">
-          <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 text-sm transition">
+          <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-[#20252e] border border-[#2d3440] hover:bg-[#282f3a] flex items-center justify-center text-[#ecdcc9] text-sm transition">
             ⬅
           </button>
           <div>
@@ -1402,7 +1465,7 @@
             <p class="text-[10px] text-slate-400">100% Libre de Anuncios</p>
           </div>
         </div>
-        <div class="px-2.5 py-1 rounded-xl bg-amber-950/50 border border-amber-500/40 text-amber-300 text-xs font-black font-mono flex items-center gap-1">
+        <div class="px-2.5 py-1 rounded-xl bg-[#20252e] border border-[#b86b4b]/40 text-[#e6c89c] text-xs font-black font-mono flex items-center gap-1">
           <span>🪙</span>
           <span id="shopCoinsDisplay">1,000</span>
         </div>
@@ -1504,37 +1567,35 @@
     <!-- ========================================================
          PANTALLA 5: PERFIL DEL JUGADOR & RÉCORDS
          ======================================================== -->
-    <section id="screenProfile" class="app-screen min-h-screen pb-24 overflow-y-auto">
-      <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between shadow-md">
+    <section id="screenProfile" class="app-screen min-h-screen pb-24 overflow-y-auto select-none">
+      <header class="sticky top-0 z-30 bg-[#1c2026]/95 backdrop-blur-md border-b border-white/10 px-4 py-3 flex items-center justify-between shadow-md">
         <div class="flex items-center gap-3">
-          <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 text-sm transition">
-            ⬅
+          <button onclick="navigateTo('screenLobby')" class="w-8 h-8 rounded-xl bg-[#20252e] hover:bg-[#2a323f] border border-white/10 flex items-center justify-center text-slate-300 text-sm transition active:scale-95 cursor-pointer">
+            ←
           </button>
           <h2 class="text-sm font-black text-white">Perfil del Jugador</h2>
         </div>
-        <button onclick="openModal('modalSettings')" class="p-2 rounded-xl bg-slate-800 text-slate-300 text-xs">
+        <button onclick="openModal('modalSettings')" class="p-2 rounded-xl bg-[#20252e] border border-white/10 text-slate-300 text-xs active:scale-95 transition cursor-pointer">
           ⚙️
         </button>
       </header>
 
-      <main class="p-4 space-y-4">
-        <div class="p-5 rounded-3xl bg-slate-900 border border-slate-800 flex flex-col items-center text-center shadow-xl">
-          <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 p-1 shadow-lg mb-3">
-            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center text-amber-400">
-              <svg class="w-10 h-10 drop-shadow" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
-              </svg>
-            </div>
+      <main class="p-4 space-y-4 max-w-sm mx-auto">
+        <div class="p-5 rounded-3xl bg-[#20252e] border border-white/10 flex flex-col items-center text-center shadow-xl">
+          <div class="w-20 h-20 rounded-2xl bg-[#e6c89c] text-[#1c2026] p-1 shadow-lg mb-3 flex items-center justify-center">
+            <svg class="w-12 h-12 text-[#1c2026]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+            </svg>
           </div>
           <h3 id="profileName" class="text-base font-black text-white">Emmanuel</h3>
           <p id="profileEmail" class="text-xs text-slate-400 mt-0.5">invitado@damas.local</p>
           
-          <div class="mt-4 flex gap-4 w-full justify-center">
-            <div class="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800 text-center flex-1">
+          <div class="mt-4 flex gap-3 w-full justify-center">
+            <div class="bg-[#181c24] px-4 py-2.5 rounded-xl border border-white/10 text-center flex-1">
               <div class="text-[10px] text-slate-400 font-bold uppercase">Rango ELO</div>
-              <div id="profileElo" class="text-base font-black text-amber-400 font-mono mt-0.5">1250</div>
+              <div id="profileElo" class="text-base font-black text-[#e6c89c] font-mono mt-0.5">1250</div>
             </div>
-            <div class="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800 text-center flex-1">
+            <div class="bg-[#181c24] px-4 py-2.5 rounded-xl border border-white/10 text-center flex-1">
               <div class="text-[10px] text-slate-400 font-bold uppercase">Nivel</div>
               <div class="text-base font-black text-white font-mono mt-0.5">5</div>
             </div>
@@ -1543,25 +1604,25 @@
 
         <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1">Estadísticas de Carrera</h3>
         <div class="grid grid-cols-2 gap-3">
-          <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+          <div class="p-3.5 rounded-2xl bg-[#20252e] border border-white/10 shadow">
             <div class="text-[10px] text-slate-400 font-bold uppercase">Victorias</div>
             <div id="profileWins" class="text-lg font-black text-emerald-400 font-mono mt-1">0</div>
           </div>
-          <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+          <div class="p-3.5 rounded-2xl bg-[#20252e] border border-white/10 shadow">
             <div class="text-[10px] text-slate-400 font-bold uppercase">Derrotas</div>
             <div id="profileLosses" class="text-lg font-black text-red-400 font-mono mt-1">0</div>
           </div>
-          <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+          <div class="p-3.5 rounded-2xl bg-[#20252e] border border-white/10 shadow">
             <div class="text-[10px] text-slate-400 font-bold uppercase">Win Rate</div>
-            <div id="profileWinRate" class="text-lg font-black text-amber-400 font-mono mt-1">100%</div>
+            <div id="profileWinRate" class="text-lg font-black text-[#e6c89c] font-mono mt-1">100%</div>
           </div>
-          <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
-            <div class="text-[10px] text-slate-400 font-bold uppercase">Fichas Capturadas</div>
+          <div class="p-3.5 rounded-2xl bg-[#20252e] border border-white/10 shadow">
+            <div class="text-[10px] text-slate-400 font-bold uppercase">Capturadas</div>
             <div id="profileCaptures" class="text-lg font-black text-cyan-400 font-mono mt-1">0</div>
           </div>
         </div>
 
-        <button onclick="logoutToSplash()" class="w-full py-3.5 rounded-2xl bg-slate-900 border border-red-500/40 text-red-400 font-bold text-xs hover:bg-red-950/30 transition cursor-pointer">
+        <button onclick="logoutToSplash()" class="w-full py-3.5 rounded-2xl bg-[#20252e] border border-red-500/40 text-red-400 font-bold text-xs hover:bg-red-950/30 transition cursor-pointer active:scale-95">
           Cerrar Sesión
         </button>
       </main>
@@ -1736,8 +1797,8 @@
          MODAL: ACADEMIA INFINITA (DOJO DEL MAESTRO TÁCTICO)
          ======================================================== -->
     <div id="modalAcademy" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3">
-      <div class="bg-slate-900 border border-amber-500/60 rounded-3xl max-w-sm w-full p-4 text-center shadow-2xl relative max-h-[92vh] flex flex-col">
-        <button onclick="closeModal('modalAcademy')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">✕</button>
+      <div class="bg-[#20252e] border border-[#2d3440] rounded-3xl max-w-sm w-full p-4 text-center shadow-2xl relative max-h-[92vh] flex flex-col text-[#ecdcc9]">
+        <button onclick="closeModal('modalAcademy')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#181c24] border border-[#2d3440] text-[#ecdcc9] hover:bg-[#282f3a] flex items-center justify-center transition">✕</button>
 
         <!-- Cabecera Dojo -->
         <div class="flex items-center gap-2.5 mb-2.5 text-left">
@@ -1812,7 +1873,7 @@
 
     <!-- MODAL: CELEBRACIÓN DE LECCIÓN COMPLETADA -->
     <div id="modalLessonCompleted" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="w-full max-w-sm rounded-3xl bg-slate-900 border border-amber-500/50 p-6 text-center shadow-2xl relative">
+      <div class="w-full max-w-sm rounded-3xl bg-[#20252e] border border-[#2d3440] p-6 text-center shadow-2xl relative text-[#ecdcc9]">
         <div class="w-14 h-14 rounded-full bg-amber-500/20 border border-amber-500 mx-auto flex items-center justify-center text-3xl mb-2 shadow-[0_0_20px_rgba(245,158,11,0.5)]">
           🎉
         </div>
@@ -1839,8 +1900,8 @@
          MODAL: SALAS CON APUESTAS
          ======================================================== -->
     <div id="modalBetRooms" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="bg-slate-900 border border-amber-500/60 rounded-3xl max-w-sm w-full p-5 text-center shadow-2xl relative">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3 text-left">
+      <div class="bg-[#20252e] border border-[#2d3440] rounded-3xl max-w-sm w-full p-5 text-center shadow-2xl relative text-[#ecdcc9]">
+        <div class="flex items-center justify-between pb-3 border-b border-[#2d3440] mb-3 text-left">
           <div class="flex items-center gap-2">
             <span class="text-2xl">💰</span>
             <div>
@@ -1906,11 +1967,11 @@
          MODAL 1: RECOMPENSA DIARIA DE MONEDAS
          ======================================================== -->
     <div id="modalDailyReward" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="bg-slate-900 border border-amber-500/60 rounded-3xl max-w-sm w-full p-5 text-center shadow-2xl relative">
-        <div class="w-16 h-16 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-3xl mb-3 animate-bounce">
+      <div class="bg-[#20252e] border border-[#2d3440] rounded-3xl max-w-sm w-full p-5 text-center shadow-2xl relative text-[#ecdcc9]">
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-[#b86b4b]/20 border-2 border-[#b86b4b] flex items-center justify-center text-3xl mb-3 animate-bounce shadow-[0_0_20px_rgba(184,107,75,0.3)]">
           🎁
         </div>
-        <h3 class="text-xl font-black text-amber-400 tracking-tight">¡RECOMPENSA DIARIA!</h3>
+        <h3 class="text-xl font-black text-[#e6c89c] tracking-tight">¡RECOMPENSA DIARIA!</h3>
         <p class="text-xs text-slate-400 mt-1 mb-4">Vuelve cada día para acumular rachas de monedas gratis.</p>
 
         <div class="grid grid-cols-4 gap-2 mb-5 text-xs">
@@ -1949,9 +2010,9 @@
     <!-- ========================================================
          MODAL 2: AJUSTES & PREFERENCIAS (SETTINGS)
          ======================================================== -->
-    <div id="modalSettings" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 text-left shadow-2xl relative">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+        <div id="modalSettings" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-[#20252e] border border-white/10 rounded-3xl max-w-sm w-full p-5 text-left shadow-2xl relative max-h-[92vh] overflow-y-auto">
+        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
           <div class="flex items-center gap-2">
             <span class="text-xl">⚙️</span>
             <h3 class="text-sm font-black text-white">Configuración del Juego</h3>
@@ -1960,38 +2021,83 @@
         </div>
 
         <div class="space-y-4 text-xs">
-          <div class="flex items-center justify-between">
+          <!-- SELECTOR DE TEMAS DIRECTO (ACCESIBLE EN LA PARTIDA) -->
+          <div>
+            <div class="font-bold text-white mb-2 flex items-center justify-between">
+              <span>Tema del Tablero</span>
+              <span id="settingsActiveThemeBadge" class="text-[10px] text-[#e6c89c] font-mono">🎨 Neo-Tactile</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="setTheme('neo-tactile')" id="settingsThemeBtn-neo-tactile" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">🎨 Neo-Tactile</div>
+                <div class="text-[9px] text-[#e6c89c]">Predeterminado</div>
+              </button>
+              <button onclick="setTheme('arcade-espresso')" id="settingsThemeBtn-arcade-espresso" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">☕ Arcade Espresso</div>
+                <div class="text-[9px] text-slate-400">Opción D</div>
+              </button>
+              <button onclick="setTheme('obsidian-copper')" id="settingsThemeBtn-obsidian-copper" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">🔮 Obsidian Glass</div>
+                <div class="text-[9px] text-slate-400">Opción E</div>
+              </button>
+              <button onclick="setTheme('wood')" id="settingsThemeBtn-wood" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">🪵 Nogal & Arce</div>
+                <div class="text-[9px] text-slate-400">Clásico</div>
+              </button>
+              <button onclick="setTheme('leather')" id="settingsThemeBtn-leather" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">🐂 Cuero Toscano</div>
+                <div class="text-[9px] text-slate-400">Artesanal</div>
+              </button>
+              <button onclick="setTheme('marble')" id="settingsThemeBtn-marble" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">🏛️ Mármol Real</div>
+                <div class="text-[9px] text-slate-400">Imperial</div>
+              </button>
+              <button onclick="setTheme('cyber')" id="settingsThemeBtn-cyber" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">⚡ Cíber Neón</div>
+                <div class="text-[9px] text-slate-400">Futurista</div>
+              </button>
+              <button onclick="setTheme('jade')" id="settingsThemeBtn-jade" class="p-2.5 rounded-xl bg-[#181c24] border border-white/10 text-left transition active:scale-95">
+                <div class="text-xs font-bold text-white">💎 Jade Imperial</div>
+                <div class="text-[9px] text-slate-400">Palaciego</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- EFECTOS DE SONIDO -->
+          <div class="flex items-center justify-between pt-2 border-t border-white/10">
             <div>
               <div class="font-bold text-white">Efectos de Sonido</div>
               <div class="text-[10px] text-slate-400">Capturas, coronaciones y victoria</div>
             </div>
-            <button id="settingSoundBtn" onclick="toggleSoundSetting()" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs">
+            <button id="settingSoundBtn" onclick="toggleSoundSetting()" class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-bold text-xs">
               ACTIVO
             </button>
           </div>
 
+          <!-- REGLA DEL SOPLIDO -->
           <div class="flex items-center justify-between">
             <div>
               <div class="font-bold text-white">Regla del Soplido (Huffing)</div>
               <div class="text-[10px] text-slate-400">Penaliza no capturar fichas obligatorias</div>
             </div>
-            <button id="settingHuffBtn" onclick="toggleHuffingSetting()" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">
+            <button id="settingHuffBtn" onclick="toggleHuffingSetting()" class="px-3 py-1.5 rounded-xl bg-[#181c24] text-slate-400 font-bold text-xs">
               NO
             </button>
           </div>
 
-          <div>
+          <!-- DIFICULTAD IA -->
+          <div class="pt-2 border-t border-white/10">
             <div class="font-bold text-white mb-2">Dificultad de la IA</div>
             <div class="grid grid-cols-4 gap-1.5">
-              <button onclick="setAiDiff('easy')" id="btnDiffEasy" class="py-2 rounded-xl bg-slate-800 text-slate-300 text-[10px] font-bold">Fácil</button>
-              <button onclick="setAiDiff('medium')" id="btnDiffMed" class="py-2 rounded-xl bg-slate-800 text-slate-300 text-[10px] font-bold">Medio</button>
-              <button onclick="setAiDiff('hard')" id="btnDiffHard" class="py-2 rounded-xl bg-amber-500 text-slate-950 text-[10px] font-black">Difícil</button>
-              <button onclick="setAiDiff('master')" id="btnDiffMaster" class="py-2 rounded-xl bg-slate-800 text-slate-300 text-[10px] font-bold">Némesis</button>
+              <button onclick="setAiDiff('easy')" id="btnDiffEasy" class="py-2 rounded-xl bg-[#181c24] text-slate-300 text-[10px] font-bold">Fácil</button>
+              <button onclick="setAiDiff('medium')" id="btnDiffMed" class="py-2 rounded-xl bg-[#181c24] text-slate-300 text-[10px] font-bold">Medio</button>
+              <button onclick="setAiDiff('hard')" id="btnDiffHard" class="py-2 rounded-xl bg-[#b86b4b] text-white text-[10px] font-black">Difícil</button>
+              <button onclick="setAiDiff('master')" id="btnDiffMaster" class="py-2 rounded-xl bg-[#181c24] text-slate-300 text-[10px] font-bold">Némesis</button>
             </div>
           </div>
         </div>
 
-        <button onclick="closeModal('modalSettings')" class="w-full mt-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition">
+        <button onclick="closeModal('modalSettings')" class="w-full mt-5 py-3 rounded-xl bg-[#b86b4b] text-white font-bold text-xs transition active:scale-95">
           Listo
         </button>
       </div>
@@ -2003,10 +2109,10 @@
          ======================================================== -->
     <div id="modalVictory" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
       <div class="bg-slate-900 border border-amber-500/60 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative">
-        <div id="victoryIcon" class="w-16 h-16 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-3xl mb-3 shadow-[0_0_25px_rgba(245,158,11,0.4)]">
+        <div id="victoryIcon" class="w-16 h-16 mx-auto rounded-3xl bg-[#b86b4b]/20 border-2 border-[#b86b4b] flex items-center justify-center text-3xl mb-3 shadow-[0_0_25px_rgba(184,107,75,0.4)]">
           🏆
         </div>
-        <h2 id="victoryHeading" class="text-xl font-black text-amber-400 tracking-tight">¡VICTORIA ÉPICA!</h2>
+        <h2 id="victoryHeading" class="text-xl font-black text-[#e6c89c] tracking-tight">¡VICTORIA ÉPICA!</h2>
         <p id="victorySub" class="text-xs text-slate-300 mt-1 mb-4 leading-relaxed">Has derrotado al rival con maestría táctica.</p>
 
         <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 mb-4 grid grid-cols-4 gap-1 text-center text-xs">
@@ -2044,7 +2150,7 @@
          MODAL 4: CONFIRMACIÓN DE ABANDONO DE PARTIDA
          ======================================================== -->
     <div id="modalLeaveGame" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-xs w-full p-5 text-center shadow-2xl">
+      <div class="bg-[#20252e] border border-[#2d3440] rounded-3xl max-w-xs w-full p-5 text-center shadow-2xl text-[#ecdcc9]">
         <div class="text-3xl mb-2">⚠️</div>
         <h3 class="text-sm font-black text-white">¿Abandonar la Partida?</h3>
         <p id="leaveModalDesc" class="text-xs text-slate-400 mt-1 mb-4 leading-relaxed">
@@ -3832,6 +3938,7 @@
     const ThemeStore = (() => {
       const listeners = [];
       let initialTheme = 'neo-tactile';
+try { initialTheme = localStorage.getItem('gem_neo_theme_v5') || 'neo-tactile'; } catch(e) {}
       try {
         initialTheme = localStorage.getItem('gem_v4_theme') || 'neo-tactile';
         if (!THEME_INFO[initialTheme]) initialTheme = 'neo-tactile';
@@ -3865,7 +3972,7 @@
         setTheme(th) {
           if (!th || !THEME_INFO[th]) th = 'neo-tactile';
           state.activeTheme = th;
-          try { localStorage.setItem('gem_v4_theme', th); } catch (e) {}
+          try { localStorage.setItem('gem_neo_theme_v5', th); localStorage.setItem('gem_v4_theme', th); } catch (e) {}
         }
       };
     })();
@@ -3952,7 +4059,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      ThemeStore.setTheme(localStorage.getItem('gem_v4_theme') || 'neo-tactile');
+      ThemeStore.setTheme(localStorage.getItem('gem_neo_theme_v5') || 'neo-tactile');
       ThemeStore.triggerReaction();
       loadUserFromStorage();
       updateDailyRewardUI();
