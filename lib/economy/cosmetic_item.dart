@@ -22,6 +22,27 @@ class CosmeticThemeItem {
 
   static const List<CosmeticThemeItem> catalog = [
     CosmeticThemeItem(
+      theme: BoardVisualTheme.neoTactile,
+      name: 'Neo-Tactile Studio',
+      coinPrice: 0,
+      description: 'Acabado de estudio táctil con terracota cálido, arena y marco nogal biselado.',
+      iconEmoji: '🎨',
+    ),
+    CosmeticThemeItem(
+      theme: BoardVisualTheme.arcadeEspresso,
+      name: 'Apple Arcade Espresso',
+      coinPrice: 1500,
+      description: 'Laca espresso con vetas doradas e incrustaciones de marfil pulido.',
+      iconEmoji: '☕',
+    ),
+    CosmeticThemeItem(
+      theme: BoardVisualTheme.obsidianCopper,
+      name: 'Obsidian & Copper Glass',
+      coinPrice: 3500,
+      description: 'Vidrio de obsidiana ahumada con ribetes de cobre cepillado de lujo.',
+      iconEmoji: '🔮',
+    ),
+    CosmeticThemeItem(
       theme: BoardVisualTheme.classicWood,
       name: 'Nogal & Arce Imperial',
       coinPrice: 0,

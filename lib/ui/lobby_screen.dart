@@ -9,6 +9,7 @@ import '../multiplayer/multiplayer.dart';
 import 'auth_screen.dart';
 import 'board_screen.dart';
 import 'coin_shop_dialog.dart';
+import 'neo_tactile_theme.dart';
 
 class LobbyScreen extends StatefulWidget {
   final UserSession session;
@@ -63,7 +64,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
           setState(() => _coins += pack.coinAmount);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: const Color(0xFFF59E0B),
+              backgroundColor: NeoTactileTheme.terracotta,
               content: Text('🪙 ¡Compra exitosa! +${pack.coinAmount} Monedas (${pack.priceUsd}) acreditadas.'),
             ),
           );
@@ -84,7 +85,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
 
   void _startPassAndPlay() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const BoardScreen()),
+      MaterialPageRoute(builder: (_) => const BoardScreen(vsAi: false)),
     );
   }
 
@@ -97,7 +98,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
   void _showOnlineBetDialog() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: NeoTactileTheme.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -167,7 +168,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF090D16),
+      backgroundColor: NeoTactileTheme.background,
       appBar: _buildLobbyAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -221,7 +222,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                   icon: '🎓',
                   title: 'Academia de Damas & Retos',
                   subtitle: '10 Niveles tácticos + Generador infinito',
-                  accentColor: const Color(0xFFF59E0B),
+                  accentColor: NeoTactileTheme.terracotta,
                   onTap: _startAcademy,
                 ),
                 const SizedBox(height: 10),
@@ -242,7 +243,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
 
   PreferredSizeWidget _buildLobbyAppBar() {
     return AppBar(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: NeoTactileTheme.background,
       elevation: 0,
       title: const Row(
         children: [
@@ -265,7 +266,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ActionChip(
-        backgroundColor: const Color(0xFF1E293B),
+        backgroundColor: NeoTactileTheme.surfaceElevated,
         side: const BorderSide(color: Color(0xFFF59E0B), width: 1.2),
         onPressed: _openShop,
         avatar: const Text('🪙', style: TextStyle(fontSize: 14)),
@@ -281,15 +282,15 @@ class _LobbyScreenState extends State<LobbyScreen> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFF111827),
+        color: NeoTactileTheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF1F2937)),
+        border: Border.all(color: NeoTactileTheme.surfaceBorder),
       ),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: const Color(0xFF1E293B),
+            backgroundColor: NeoTactileTheme.surfaceElevated,
             child: Text(
               widget.session.isGuest ? '👤' : '🏆',
               style: const TextStyle(fontSize: 22),
@@ -355,7 +356,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: _dailyRewardClaimed ? const Color(0xFF334155) : const Color(0xFFF59E0B),
+              backgroundColor: _dailyRewardClaimed ? NeoTactileTheme.surfaceBorder : NeoTactileTheme.terracotta,
               foregroundColor: _dailyRewardClaimed ? const Color(0xFF94A3B8) : const Color(0xFF090D16),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               minimumSize: const Size(80, 36),
@@ -386,9 +387,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: const Color(0xFF111827),
+          color: NeoTactileTheme.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF1E293B)),
+          border: Border.all(color: NeoTactileTheme.surfaceElevated),
         ),
         child: Row(
           children: [
@@ -452,7 +453,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E293B),
+          color: NeoTactileTheme.surfaceElevated,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: const Color(0xFF38BDF8)),
         ),

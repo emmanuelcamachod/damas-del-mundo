@@ -2,6 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -1028,7 +1033,7 @@
 <body data-theme="neo-tactile" class="bg-[#181c24] text-slate-100 min-h-screen flex flex-col font-sans antialiased select-none transition-colors duration-300">
 
   <!-- TOAST FLOTANTE DE MONEDAS Y DEDUCCIONES -->
-  <div id="coinToast" class="fixed top-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 transform -translate-y-3 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black text-xs shadow-2xl flex items-center gap-2 border border-amber-300">
+  <div id="coinToast" class="fixed top-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 transform -translate-y-3 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow-xl flex items-center gap-2 border border-[#e6c89c]/40">
     <span class="text-base">🪙</span>
     <span id="coinToastMsg">Actualización de saldo</span>
   </div>
@@ -1079,17 +1084,17 @@
           <span>Iniciar con Correo Electrónico</span>
         </button>
 
-        <div id="emailFormContainer" class="hidden bg-slate-900/95 border border-slate-800 p-4 rounded-2xl space-y-3 transition-all">
+        <div id="emailFormContainer" class="hidden bg-[#20252e] border border-[#2d3440] p-4 rounded-2xl space-y-3 transition-all">
           <div>
             <label class="text-[11px] font-semibold text-slate-400 block mb-1">Correo Electrónico</label>
-            <input type="email" id="authEmailInput" placeholder="tu@correo.com" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500" />
+            <input type="email" id="authEmailInput" placeholder="tu@correo.com" class="w-full px-3 py-2 bg-[#181c24] border border-[#2d3440] rounded-xl text-[#ecdcc9] text-xs focus:outline-none focus:border-[#b86b4b]" />
           </div>
           <div>
             <label class="text-[11px] font-semibold text-slate-400 block mb-1">Contraseña</label>
-            <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500" />
+            <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full px-3 py-2 bg-[#181c24] border border-[#2d3440] rounded-xl text-[#ecdcc9] text-xs focus:outline-none focus:border-[#b86b4b]" />
           </div>
           <div class="flex gap-2 pt-1">
-            <button onclick="handleAuthAction('login_email')" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs transition cursor-pointer">
+            <button onclick="handleAuthAction('login_email')" class="flex-1 py-2.5 bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black rounded-xl text-xs transition cursor-pointer shadow-md">
               Entrar
             </button>
             <button onclick="handleAuthAction('register_email')" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition cursor-pointer">
@@ -1480,47 +1485,47 @@
               <div id="shopDailySub" class="text-[10px] text-emerald-400">+250 Monedas hoy</div>
             </div>
           </div>
-          <button id="shopDailyBtn" class="px-3 py-1 bg-emerald-500 text-slate-950 text-xs font-black rounded-lg">Reclamar</button>
+          <button id="shopDailyBtn" class="px-3 py-1 bg-[#b86b4b] text-white text-xs font-black rounded-lg shadow">Reclamar</button>
         </div>
 
         <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 px-1">Paquetes de Monedas</h3>
 
-        <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+        <div class="p-3.5 rounded-2xl bg-[#20252e] border border-[#2d3440] flex items-center justify-between">
           <div class="flex items-center gap-3">
             <span class="text-3xl">🪙</span>
             <div>
               <div class="text-xs font-black text-white">Bolsa de Principiante</div>
-              <div class="text-xs text-amber-400 font-bold font-mono">+1,200 Monedas</div>
+              <div class="text-xs text-[#e6c89c] font-bold font-mono">+1,200 Monedas</div>
             </div>
           </div>
-          <button onclick="buyCoins(1200, '$0.99 USD')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition active:scale-95">
+          <button onclick="buyCoins(1200, '$0.99 USD')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow transition active:scale-95">
             $0.99 USD
           </button>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 to-amber-950/30 border border-amber-500/60 flex items-center justify-between relative overflow-hidden">
-          <span class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[8px] font-black px-2 py-0.5 rounded-bl">MÁS POPULAR</span>
+        <div class="p-3.5 rounded-2xl bg-[#20252e] border border-[#2d3440] flex items-center justify-between relative overflow-hidden">
+          <span class="absolute top-0 right-0 bg-[#b86b4b] text-white text-[8px] font-black px-2 py-0.5 rounded-bl">MÁS POPULAR</span>
           <div class="flex items-center gap-3">
             <span class="text-3xl">💰</span>
             <div>
               <div class="text-xs font-black text-white">Bolsa de Maestro</div>
-              <div class="text-xs text-amber-400 font-bold font-mono">+6,500 Monedas</div>
+              <div class="text-xs text-[#e6c89c] font-bold font-mono">+6,500 Monedas</div>
             </div>
           </div>
-          <button onclick="buyCoins(6500, '$4.99 USD')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition active:scale-95">
+          <button onclick="buyCoins(6500, '$4.99 USD')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow-md transition active:scale-95">
             $4.99 USD
           </button>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+        <div class="p-3.5 rounded-2xl bg-[#20252e] border border-[#2d3440] flex items-center justify-between">
           <div class="flex items-center gap-3">
             <span class="text-3xl">👑</span>
             <div>
               <div class="text-xs font-black text-white">Cofre de Gran Maestro</div>
-              <div class="text-xs text-amber-400 font-bold font-mono">+15,000 Monedas</div>
+              <div class="text-xs text-[#e6c89c] font-bold font-mono">+15,000 Monedas</div>
             </div>
           </div>
-          <button onclick="buyCoins(15000, '$9.99 USD')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition active:scale-95">
+          <button onclick="buyCoins(15000, '$9.99 USD')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow transition active:scale-95">
             $9.99 USD
           </button>
         </div>
@@ -1802,7 +1807,7 @@
 
         <!-- Cabecera Dojo -->
         <div class="flex items-center gap-2.5 mb-2.5 text-left">
-          <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-2xl shadow">
+          <div class="w-11 h-11 rounded-2xl bg-[#b86b4b]/20 border border-[#b86b4b]/40 flex items-center justify-center text-2xl shadow">
             🥋
           </div>
           <div>
@@ -1817,12 +1822,12 @@
             <div class="flex items-center gap-1.5">
               <span id="academyBeltIcon" class="text-xl">🥋</span>
               <div>
-                <div id="academyBeltName" class="text-xs font-black text-amber-300">Cinturón Blanco</div>
+                <div id="academyBeltName" class="text-xs font-black text-[#ecdcc9]">Cinturón Blanco</div>
                 <div id="academyBeltSubtitle" class="text-[9px] text-slate-400">Nivel 1 de ∞</div>
               </div>
             </div>
             <div class="text-right">
-              <div class="text-xs font-black text-amber-400 font-mono flex items-center gap-1">
+              <div class="text-xs font-black text-[#e6c89c] font-mono flex items-center gap-1">
                 <span>⭐</span> <span id="academyStarsCount">0</span>
               </div>
               <div class="text-[9px] text-emerald-400 font-bold">+15 🪙 / nivel</div>
@@ -1830,12 +1835,12 @@
           </div>
           <!-- Barra de Progreso de Rango -->
           <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-            <div id="academyBeltProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-amber-300 transition-all duration-300" style="width: 15%;"></div>
+            <div id="academyBeltProgressBar" class="h-full bg-gradient-to-r from-[#b86b4b] to-[#e6c89c] transition-all duration-300" style="width: 15%;"></div>
           </div>
         </div>
 
         <!-- Botón Hero: Continuar Nivel Más Alto -->
-        <button id="academyContinueHeroBtn" onclick="continueHighestAcademyLevel()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs shadow-[0_0_15px_rgba(245,158,11,0.3)] active:scale-95 transition mb-2.5 flex items-center justify-center gap-2 cursor-pointer">
+        <button id="academyContinueHeroBtn" onclick="continueHighestAcademyLevel()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow-[0_0_15px_rgba(245,158,11,0.3)] active:scale-95 transition mb-2.5 flex items-center justify-center gap-2 cursor-pointer">
           <span>⚔️</span>
           <span id="academyContinueHeroText">CONTINUAR: NIVEL 1</span>
           <span>➜</span>
@@ -1843,7 +1848,7 @@
 
         <!-- Pestañas de Filtro de Cinturón -->
         <div class="flex gap-1.5 overflow-x-auto pb-1.5 mb-2 text-[10px] font-bold">
-          <button onclick="filterAcademyBelt('all')" id="beltTab_all" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 whitespace-nowrap">Todos</button>
+          <button onclick="filterAcademyBelt('all')" id="beltTab_all" class="px-2.5 py-1 rounded-lg bg-[#b86b4b] text-white whitespace-nowrap">Todos</button>
           <button onclick="filterAcademyBelt('blanco')" id="beltTab_blanco" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🥋 Blanco (1-15)</button>
           <button onclick="filterAcademyBelt('amarillo')" id="beltTab_amarillo" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🎗️ Amarillo (16-40)</button>
           <button onclick="filterAcademyBelt('naranja')" id="beltTab_naranja" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white whitespace-nowrap">🥉 Naranja (41-80)</button>
@@ -1861,7 +1866,7 @@
 
         <!-- Acciones Inferiores -->
         <div class="flex gap-2 mt-3 pt-2 border-t border-slate-800/80">
-          <button onclick="startRandomAcademyChallenge()" class="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-[11px] flex items-center justify-center gap-1.5 transition">
+          <button onclick="startRandomAcademyChallenge()" class="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#ecdcc9] font-bold text-[11px] flex items-center justify-center gap-1.5 transition">
             <span>🎲</span> <span>Reto Sorpresa</span>
           </button>
           <button onclick="closeModal('modalAcademy')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-[11px] hover:text-white transition">
@@ -1874,10 +1879,10 @@
     <!-- MODAL: CELEBRACIÓN DE LECCIÓN COMPLETADA -->
     <div id="modalLessonCompleted" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
       <div class="w-full max-w-sm rounded-3xl bg-[#20252e] border border-[#2d3440] p-6 text-center shadow-2xl relative text-[#ecdcc9]">
-        <div class="w-14 h-14 rounded-full bg-amber-500/20 border border-amber-500 mx-auto flex items-center justify-center text-3xl mb-2 shadow-[0_0_20px_rgba(245,158,11,0.5)]">
+        <div class="w-14 h-14 rounded-full bg-[#b86b4b]/20 border border-[#b86b4b]/40 mx-auto flex items-center justify-center text-3xl mb-2 shadow-[0_0_20px_rgba(245,158,11,0.5)]">
           🎉
         </div>
-        <div class="flex justify-center gap-1 text-xl text-amber-400 mb-1">
+        <div class="flex justify-center gap-1 text-xl text-[#e6c89c] mb-1">
           <span>⭐</span><span>⭐</span><span>⭐</span>
         </div>
         <h3 id="lessonCompleteTitle" class="text-base font-black text-white">¡LECCIÓN SUPERADA!</h3>
@@ -1885,7 +1890,7 @@
           ¡Bravísimo! Has completado el ejercicio táctico.
         </p>
         <div class="flex flex-col gap-2">
-          <button id="nextLessonBtn" onclick="nextAcademyLesson()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black text-xs shadow-lg active:scale-95 transition cursor-pointer">
+          <button id="nextLessonBtn" onclick="nextAcademyLesson()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow-lg active:scale-95 transition cursor-pointer">
             SIGUIENTE LECCIÓN ➜
           </button>
           <button onclick="closeModal('modalLessonCompleted'); openModal('modalAcademy');" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">
@@ -1913,7 +1918,7 @@
         </div>
 
         <div class="space-y-2.5 text-left mb-4">
-          <div onclick="startMatchWithBet(currentVar, 50)" class="p-3.5 rounded-2xl bg-slate-950 border border-amber-500/40 hover:border-amber-400 flex items-center justify-between cursor-pointer active:scale-98 transition">
+          <div onclick="startMatchWithBet(currentVar, 50)" class="p-3.5 rounded-2xl bg-slate-950 border border-[#2d3440] hover:border-[#b86b4b] flex items-center justify-between cursor-pointer active:scale-98 transition">
             <div class="flex items-center gap-3">
               <span class="text-2xl">🥉</span>
               <div>
@@ -1923,7 +1928,7 @@
             </div>
             <div class="text-right">
               <div class="text-xs font-black text-emerald-400 font-mono">Premio: 90 🪙</div><div class="text-[9px] text-slate-400 font-medium">Pozo 100 🪙 (Comisión 10%)</div>
-              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">ENTRAR</span>
+              <span class="text-[9px] bg-[#b86b4b] text-white px-2 py-0.5 rounded font-black shadow">ENTRAR</span>
             </div>
           </div>
 
@@ -1937,7 +1942,7 @@
             </div>
             <div class="text-right">
               <div class="text-xs font-black text-emerald-400 font-mono">Premio: 180 🪙</div><div class="text-[9px] text-slate-400 font-medium">Pozo 200 🪙 (Comisión 10%)</div>
-              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">ENTRAR</span>
+              <span class="text-[9px] bg-[#b86b4b] text-white px-2 py-0.5 rounded font-black shadow">ENTRAR</span>
             </div>
           </div>
 
@@ -1951,7 +1956,7 @@
             </div>
             <div class="text-right">
               <div class="text-xs font-black text-emerald-400 font-mono">Premio: 900 🪙</div><div class="text-[9px] text-slate-400 font-medium">Pozo 1.000 🪙 (Comisión 10%)</div>
-              <span class="text-[9px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-black">ENTRAR</span>
+              <span class="text-[9px] bg-[#b86b4b] text-white px-2 py-0.5 rounded font-black shadow">ENTRAR</span>
             </div>
           </div>
         </div>
@@ -1975,15 +1980,15 @@
         <p class="text-xs text-slate-400 mt-1 mb-4">Vuelve cada día para acumular rachas de monedas gratis.</p>
 
         <div class="grid grid-cols-4 gap-2 mb-5 text-xs">
-          <div class="p-2 rounded-xl bg-amber-500/20 border border-amber-500 text-center">
-            <div class="text-[9px] text-amber-300 font-bold">Día 1</div>
+          <div class="p-2 rounded-xl bg-[#b86b4b]/20 border border-[#b86b4b]/40 text-center">
+            <div class="text-[9px] text-[#ecdcc9] font-bold">Día 1</div>
             <div class="text-lg my-0.5">🪙</div>
             <div class="text-[10px] font-black text-white">+100</div>
           </div>
-          <div class="p-2 rounded-xl bg-amber-500/30 border border-amber-400 text-center shadow-[0_0_12px_rgba(245,158,11,0.3)]">
-            <div class="text-[9px] text-amber-300 font-bold">Día 2</div>
+          <div class="p-2 rounded-xl bg-[#b86b4b]/20 border border-[#b86b4b]/40 text-center shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+            <div class="text-[9px] text-[#ecdcc9] font-bold">Día 2</div>
             <div class="text-lg my-0.5">🪙</div>
-            <div class="text-[10px] font-black text-amber-300">+250</div>
+            <div class="text-[10px] font-black text-[#ecdcc9]">+250</div>
           </div>
           <div class="p-2 rounded-xl bg-slate-950 border border-slate-800 text-center opacity-60">
             <div class="text-[9px] text-slate-400 font-bold">Día 3</div>
@@ -1997,7 +2002,7 @@
           </div>
         </div>
 
-        <button id="modalClaimDailyBtn" onclick="claimDailyRewardModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black text-sm shadow-[0_0_20px_rgba(245,158,11,0.5)] active:scale-95 transition cursor-pointer">
+        <button id="modalClaimDailyBtn" onclick="claimDailyRewardModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-slate-950 font-black text-sm shadow-[0_0_20px_rgba(245,158,11,0.5)] active:scale-95 transition cursor-pointer">
           ¡RECLAMAR 250 MONEDAS!
         </button>
         <button onclick="closeModal('modalDailyReward')" class="mt-2 text-xs font-semibold text-slate-400 hover:text-white py-1">
@@ -2108,7 +2113,7 @@
          MODAL 3: FIN DE PARTIDA / VICTORIA
          ======================================================== -->
     <div id="modalVictory" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="bg-slate-900 border border-amber-500/60 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative">
+      <div class="bg-slate-900 border border-[#2d3440] rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative">
         <div id="victoryIcon" class="w-16 h-16 mx-auto rounded-3xl bg-[#b86b4b]/20 border-2 border-[#b86b4b] flex items-center justify-center text-3xl mb-3 shadow-[0_0_25px_rgba(184,107,75,0.4)]">
           🏆
         </div>
@@ -2118,7 +2123,7 @@
         <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 mb-4 grid grid-cols-4 gap-1 text-center text-xs">
           <div>
             <div class="text-[9px] text-slate-400 font-bold uppercase">Premio Neto</div>
-            <div id="victoryPrize" class="text-sm font-black text-amber-400 font-mono mt-0.5">+90 🪙</div>
+            <div id="victoryPrize" class="text-sm font-black text-[#e6c89c] font-mono mt-0.5">+90 🪙</div>
           </div>
           <div>
             <div class="text-[9px] text-slate-400 font-bold uppercase">Comisión Casa</div>
@@ -2135,7 +2140,7 @@
         </div>
 
         <div class="flex gap-2">
-          <button onclick="restartGame()" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition">
+          <button onclick="restartGame()" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow transition">
             Jugar Revancha
           </button>
           <button onclick="navigateTo('screenLobby'); closeModal('modalVictory')" class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition">
@@ -2308,12 +2313,12 @@
     const ACADEMY_BELTS = [
       { id: 'blanco', minLevel: 1, maxLevel: 15, name: 'Cinturón Blanco', icon: '🥋', color: 'text-slate-100', title: 'Fundamentos & Salto Simple', desc: 'Movimiento diagonal, capturas básicas y lectura de casillas.' },
       { id: 'amarillo', minLevel: 16, maxLevel: 40, name: 'Cinturón Amarillo', icon: '🎗️', color: 'text-yellow-400', title: 'Encadenamiento & Bloqueo', desc: 'Capturas dobles, esquivar trampas y dominar el centro.' },
-      { id: 'naranja', minLevel: 41, maxLevel: 80, name: 'Cinturón Naranja', icon: '🥉', color: 'text-amber-500', title: 'El Pasillo de Coronación', desc: 'Romper barreras enemigas para coronar Dama.' },
+      { id: 'naranja', minLevel: 41, maxLevel: 80, name: 'Cinturón Naranja', icon: '🥉', color: 'text-[#e6c89c]', title: 'El Pasillo de Coronación', desc: 'Romper barreras enemigas para coronar Dama.' },
       { id: 'verde', minLevel: 81, maxLevel: 140, name: 'Cinturón Verde', icon: '🥈', color: 'text-emerald-400', title: 'El Poder de la Dama', desc: 'Vuelos de largo alcance y barridos diagonales.' },
       { id: 'azul', minLevel: 141, maxLevel: 220, name: 'Cinturón Azul', icon: '🥇', color: 'text-blue-400', title: 'Sacrificios y El Golpe', desc: 'Entregar piezas como carnada para asestar golpes letales.' },
       { id: 'marron', minLevel: 221, maxLevel: 350, name: 'Cinturón Marrón', icon: '🪵', color: 'text-amber-700', title: 'Finales y Triangulación', desc: 'Encerrar reyes rivales y precisión en finales de 2 vs 1.' },
       { id: 'negro', minLevel: 351, maxLevel: 500, name: 'Cinturón Negro', icon: '⚔️', color: 'text-purple-400', title: 'Maestría Táctica Suprema', desc: 'Combinaciones complejas de 3 a 5 saltos en varias variantes.' },
-      { id: 'infinito', minLevel: 501, maxLevel: 9999999, name: 'Gran Maestro Infinito', icon: '👑', color: 'text-amber-300', title: 'Desafíos Infinitos Procedurales', desc: 'Puzzles infinitos generados algorítmicamente sin fin.' }
+      { id: 'infinito', minLevel: 501, maxLevel: 9999999, name: 'Gran Maestro Infinito', icon: '👑', color: 'text-[#ecdcc9]', title: 'Desafíos Infinitos Procedurales', desc: 'Puzzles infinitos generados algorítmicamente sin fin.' }
     ];
 
     let academyMaxLevel = 1;
@@ -2732,9 +2737,9 @@
         const card = document.createElement('div');
         let cardStyle = "p-3 rounded-2xl border flex items-center justify-between transition cursor-pointer active:scale-98 ";
         if (isCurrent) {
-          cardStyle += "bg-amber-500/15 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.2)]";
+          cardStyle += "bg-[#b86b4b]/15 border-[#b86b4b] shadow-[0_0_15px_rgba(245,158,11,0.2)]";
         } else if (isUnlocked) {
-          cardStyle += "bg-slate-800/70 border-slate-700/60 hover:border-amber-500/50";
+          cardStyle += "bg-slate-800/70 border-slate-700/60 hover:border-[#b86b4b]/50";
         } else {
           cardStyle += "bg-slate-900/40 border-slate-800 opacity-60 cursor-not-allowed";
         }
@@ -2749,7 +2754,7 @@
         let starsHtml = '';
         if (isUnlocked) {
           for (let s = 1; s <= 3; s++) {
-            starsHtml += s <= stars ? '<span class="text-amber-400">⭐</span>' : '<span class="text-slate-600">★</span>';
+            starsHtml += s <= stars ? '<span class="text-[#e6c89c]">⭐</span>' : '<span class="text-slate-600">★</span>';
           }
         } else {
           starsHtml = '<span class="text-[10px] text-slate-500 font-bold">🔒 BLOQUEADO</span>';
@@ -2759,13 +2764,13 @@
 
         card.innerHTML = `
           <div class="flex items-center gap-2.5">
-            <div class="w-9 h-9 rounded-xl ${isCurrent ? 'bg-amber-500 text-slate-950 font-black' : 'bg-amber-500/15 border border-amber-500/30'} flex items-center justify-center text-lg shadow-sm">
+            <div class="w-9 h-9 rounded-xl ${isCurrent ? 'bg-[#b86b4b] text-white font-black' : 'bg-[#b86b4b]/15 border border-[#b86b4b]/30'} flex items-center justify-center text-lg shadow-sm">
               ${icon}
             </div>
             <div>
               <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="text-xs font-black ${isCurrent ? 'text-amber-300' : 'text-white'}">${les.title}</span>
-                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded ${isCurrent ? 'bg-amber-500 text-slate-950' : 'bg-slate-700 text-amber-300'}">${les.badge}</span>
+                <span class="text-xs font-black ${isCurrent ? 'text-[#ecdcc9]' : 'text-white'}">${les.title}</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded ${isCurrent ? 'bg-[#b86b4b] text-white' : 'bg-[#181c24] text-[#e6c89c]'}">${les.badge}</span>
                 ${les.category ? `<span class="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-cyan-950/70 border border-cyan-500/30 text-cyan-300">${les.category}</span>` : ''}
               </div>
               <div class="text-[10px] text-slate-400 leading-tight mt-0.5">${les.desc}</div>
@@ -2796,7 +2801,7 @@
       });
       const activeTab = document.getElementById(`beltTab_${beltId}`);
       if (activeTab) {
-        activeTab.className = 'px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 whitespace-nowrap font-black';
+        activeTab.className = 'px-2.5 py-1 rounded-lg bg-[#b86b4b] text-white whitespace-nowrap font-black';
       }
       renderAcademyLessonsList();
     }
@@ -2825,7 +2830,7 @@
       // Actualizar Header y rival en screenGame (Ambiente Profesional de Torneo)
       const variantBadge = document.getElementById('gameActiveVariantBadge');
       if (variantBadge) {
-        variantBadge.innerHTML = `<span class="text-amber-400 font-black">🥋 ${les.badge}</span> <span class="text-slate-300 font-semibold">• ${les.technique}</span>`;
+        variantBadge.innerHTML = `<span class="text-[#e6c89c] font-black">🥋 ${les.badge}</span> <span class="text-slate-300 font-semibold">• ${les.technique}</span>`;
       }
       const rName = document.getElementById('rivalName');
       if (rName) rName.textContent = 'Gran Maestro Némesis';
@@ -3701,7 +3706,7 @@
               document.getElementById('lessonCompleteTitle').textContent = `¡${les.title.toUpperCase()} SUPERADO!`;
               document.getElementById('lessonCompleteDesc').innerHTML = `
                 <div class="mb-2 text-slate-200">${les.successMsg}</div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold mb-1">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#b86b4b]/15 border border-[#b86b4b]/30 text-[#ecdcc9] text-xs font-bold mb-1">
                   <span>${belt.icon}</span> <span>${belt.name}</span>
                 </div>
                 <div class="text-[11px] text-emerald-400 font-bold mt-1">+${totalCoinsWon} 🪙 Monedas (+${streakBonus} racha 🔥 x${academyTacticalStreak})</div>
@@ -3802,19 +3807,19 @@
       if (isAcademyMode && currentAcademyLessonIdx !== null) {
         const les = getAcademyLesson(currentAcademyLessonIdx);
         if (les) {
-          info.innerHTML = `<span class="text-amber-400 font-bold">🎓 Mentor:</span> ${les.hint}`;
+          info.innerHTML = `<span class="text-[#e6c89c] font-bold">🎓 Mentor:</span> ${les.hint}`;
           return;
         }
       }
       if (isPassAndPlay) {
         if (turn === 'w') {
-          info.innerHTML = '<span class="text-amber-400 font-bold">⚪ Turno de Blancas (Jugador 1):</span> Toca una ficha blanca para mover';
+          info.innerHTML = '<span class="text-[#e6c89c] font-bold">⚪ Turno de Blancas (Jugador 1):</span> Toca una ficha blanca para mover';
         } else {
           info.innerHTML = '<span class="text-sky-400 font-bold">⚫ Turno de Negras (Jugador 2):</span> Toca una ficha negra para mover';
         }
       } else {
         if (turn === 'w') {
-          info.innerHTML = '<span class="text-amber-400">⚪ Tu turno:</span> Toca una ficha blanca para mover';
+          info.innerHTML = '<span class="text-[#e6c89c]">⚪ Tu turno:</span> Toca una ficha blanca para mover';
         } else {
           info.innerHTML = '<span class="text-slate-400">⚫ Turno de la IA:</span> Calculando mejor movimiento...';
         }
@@ -4030,7 +4035,7 @@ try { initialTheme = localStorage.getItem('gem_neo_theme_v5') || 'neo-tactile'; 
       if (btn) {
         btn.textContent = soundEnabled ? 'ACTIVO' : 'SILENCIADO';
         btn.className = soundEnabled 
-          ? 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs'
+          ? 'px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-bold text-xs'
           : 'px-3 py-1.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs';
       }
     }
@@ -4041,7 +4046,7 @@ try { initialTheme = localStorage.getItem('gem_neo_theme_v5') || 'neo-tactile'; 
       if (btn) {
         btn.textContent = huffingEnabled ? 'ACTIVO' : 'NO';
         btn.className = huffingEnabled 
-          ? 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs'
+          ? 'px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-bold text-xs'
           : 'px-3 py-1.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs';
       }
     }
@@ -4054,7 +4059,7 @@ try { initialTheme = localStorage.getItem('gem_neo_theme_v5') || 'neo-tactile'; 
       });
       const map = { easy: 'btnDiffEasy', medium: 'btnDiffMed', hard: 'btnDiffHard', master: 'btnDiffMaster' };
       if (map[d] && document.getElementById(map[d])) {
-        document.getElementById(map[d]).className = 'py-2 rounded-xl bg-amber-500 text-slate-950 text-[10px] font-black';
+        document.getElementById(map[d]).className = 'py-2 rounded-xl bg-[#b86b4b] text-white text-[10px] font-black';
       }
     }
 

@@ -19,6 +19,9 @@ enum UiFeedbackState {
 }
 
 enum BoardVisualTheme {
+  neoTactile,
+  arcadeEspresso,
+  obsidianCopper,
   classicWood,
   luxuryMarble,
   cyberNeon,
@@ -27,6 +30,12 @@ enum BoardVisualTheme {
 
   String get displayName {
     switch (this) {
+      case BoardVisualTheme.neoTactile:
+        return 'Neo-Tactile Studio';
+      case BoardVisualTheme.arcadeEspresso:
+        return 'Apple Arcade Espresso';
+      case BoardVisualTheme.obsidianCopper:
+        return 'Obsidian & Copper Glass';
       case BoardVisualTheme.classicWood:
         return 'Nogal & Arce Imperial';
       case BoardVisualTheme.luxuryMarble:
@@ -131,7 +140,7 @@ class GameController extends ChangeNotifier {
   int _aiSearchDepth = 4;
   AiDifficulty _aiDifficulty = AiDifficulty.hard;
   double _lastEvaluationCp = 0.0;
-  BoardVisualTheme _boardVisualTheme = BoardVisualTheme.classicWood;
+  BoardVisualTheme _boardVisualTheme = BoardVisualTheme.neoTactile;
 
   BoardState get currentBoard => _currentBoard;
   BoardPosition? get selectedPosition => _selectedPosition;

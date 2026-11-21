@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import '../auth/auth.dart';
 import 'lobby_screen.dart';
+import 'neo_tactile_theme.dart';
 
 class AuthScreen extends StatefulWidget {
   final AuthService authService;
@@ -114,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF090D16),
+      backgroundColor: NeoTactileTheme.background,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -149,9 +150,9 @@ class _AuthScreenState extends State<AuthScreen> {
           width: 72,
           height: 72,
           decoration: BoxDecoration(
-            color: const Color(0xFF1E293B),
+            color: NeoTactileTheme.surface,
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFF59E0B), width: 2),
+            border: Border.all(color: NeoTactileTheme.terracotta, width: 2),
             boxShadow: const [
               BoxShadow(color: Color(0x33F59E0B), blurRadius: 20, spreadRadius: 2),
             ],
@@ -200,9 +201,9 @@ class _AuthScreenState extends State<AuthScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF111827),
+        color: NeoTactileTheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF1F2937)),
+        border: Border.all(color: NeoTactileTheme.surfaceBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -259,7 +260,7 @@ class _AuthScreenState extends State<AuthScreen> {
         labelStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 12),
         prefixIcon: Icon(icon, color: const Color(0xFF64748B), size: 18),
         filled: true,
-        fillColor: const Color(0xFF0B0F19),
+        fillColor: NeoTactileTheme.background,
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -283,7 +284,7 @@ class _AuthScreenState extends State<AuthScreen> {
       child: ElevatedButton(
         onPressed: _isLoading ? null : _submitEmail,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFF59E0B),
+          backgroundColor: NeoTactileTheme.terracotta,
           foregroundColor: const Color(0xFF090D16),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),

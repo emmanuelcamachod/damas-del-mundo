@@ -8,10 +8,16 @@ import 'academy_sheet.dart';
 import 'ai_dna_sheet.dart';
 import 'coin_shop_dialog.dart';
 import 'game_controller.dart';
+import 'neo_tactile_theme.dart';
 import 'victory_celebration_dialog.dart';
 
 class BoardScreen extends StatefulWidget {
-  const BoardScreen({super.key});
+  final bool vsAi;
+
+  const BoardScreen({
+    super.key,
+    this.vsAi = true,
+  });
 
   @override
   State<BoardScreen> createState() => _BoardScreenState();
@@ -25,6 +31,9 @@ class _BoardScreenState extends State<BoardScreen> {
   void initState() {
     super.initState();
     _controller = GameController();
+    if (!widget.vsAi) {
+      _controller.toggleVsAiMode(false);
+    }
     _controller.addListener(_handleGameStateChanged);
   }
 
@@ -67,7 +76,7 @@ class _BoardScreenState extends State<BoardScreen> {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) => Scaffold(
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: NeoTactileTheme.background,
         appBar: _buildAppBar(),
         body: SafeArea(
           child: Column(
@@ -90,7 +99,7 @@ class _BoardScreenState extends State<BoardScreen> {
         ? 'Academia: ${lesson.title}'
         : 'Damas: ${_controller.currentBoard.ruleset.displayName}';
     return AppBar(
-      backgroundColor: const Color(0xFF1E293B),
+      backgroundColor: NeoTactileTheme.surface,
       foregroundColor: Colors.white,
       title: Text(
         titleText,
@@ -148,7 +157,7 @@ class _BoardScreenState extends State<BoardScreen> {
   Widget _buildVariantAndModeToolbar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      color: const Color(0xFF1E293B),
+      color: NeoTactileTheme.surface,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -179,20 +188,20 @@ class _BoardScreenState extends State<BoardScreen> {
       constraints: const BoxConstraints(minHeight: 48),
       child: ActionChip(
         onPressed: () => CoinShopDialog.show(context, _controller),
-        backgroundColor: const Color(0xFF0F172A),
-        avatar: const Icon(Icons.monetization_on, color: Colors.amber, size: 20),
+        backgroundColor: NeoTactileTheme.background,
+        avatar: const Icon(Icons.monetization_on, color: NeoTactileTheme.sand, size: 20),
         label: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               '${_controller.playerCoins} 🪙',
               style: const TextStyle(
-                color: Colors.amber,
+                color: NeoTactileTheme.sand,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(width: 4),
-            const Icon(Icons.add_circle, color: Colors.amber, size: 16),
+            const Icon(Icons.add_circle, color: NeoTactileTheme.sand, size: 16),
           ],
         ),
       ),
@@ -291,7 +300,7 @@ class _BoardScreenState extends State<BoardScreen> {
         constraints: const BoxConstraints(minHeight: 48),
         child: Chip(
           backgroundColor: const Color(0xFF334155),
-          avatar: const Icon(Icons.palette_outlined, color: Colors.amber, size: 20),
+          avatar: const Icon(Icons.palette_outlined, color: NeoTactileTheme.sand, size: 20),
           label: Text(
             _controller.boardVisualTheme.displayName,
             style: const TextStyle(
@@ -477,7 +486,7 @@ class _BoardScreenState extends State<BoardScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
+        color: NeoTactileTheme.surface,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: borderColor, width: 2),
       ),
@@ -558,6 +567,12 @@ class _BoardScreenState extends State<BoardScreen> {
 
   Color _resolveBoardBorderColor() {
     switch (_controller.boardVisualTheme) {
+      case BoardVisualTheme.neoTactile:
+        return const Color(0xFF3D2A1D);
+      case BoardVisualTheme.arcadeEspresso:
+        return const Color(0xFFD4AF37);
+      case BoardVisualTheme.obsidianCopper:
+        return const Color(0xFFB87333);
       case BoardVisualTheme.classicWood:
         return const Color(0xFF451A03);
       case BoardVisualTheme.luxuryMarble:
@@ -573,6 +588,12 @@ class _BoardScreenState extends State<BoardScreen> {
 
   Color _resolveBoardFrameColor() {
     switch (_controller.boardVisualTheme) {
+      case BoardVisualTheme.neoTactile:
+        return const Color(0xFF221A15);
+      case BoardVisualTheme.arcadeEspresso:
+        return const Color(0xFF1E130C);
+      case BoardVisualTheme.obsidianCopper:
+        return const Color(0xFF161922);
       case BoardVisualTheme.classicWood:
         return const Color(0xFF2D180B);
       case BoardVisualTheme.luxuryMarble:
@@ -667,6 +688,12 @@ class _BoardScreenState extends State<BoardScreen> {
     final theme = _controller.boardVisualTheme;
     if (!isPlayable) {
       switch (theme) {
+        case BoardVisualTheme.neoTactile:
+          return const Color(0xFF2E3543);
+        case BoardVisualTheme.arcadeEspresso:
+          return const Color(0xFFDFCAA7);
+        case BoardVisualTheme.obsidianCopper:
+          return const Color(0xFF252B3B);
         case BoardVisualTheme.classicWood:
           return const Color(0xFFD8B68A);
         case BoardVisualTheme.luxuryMarble:
@@ -680,6 +707,12 @@ class _BoardScreenState extends State<BoardScreen> {
       }
     }
     switch (theme) {
+      case BoardVisualTheme.neoTactile:
+        return const Color(0xFF1D222A);
+      case BoardVisualTheme.arcadeEspresso:
+        return const Color(0xFF382114);
+      case BoardVisualTheme.obsidianCopper:
+        return const Color(0xFF11141D);
       case BoardVisualTheme.classicWood:
         return const Color(0xFF5C3A21);
       case BoardVisualTheme.luxuryMarble:
@@ -713,6 +746,12 @@ class _BoardScreenState extends State<BoardScreen> {
     final theme = _controller.boardVisualTheme;
     if (isWhite) {
       switch (theme) {
+        case BoardVisualTheme.neoTactile:
+          return const [Color(0xFFFFFFFF), Color(0xFFECDCC9), Color(0xFFDFCAA7)];
+        case BoardVisualTheme.arcadeEspresso:
+          return const [Color(0xFFFFFFFF), Color(0xFFF7EDD8), Color(0xFFDFCAA7)];
+        case BoardVisualTheme.obsidianCopper:
+          return const [Color(0xFFE2E8F0), Color(0xFF94A3B8), Color(0xFF64748B)];
         case BoardVisualTheme.classicWood:
           return const [Color(0xFFFFFFFF), Color(0xFFF1F5F9), Color(0xFFCBD5E1)];
         case BoardVisualTheme.luxuryMarble:
@@ -726,6 +765,12 @@ class _BoardScreenState extends State<BoardScreen> {
       }
     }
     switch (theme) {
+      case BoardVisualTheme.neoTactile:
+        return const Color(0xFF1D222A);
+      case BoardVisualTheme.arcadeEspresso:
+        return const Color(0xFF382114);
+      case BoardVisualTheme.obsidianCopper:
+        return const Color(0xFF11141D);
       case BoardVisualTheme.classicWood:
         return const [Color(0xFF334155), Color(0xFF1E293B), Color(0xFF090D16)];
       case BoardVisualTheme.luxuryMarble:
@@ -868,7 +913,7 @@ class _BoardScreenState extends State<BoardScreen> {
       height: 76,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: const Color(0xFF1E293B),
+      color: NeoTactileTheme.surface,
       child: logs.isEmpty
           ? _buildEmptyMoveHistoryState()
           : _buildPopulatedMoveHistory(logs),
