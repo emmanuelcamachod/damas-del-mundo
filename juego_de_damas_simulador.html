@@ -548,6 +548,246 @@
       box-shadow: 0 1px 0 #8c4e33, 0 2px 4px rgba(184, 107, 75, 0.35);
     }
 
+
+    /* ESTILOS DE PRECISIÓN NEO-TACTILE STUDIO */
+    .neo-menu-card {
+      background-color: #20252e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.15s ease;
+    }
+    .neo-menu-card:hover {
+      border-color: rgba(184, 107, 75, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .neo-menu-card:active {
+      transform: translateY(2px);
+    }
+
+    /* VISTA ISOMÉTRICA DECORATIVA DEL TABLERO (MOCKUP OPCIÓN F) */
+    .neo-iso-board {
+      width: 220px;
+      height: 220px;
+      transform: rotateX(60deg) rotateZ(-45deg);
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 25px 30px rgba(0,0,0,0.85));
+    }
+    .neo-iso-grid {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    /* BOTONES DEL JUEGO MATCH SCREEN (MOCKUP OPCIÓN F) */
+    .neo-game-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: #20252e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 0 #14171d, 0 8px 16px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      color: #f1f5f9;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      user-select: none;
+    }
+    .neo-game-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #14171d, 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    .neo-btn-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+    .neo-btn-label {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+
+    /* DOCK INFERIOR CON PUNTO ACTIVO TERRACOTA */
+    .bottom-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: #14171d;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      z-index: 40;
+    }
+    .dock-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px 12px;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+    .dock-item .dock-icon {
+      font-size: 22px;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+    .dock-item .dock-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: transparent;
+      margin-top: 4px;
+      transition: all 0.15s ease;
+    }
+    .dock-item.active {
+      color: #ffffff;
+    }
+    .dock-item.active .dock-icon {
+      transform: translateY(-2px);
+      color: #ffffff;
+    }
+    .dock-item.active .dock-dot {
+      background: #b86b4b;
+      box-shadow: 0 0 8px #b86b4b;
+    }
+
+    
+    /* ESTILOS DE PRECISIÓN NEO-TACTILE STUDIO (MOCKUPS OPCIÓN F) */
+    .neo-menu-card {
+      background-color: #20252e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.15s ease;
+    }
+    .neo-menu-card:hover {
+      border-color: rgba(184, 107, 75, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .neo-menu-card:active {
+      transform: translateY(2px);
+    }
+
+    /* VISTA ISOMÉTRICA DECORATIVA DEL TABLERO (MOCKUP OPCIÓN F) */
+    .neo-iso-board {
+      width: 220px;
+      height: 220px;
+      transform: rotateX(60deg) rotateZ(-45deg);
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 25px 30px rgba(0,0,0,0.85));
+    }
+    .neo-iso-grid {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    /* BOTONES DEL JUEGO MATCH SCREEN (MOCKUP OPCIÓN F) */
+    .neo-game-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: #20252e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 0 #14171d, 0 8px 16px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      color: #f1f5f9;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      user-select: none;
+    }
+    .neo-game-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #14171d, 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    .neo-btn-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+    .neo-btn-label {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+
+    /* DOCK INFERIOR CON PUNTO ACTIVO TERRACOTA */
+    .bottom-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: #14171d;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      z-index: 40;
+    }
+    .dock-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px 12px;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+    .dock-item .dock-icon {
+      font-size: 22px;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+    .dock-item .dock-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: transparent;
+      margin-top: 4px;
+      transition: all 0.15s ease;
+    }
+    .dock-item.active {
+      color: #ffffff;
+    }
+    .dock-item.active .dock-icon {
+      transform: translateY(-2px);
+      color: #ffffff;
+    }
+    .dock-item.active .dock-dot {
+      background: #b86b4b;
+      box-shadow: 0 0 8px #b86b4b;
+    }
+
     /* ESTILOS DE ERGONOMÍA MÓVIL Y DOCK */
     * {
       -webkit-tap-highlight-color: transparent;
@@ -818,153 +1058,193 @@
          ======================================================== -->
     <section id="screenLobby" class="app-screen min-h-screen pb-24 overflow-y-auto">
       
-      <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between shadow-md">
-        <div onclick="navigateTo('screenProfile')" class="flex items-center gap-2.5 cursor-pointer">
-          <div class="relative">
-            <div id="lobbyAvatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 p-0.5 shadow-sm">
-              <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center text-amber-400">
-                <svg class="w-5 h-5 drop-shadow" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
-                </svg>
-              </div>
-            </div>
-            <span class="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black px-1 rounded-full border border-slate-900">Nv.5</span>
+      <!-- Barra Superior con Perfil Rápido y Ajustes -->
+      <div class="px-5 pt-3 pb-1 flex items-center justify-between select-none">
+        <div onclick="navigateTo('screenProfile')" class="flex items-center gap-2 cursor-pointer active:scale-95 transition">
+          <div class="w-8 h-8 rounded-full bg-[#20252e] border border-white/10 flex items-center justify-center text-sm shadow">
+            👤
           </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span id="lobbyUserName" class="text-xs font-black text-white">Emmanuel</span>
-              <span id="lobbyBadgeGuest" class="text-[9px] px-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">INVITADO</span>
-            </div>
-            <div class="text-[10px] text-slate-400 font-medium flex items-center gap-1">
-              <span>🏆 ELO</span>
-              <span id="lobbyUserElo" class="text-amber-400 font-bold font-mono">1250</span>
-            </div>
+          <div class="text-left">
+            <div id="lobbyUserName" class="text-xs font-black text-white leading-tight">Emmanuel</div>
+            <div class="text-[9px] text-[#e6c89c] font-bold">🏆 <span id="lobbyUserElo">1250</span></div>
           </div>
         </div>
 
-        <div class="flex items-center gap-2">
-          <div onclick="navigateTo('screenShop')" class="px-2.5 py-1.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-300 hover:bg-amber-900/40 flex items-center gap-1.5 cursor-pointer shadow-sm active:scale-95 transition">
-            <span>🪙</span>
-            <span id="lobbyCoinsCount" class="font-mono text-white text-xs font-black">1,000</span>
-            <span class="w-4 h-4 rounded-full bg-amber-500 text-slate-950 text-[10px] font-black flex items-center justify-center">+</span>
-          </div>
+        <button onclick="openModal('modalSettings')" class="w-8 h-8 rounded-xl bg-[#20252e] border border-white/10 flex items-center justify-center text-xs text-slate-300 active:scale-95 transition cursor-pointer">
+          ⚙️
+        </button>
+      </div>
 
-          <button onclick="openModal('modalSettings')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm transition cursor-pointer">
-            ⚙️
-          </button>
-        </div>
+      <!-- Top Title exactamente idéntico al mockup estilo_f_neo_tactile_studio_1795268829564.jpg -->
+      <header class="pt-3 pb-2 text-center select-none">
+        <h1 class="text-2xl font-black tracking-wider text-white uppercase drop-shadow-sm">NEO-TACTILE</h1>
+        <h2 class="text-2xl font-black tracking-widest text-[#b86b4b] uppercase -mt-1 drop-shadow-sm">CHECKERS</h2>
+        <p class="text-[10px] text-slate-400 font-semibold tracking-widest uppercase mt-0.5">Damas del Mundo • Edición de Élite</p>
       </header>
 
-      <main class="p-4 space-y-4">
+      <main class="px-5 py-2 space-y-3.5 max-w-sm mx-auto">
 
-        <!-- Banner de Recompensa Diaria -->
-        <div id="lobbyDailyBanner" onclick="tryOpenDailyModal()" class="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border border-emerald-500/50 flex items-center justify-between shadow-lg cursor-pointer active:scale-98 transition">
-          <div class="flex items-center gap-3">
-            <div id="lobbyDailyIcon" class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl animate-bounce">
-              🎁
-            </div>
-            <div>
-              <div class="text-xs font-black text-white flex items-center gap-1.5">
-                <span id="lobbyDailyTitle">¡Recompensa Diaria Lista!</span>
-                <span id="lobbyDailyDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <!-- Isometric Checkers Board 3D Showcase (matching mockup estilo_f_neo_tactile_studio_1795268829564.jpg) -->
+        <div class="relative w-full aspect-[16/10] flex items-center justify-center my-1 select-none">
+          <div class="neo-iso-board">
+            <div class="neo-iso-grid">
+              <div class="w-full h-full rounded-2xl p-2 bg-[#2b2520] border-4 border-[#231e1a] shadow-[0_20px_35px_rgba(0,0,0,0.7),inset_0_2px_4px_rgba(255,255,255,0.12)]">
+                <div class="w-full h-full grid grid-cols-6 grid-rows-6 rounded-xl overflow-hidden border border-black/50 shadow-inner">
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#463b38] to-[#181413] border border-[#b86b4b] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#b86b4b]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#463b38] to-[#181413] border border-[#b86b4b] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#b86b4b]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f]"></div>
+
+                  <div class="bg-[#42372f]"></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#463b38] to-[#181413] border border-[#b86b4b] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#b86b4b]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#463b38] to-[#181413] border border-[#b86b4b] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#b86b4b]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f]"></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f]"></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f]"></div>
+
+                  <div class="bg-[#42372f]"></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f]"></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#fffdfa] to-[#cbbaa5] border border-[#bfa891] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#bfa891]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#fffdfa] to-[#cbbaa5] border border-[#bfa891] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#bfa891]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#fffdfa] to-[#cbbaa5] border border-[#bfa891] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#bfa891]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f]"></div>
+
+                  <div class="bg-[#42372f]"></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#fffdfa] to-[#cbbaa5] border border-[#bfa891] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#bfa891]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                  <div class="bg-[#42372f] flex items-center justify-center"><div class="w-4/5 h-4/5 rounded-full bg-gradient-to-br from-[#fffdfa] to-[#cbbaa5] border border-[#bfa891] shadow-md flex items-center justify-center"><div class="w-1/2 h-1/2 rounded-full border border-dashed border-[#bfa891]/60"></div></div></div>
+                  <div class="bg-[#d8c4a9]"></div>
+                </div>
               </div>
-              <p id="lobbyDailySub" class="text-[10px] text-emerald-300 font-medium">Toca para reclamar +250 🪙 de monedas gratis</p>
             </div>
           </div>
-          <button id="lobbyDailyBtn" class="px-3 py-1.5 bg-emerald-500 text-slate-950 font-black text-xs rounded-xl shadow-md">
-            Abrir
+        </div>
+
+        <!-- 3 GRANDES TARJETAS ACCIÓN NEO-TACTILE (PLAY ONLINE, PLAY VS AI, PRACTICE MODE) -->
+        <div class="space-y-3 pt-1">
+
+          <!-- 1. PLAY ONLINE / JUGAR CON APUESTA -->
+          <div onclick="startMatchWithBet(currentVar, 50)" class="neo-menu-card group cursor-pointer active:scale-98 transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-[#e6c89c] text-[#b86b4b] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform flex-shrink-0">
+              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-black text-white uppercase tracking-wider group-hover:text-[#e6c89c] transition-colors">PLAY ONLINE</div>
+              <div class="text-[11px] text-slate-400 font-medium truncate">Mesa 50 🪙 • Ganador 90 🪙 (Rake 10%)</div>
+            </div>
+            <span class="text-slate-500 group-hover:text-white transition-colors text-base font-bold pr-1">›</span>
+          </div>
+
+          <!-- 2. PLAY VS AI -->
+          <div onclick="startMatchWithBet(currentVar, 50)" class="neo-menu-card group cursor-pointer active:scale-98 transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-[#e6c89c] text-[#b86b4b] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform flex-shrink-0">
+              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                <circle cx="12" cy="5" r="2"></circle>
+                <path d="M12 7v4"></path>
+                <line x1="8" y1="16" x2="8.01" y2="16"></line>
+                <line x1="16" y1="16" x2="16.01" y2="16"></line>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-black text-white uppercase tracking-wider group-hover:text-[#e6c89c] transition-colors">PLAY VS AI</div>
+              <div class="text-[11px] text-slate-400 font-medium truncate">IA Heurística Némesis • Zobrist Hashing</div>
+            </div>
+            <span class="text-slate-500 group-hover:text-white transition-colors text-base font-bold pr-1">›</span>
+          </div>
+
+          <!-- 3. PRACTICE MODE -->
+          <div onclick="openModal('modalAcademy')" class="neo-menu-card group cursor-pointer active:scale-98 transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-[#e6c89c] text-[#b86b4b] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform flex-shrink-0">
+              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-black text-white uppercase tracking-wider group-hover:text-[#e6c89c] transition-colors">PRACTICE MODE</div>
+              <div class="text-[11px] text-slate-400 font-medium truncate">Academia del Maestro • Retos & Cinturones</div>
+            </div>
+            <span class="text-slate-500 group-hover:text-white transition-colors text-base font-bold pr-1">›</span>
+          </div>
+        </div>
+
+        <!-- COIN PILL COUNTER (Fiel al mockup estilo_f_neo_tactile_studio_1795268829564.jpg) -->
+        <div class="text-center pt-3 pb-1">
+          <div class="text-[10px] text-slate-400 font-medium tracking-wide lowercase mb-1.5">coin pill counter</div>
+          <button onclick="navigateTo('screenShop')" class="px-8 py-2.5 rounded-full bg-[#d8c4a9] text-[#1c2026] font-black text-base shadow-[0_6px_18px_rgba(0,0,0,0.45)] hover:brightness-105 active:scale-95 transition-all inline-flex items-center gap-2 cursor-pointer">
+            <span class="text-lg">🪙</span>
+            <span id="lobbyCoinsCount">1,000</span>
           </button>
         </div>
 
-        <!-- Tarjeta Heroica: PARTIDA RÁPIDA CON APUESTA -->
-        <div class="relative rounded-3xl overflow-hidden border border-amber-500/40 bg-gradient-to-br from-amber-950/70 via-slate-950 to-amber-950/40 p-5 shadow-2xl">
-          <div class="relative z-10">
-            <div class="flex items-center justify-between mb-2">
-              <span id="heroActiveThemeBadge" class="text-[10px] uppercase font-black tracking-widest text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
-                🪵 TABLERO DE NOGAL ARTESANAL
-              </span>
-              <button onclick="navigateTo('screenVariants')" class="text-[11px] font-bold text-slate-400 hover:text-white flex items-center gap-1 transition">
-                <span>Cambiar variante</span>
-                <span>▾</span>
-              </button>
+        <!-- ACCESOS COMPLEMENTARIOS (Variantes, Pase y Juega, Salas, Bono Diario) -->
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <div onclick="navigateTo('screenVariants')" class="p-3 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/50 cursor-pointer active:scale-95 transition-all shadow-md flex items-center gap-2.5">
+            <span class="text-xl">🌍</span>
+            <div class="min-w-0">
+              <div class="text-xs font-black text-white truncate">7 Variantes</div>
+              <div id="heroActiveVariantTitle" class="text-[10px] text-[#e6c89c] font-semibold truncate">Española 8x8</div>
             </div>
-
-            <h2 id="heroActiveVariantTitle" class="text-xl font-black text-white tracking-tight mb-1">
-              🇪🇸 Damas Españolas (8x8)
-            </h2>
-            <p id="heroActiveVariantDesc" class="text-xs text-amber-200/70 mb-4 line-clamp-2">
-              Damas voladoras de largo alcance sobre tablero de madera tallada. Entrada: 50 🪙 • Pozo: 100 🪙 • Premio Ganador: 90 🪙 (Comisión de la casa: 10 🪙).
-            </p>
-
-            <button onclick="startMatchWithBet(currentVar, 50)" class="w-full py-4 rounded-2xl btn-neo-terracotta text-sm flex items-center justify-center gap-2 cursor-pointer">
-              <span class="text-lg">⚔️</span>
-              <span>¡JUGAR POR 50 🪙 (PREMIO 90 🪙)!</span>
-            </button>
           </div>
-        </div>
 
-        <!-- Cuadrícula de Modos -->
-        <div>
-          <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-2.5 px-1">
-            Salas y Modos de Juego
-          </h3>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div onclick="startMatchWithBet(currentVar, 50)" class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-2xl">🤖</span>
-                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">50 🪙</span>
-              </div>
-              <div>
-                <div class="text-xs font-black text-white">Vs Inteligencia Artificial</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Entrena y gana +90 🪙 por victoria (Comisión casa: 10 🪙)</div>
-              </div>
-            </div>
-
-            <div onclick="openModal('modalBetRooms')" class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-2xl">💰</span>
-                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">APUESTAS</span>
-              </div>
-              <div>
-                <div class="text-xs font-black text-white">Salas con Apuesta</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Elige mesas de 50, 100 o 500 🪙</div>
-              </div>
-            </div>
-
-            <div onclick="startPassAndPlay(0)" class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-2xl">👥</span>
-                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">GRATIS</span>
-              </div>
-              <div>
-                <div class="text-xs font-black text-white">Pase y Juega (1 vs 1)</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">2 amigos en este mismo iPhone</div>
-              </div>
-            </div>
-
-            <div onclick="openModal('modalAcademy')" class="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900 via-amber-950/20 to-slate-900 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between cursor-pointer active:scale-95 transition shadow-md">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-2xl">🥋</span>
-                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">INFINITO</span>
-              </div>
-              <div>
-                <div class="text-xs font-black text-white">Academia del Maestro</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Nivel 1 a ∞: Puzzles & Cinturones</div>
-              </div>
+          <div onclick="startPassAndPlay(0)" class="p-3 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/50 cursor-pointer active:scale-95 transition-all shadow-md flex items-center gap-2.5">
+            <span class="text-xl">👥</span>
+            <div class="min-w-0">
+              <div class="text-xs font-black text-white truncate">Pase y Juega</div>
+              <div class="text-[10px] text-slate-400 font-semibold truncate">1 vs 1 Local</div>
             </div>
           </div>
         </div>
 
-        <div onclick="navigateTo('screenVariants')" class="p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900 border border-slate-800 flex items-center justify-between cursor-pointer active:scale-98 transition shadow">
+        <div onclick="openModal('modalBetRooms')" class="p-3.5 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/50 cursor-pointer active:scale-98 transition-all shadow-md flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <span class="text-2xl">🌍</span>
+            <span class="text-2xl">💰</span>
             <div>
-              <div class="text-xs font-black text-white">7 Variantes Mundiales Disponibles</div>
-              <div class="text-[10px] text-slate-400">Española, Internacional 10x10, Brasileña, Inglesa, Rusa...</div>
+              <div class="text-xs font-black text-white">Salas con Apuesta Personalizada</div>
+              <div class="text-[10px] text-slate-400">Mesas de 50, 100 o 500 🪙 (90% al ganador)</div>
             </div>
           </div>
           <span class="text-slate-400 text-sm font-bold">➜</span>
+        </div>
+
+        <!-- BANNER DE RECOMPENSA DIARIA -->
+        <div id="lobbyDailyBanner" onclick="tryOpenDailyModal()" class="p-3 rounded-2xl bg-[#20252e] border border-white/10 flex items-center justify-between cursor-pointer active:scale-98 transition-all shadow-md">
+          <div class="flex items-center gap-2.5">
+            <div id="lobbyDailyIcon" class="w-9 h-9 rounded-xl bg-[#e6c89c]/20 border border-[#e6c89c]/40 text-[#e6c89c] flex items-center justify-center text-lg">
+              🎁
+            </div>
+            <div>
+              <div id="lobbyDailyTitle" class="text-xs font-black text-white flex items-center gap-1.5">
+                <span>Recompensa Diaria</span>
+                <span id="lobbyDailyDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              </div>
+              <div id="lobbyDailySub" class="text-[10px] text-slate-400 font-medium">+250 🪙 Monedas gratis hoy</div>
+            </div>
+          </div>
+          <button id="lobbyDailyBtn" class="px-3 py-1 bg-[#b86b4b] text-white font-black text-xs rounded-xl shadow">Abrir</button>
         </div>
 
       </main>
@@ -1291,97 +1571,81 @@
     <!-- ========================================================
          PANTALLA 6: LA PARTIDA DE JUEGO (TABLERO DE MADERA)
          ======================================================== -->
-    <section id="screenGame" class="app-screen min-h-screen justify-between bg-[#181c24] relative overflow-hidden">
+    <section id="screenGame" class="app-screen min-h-screen justify-between bg-[#181c24] relative overflow-hidden select-none">
       
-      <!-- HEADER FLOTANTE NEO-TACTILE -->
-      <header class="bg-[#1c2026]/95 backdrop-blur-md border-b border-white/10 px-3.5 py-2.5 flex items-center justify-between z-20 shadow-md">
-        <button onclick="promptLeaveGame()" class="px-3 py-1.5 rounded-full bg-[#2a323f] border border-white/10 text-slate-300 font-bold text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition cursor-pointer">
-          <span>←</span>
-          <span>Salir</span>
-        </button>
-
-        <div class="text-center">
-          <div id="gameActiveVariantBadge" class="text-xs font-black text-white flex items-center justify-center gap-1">
-            <span>🇪🇸 Damas Españolas (8x8)</span>
+      <!-- HEADER CON CÁPSULAS FLOTANTES: RIVAL Y MONEDAS (FIEL AL MOCKUP tablero_opcion_f_neo_tactile_1795268944781.jpg) -->
+      <header class="px-4 pt-3 pb-2 flex items-center justify-between z-20 gap-2">
+        <!-- CÁPSULA RIVAL (IZQUIERDA) -->
+        <div class="flex-1 max-w-[210px] p-2 rounded-2xl bg-[#20252e] border border-white/10 flex items-center justify-between shadow-lg">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div id="rivalAvatar" class="w-10 h-10 rounded-xl bg-[#e6c89c] text-[#1c2026] flex items-center justify-center text-lg font-black shadow-inner flex-shrink-0">
+              🤖
+            </div>
+            <div class="min-w-0">
+              <div id="rivalName" class="text-xs font-black text-white tracking-wider uppercase truncate">OPPONENT</div>
+              <div class="text-[10px] text-slate-400 font-semibold truncate leading-tight">AI LEVEL 4 • ELO 1500</div>
+            </div>
           </div>
-          <div id="evalScore" class="text-[10px] font-mono text-[#e6c89c] font-bold">+0.0 cp</div>
+          <div id="blackGraveyard" class="flex items-center gap-1 text-xs pl-1"></div>
         </div>
 
-        <div class="flex items-center gap-1.5">
-          <div class="px-2.5 py-1 rounded-full bg-[#242a33] border border-white/10 text-[#e6c89c] text-xs font-mono font-bold flex items-center gap-1.5 shadow-inner">
-            <span>🪙</span>
-            <span id="gameCoinsDisplay">950</span>
-          </div>
-          <button onclick="openModal('modalSettings')" class="p-1.5 rounded-full bg-[#2a323f] text-slate-300 text-xs flex items-center justify-center w-8 h-8 border border-white/10 shadow-sm active:scale-95 transition cursor-pointer">
-            ⚙️
-          </button>
+        <!-- CÁPSULA DE MONEDAS EN VIVO (DERECHA) -->
+        <div class="px-3.5 py-2 rounded-full bg-[#20252e] border border-white/10 flex items-center gap-1.5 shadow-lg flex-shrink-0">
+          <span class="text-base">🪙</span>
+          <span id="gameCoinsDisplay" class="font-black text-xs text-white">950 Coins</span>
         </div>
       </header>
 
-      <!-- CÁPSULA FLOTANTE SUPERIOR: RIVAL / OPONENTE -->
-      <div class="px-4 py-2">
-        <div class="p-2.5 rounded-2xl bg-[#222832] border border-white/10 flex items-center justify-between shadow-lg">
-          <div class="flex items-center gap-2.5">
-            <div id="rivalAvatar" class="w-9 h-9 rounded-full bg-[#181c24] border border-white/10 flex items-center justify-center text-lg shadow-inner">
-              🤖
-            </div>
-            <div>
-              <div id="rivalName" class="text-xs font-black text-white tracking-wide">IA Némesis</div>
-              <div class="text-[10px] text-slate-400 font-medium">Negras • Nivel 4 • ELO 1500</div>
-            </div>
-          </div>
-          <div id="blackGraveyard" class="flex items-center gap-1 text-xs"></div>
-        </div>
+      <!-- BARRA SECUNDARIA SUTIL CON VARIANTE Y BOTÓN SALIR -->
+      <div class="px-4 flex items-center justify-between text-[11px] text-slate-400">
+        <button onclick="promptLeaveGame()" class="px-2.5 py-1 rounded-xl bg-[#20252e] hover:bg-[#2a323f] border border-white/10 text-slate-300 font-bold flex items-center gap-1 transition active:scale-95 cursor-pointer">
+          <span>←</span> <span>Salir</span>
+        </button>
+        <div id="gameActiveVariantBadge" class="font-bold text-slate-300 text-[11px]">🇪🇸 Damas Españolas (8x8)</div>
+        <div id="evalScore" class="font-mono text-[#e6c89c] font-bold text-[10px]">+0.0 cp</div>
       </div>
 
-      <!-- ÁREA CENTRAL: TABLERO DE DAMAS CON MARCO DE NOGAL CURVADO (OPCIÓN F) -->
+      <!-- ÁREA CENTRAL: EXACTAMENTE UN SOLO TABLERO CON MARCO DE NOGAL CURVADO (ROUNDED 28PX) -->
       <div class="flex-1 flex flex-col items-center justify-center p-2 relative my-auto">
-        <!-- BANNER DEL DOJO DE MAESTROS DE LA ACADEMIA -->
-        <div id="academyCoachBanner" class="hidden w-full max-w-[400px] mb-2 p-2.5 rounded-2xl bg-gradient-to-r from-slate-900 via-amber-950/40 to-slate-900 border border-amber-500/50 shadow-xl flex flex-col gap-2">
+        <!-- Banner Dojo Academia si aplica -->
+        <div id="academyCoachBanner" class="hidden w-full max-w-[400px] mb-2 p-2.5 rounded-2xl bg-[#20252e] border border-[#b86b4b]/60 shadow-xl flex flex-col gap-2">
           <div class="flex items-start justify-between gap-2">
             <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-lg shadow-sm">
+              <div class="w-8 h-8 rounded-xl bg-[#e6c89c] text-[#b86b4b] flex items-center justify-center text-lg shadow-sm">
                 🥋
               </div>
               <div>
                 <div class="flex items-center gap-1.5">
-                  <span id="academyLessonBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">DOJO PROFESIONAL</span>
+                  <span id="academyLessonBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-[#b86b4b]/20 text-[#e6c89c] border border-[#b86b4b]/30">DOJO PROFESIONAL</span>
                   <span id="academyTacticalCategory" class="text-[9px] font-mono text-cyan-400 font-bold">GOLPE REAL</span>
                 </div>
                 <h4 id="academyLessonTitle" class="text-xs font-black text-white mt-0.5">Lección 1: El Paso Diagonal</h4>
               </div>
             </div>
-            <div id="academyStreakBadge" class="px-2 py-1 rounded-xl bg-slate-950/90 border border-amber-500/40 text-amber-300 text-[10px] font-black font-mono flex items-center gap-1 shadow">
+            <div id="academyStreakBadge" class="px-2 py-1 rounded-xl bg-[#181c24] border border-white/10 text-[#e6c89c] text-[10px] font-black font-mono flex items-center gap-1 shadow">
               <span>🔥</span> <span id="academyStreakCount">0</span>
             </div>
           </div>
 
-          <div id="academyCoachText" class="text-[11px] text-slate-200 leading-snug bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+          <div id="academyCoachText" class="text-[11px] text-slate-200 leading-snug bg-[#181c24] p-2 rounded-xl border border-white/10">
             Toca tu peón blanco (resaltado en dorado) y avanza un paso diagonal hacia la casilla verde.
           </div>
 
           <!-- Acciones Rápidas del Dojo de Maestros -->
-          <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-800/80">
-            <button onclick="demonstrateAcademyLesson()" class="flex-1 py-1.5 px-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 text-[11px] font-black flex items-center justify-center gap-1 shadow-md hover:brightness-110 transition active:scale-95">
-              <span>👀</span> <span>Demostrar Jugada</span>
+          <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-white/10">
+            <button onclick="demonstrateAcademyLesson()" class="flex-1 py-1.5 px-2 rounded-xl bg-[#b86b4b] text-white text-[11px] font-black flex items-center justify-center gap-1 shadow-md hover:brightness-110 transition active:scale-95">
+              <span>👀</span> <span>Demostrar</span>
             </button>
-            <button onclick="restartAcademyPosition(true)" class="py-1.5 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
+            <button onclick="restartAcademyPosition(true)" class="py-1.5 px-2.5 rounded-xl bg-[#2a323f] text-slate-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
               <span>🔄</span> <span>Reiniciar</span>
             </button>
-            <button onclick="requestCoachHint()" class="py-1.5 px-2.5 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
+            <button onclick="requestCoachHint()" class="py-1.5 px-2.5 rounded-xl bg-[#2a323f] text-[#e6c89c] text-[10px] font-bold flex items-center justify-center gap-1 transition active:scale-95">
               <span>💡</span> <span>Pista</span>
             </button>
           </div>
         </div>
 
-        <div id="boardFrameContainer" class="w-full max-w-[400px] aspect-square rounded-2xl p-2.5 relative shadow-2xl transition-all" style="background-color: var(--board-frame-bg); border: 4px solid var(--board-frame-border);">
-          <div id="boardGrid" class="w-full h-full grid rounded-xl overflow-hidden border border-black/50 shadow-inner relative">
-            <!-- Celdas renderizadas dinámicamente -->
-          </div>
-          <div id="boardAnimationOverlay" class="absolute inset-2.5 pointer-events-none z-50 overflow-hidden rounded-xl"></div>
-        </div>
-      </div>
-
+        <!-- EL ÚNICO TABLERO (ROUNDED 28PX) -->
         <div id="boardFrameContainer" class="w-full max-w-[400px] aspect-square rounded-[28px] p-3 relative shadow-2xl transition-all" style="background-color: var(--board-frame-bg); border: 8px solid var(--board-frame-border); box-shadow: var(--board-frame-shadow);">
           <div id="boardGrid" class="w-full h-full grid rounded-2xl overflow-hidden border border-black/60 shadow-inner relative">
             <!-- Celdas renderizadas dinámicamente -->
@@ -1390,42 +1654,47 @@
         </div>
       </div>
 
-      <!-- CÁPSULA FLOTANTE INFERIOR: JUGADOR -->
-      <div class="px-4 py-1.5">
-        <div class="p-2.5 rounded-2xl bg-[#222832] border border-white/10 flex items-center justify-between shadow-lg">
-          <div class="flex items-center gap-2.5">
-            <div id="playerGameAvatar" class="w-9 h-9 rounded-full bg-[#b86b4b]/20 border border-[#b86b4b]/50 flex items-center justify-center text-[#e6c89c] shadow">
-              <svg class="w-5 h-5 drop-shadow" viewBox="0 0 24 24" fill="currentColor">
+      <!-- PARTE INFERIOR: CÁPSULA DEL JUGADOR + 4 BOTONES SOFT-3D (UNDO, HINT, RESIGN, SETTINGS) -->
+      <div class="px-4 pb-3 pt-1 flex items-center justify-between gap-2">
+        <!-- CÁPSULA DEL JUGADOR (IZQUIERDA) -->
+        <div class="flex-1 max-w-[190px] p-2 rounded-2xl bg-[#20252e] border border-white/10 flex items-center justify-between shadow-lg">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div id="playerGameAvatar" class="w-10 h-10 rounded-xl bg-[#e6c89c] text-[#1c2026] flex items-center justify-center font-black shadow-inner flex-shrink-0">
+              <svg class="w-6 h-6 text-[#1c2026]" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
               </svg>
             </div>
-            <div>
-              <div id="playerGameName" class="text-xs font-black text-white tracking-wide">Emmanuel (Tú)</div>
-              <div class="text-[10px] text-[#e6c89c] font-bold">Blancas • ELO 1250</div>
+            <div class="min-w-0">
+              <div id="playerGameName" class="text-xs font-black text-white tracking-wider uppercase truncate">PLAYER 1</div>
+              <div class="text-[10px] text-slate-400 font-semibold truncate leading-tight">ELO 1250 • BLANCAS</div>
             </div>
           </div>
-          <div id="whiteGraveyard" class="flex items-center gap-1 text-xs"></div>
+          <div id="whiteGraveyard" class="flex items-center gap-1 text-xs pl-1"></div>
         </div>
-      </div>
 
-      <!-- BARRA DE ACCIONES SOFT-3D NEO-TACTILE STUDIO -->
-      <div class="px-4 py-2 flex items-center justify-center gap-2">
-        <button onclick="undoLastMove()" class="btn-neo-pill flex-1">
-          <span>↺</span>
-          <span>DESHACER</span>
-        </button>
-        <button id="coachBtn" onclick="requestCoachHint()" class="btn-neo-pill btn-neo-pill-primary flex-1">
-          <span>💡</span>
-          <span>PISTA</span>
-        </button>
-        <button onclick="promptLeaveGame()" class="btn-neo-pill flex-1">
-          <span>🏳️</span>
-          <span>RENDIRSE</span>
-        </button>
-        <button onclick="openModal('modalSettings')" class="btn-neo-pill flex-1">
-          <span>⚙️</span>
-          <span>AJUSTES</span>
-        </button>
+        <!-- 4 BOTONES SOFT-3D REDONDOS CON ETIQUETAS EXACTOS AL MOCKUP -->
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <!-- UNDO -->
+          <button onclick="undoLastMove()" class="neo-game-btn" title="Deshacer jugada">
+            <span class="neo-btn-icon">↺</span>
+            <span class="neo-btn-label">UNDO</span>
+          </button>
+          <!-- HINT -->
+          <button id="coachBtn" onclick="requestCoachHint()" class="neo-game-btn" title="Pedir pista">
+            <span class="neo-btn-icon">💡</span>
+            <span class="neo-btn-label">HINT</span>
+          </button>
+          <!-- RESIGN -->
+          <button onclick="promptLeaveGame()" class="neo-game-btn" title="Rendirse o salir">
+            <span class="neo-btn-icon">🏳️</span>
+            <span class="neo-btn-label">RESIGN</span>
+          </button>
+          <!-- SETTINGS -->
+          <button onclick="openModal('modalSettings')" class="neo-game-btn" title="Ajustes">
+            <span class="neo-btn-icon">⚙️</span>
+            <span class="neo-btn-label">SETTINGS</span>
+          </button>
+        </div>
       </div>
 
       <!-- BARRA DE ESTADO / TURNO -->
@@ -1443,22 +1712,22 @@
     <!-- ========================================================
          DOCK INFERIOR (NAVEGACIÓN MÓVIL)
          ======================================================== -->
-    <nav id="appBottomDock" class="bottom-dock">
+        <nav id="appBottomDock" class="bottom-dock">
       <div id="dockNavLobby" onclick="navigateTo('screenLobby')" class="dock-item active">
         <span class="dock-icon">🏠</span>
-        <span>Inicio</span>
-      </div>
-      <div id="dockNavVariants" onclick="navigateTo('screenVariants')" class="dock-item">
-        <span class="dock-icon">👑</span>
-        <span>Variantes</span>
-      </div>
-      <div id="dockNavShop" onclick="navigateTo('screenShop')" class="dock-item">
-        <span class="dock-icon">🛍️</span>
-        <span>Tienda</span>
+        <span class="dock-dot"></span>
       </div>
       <div id="dockNavProfile" onclick="navigateTo('screenProfile')" class="dock-item">
         <span class="dock-icon">👤</span>
-        <span>Perfil</span>
+        <span class="dock-dot"></span>
+      </div>
+      <div id="dockNavVariants" onclick="navigateTo('screenVariants')" class="dock-item">
+        <span class="dock-icon">👑</span>
+        <span class="dock-dot"></span>
+      </div>
+      <div id="dockNavShop" onclick="navigateTo('screenShop')" class="dock-item">
+        <span class="dock-icon">🛍️</span>
+        <span class="dock-dot"></span>
       </div>
     </nav>
 
