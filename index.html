@@ -1216,7 +1216,7 @@
                 <span class="text-xs font-black text-white uppercase tracking-wider">MODO ABIERTO UNIVERSAL</span>
                 <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-[#b86b4b] text-white">NUEVO</span>
               </div>
-              <p class="text-[10px] text-slate-300 font-medium">Liga todas las reglas mundiales • Dama no camina 1 paso adelante</p>
+              <p class="text-[10px] text-slate-300 font-medium">Liga todas las reglas mundiales • La Dama no puede moverse hacia adelante</p>
             </div>
           </div>
           <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">PROBAR</span>
@@ -1371,7 +1371,7 @@
           </div>
           <p class="text-xs text-slate-200 leading-relaxed font-medium">
             🔥 <strong>Reglas Ligadas:</strong> Fusión total de Damas Turcas, Internacionales y Rusas (saltos ortogonales + diagonales 360° y capturas hacia atrás). <br>
-            🚫 <strong>Única Restricción Clave:</strong> La Dama tiene prohibido dar 1 solo paso hacia adelante (debe volar 2+ casillas o capturar).
+            🚫 <strong>Única Restricción Clave:</strong> La Dama tiene terminantemente PROHIBIDO moverse hacia adelante (solo mueve hacia los lados y hacia atrás, o salta para comer).
           </p>
         </div>
 
@@ -3651,17 +3651,18 @@
         const forwardStep = p.col === 'w' ? -1 : 1;
 
         if (p.king) {
-          // 1. Movimientos simples de Dama Voladora (vuelo largo en 8 direcciones)
+          // 1. Movimientos simples de Dama: ESTRICTAMENTE PROHIBIDO MOVERSE HACIA ADELANTE (dr === forwardStep)
+          // La Dama NO PUEDE caminar hacia adelante (ni 1 paso, ni vuelo hacia adelante).
+          // Solo puede moverse hacia atrás o lateralmente.
           for (const [dr, dc] of allDirs) {
+            // BLOQUEO TOTAL HACIA ADELANTE: Si la dirección apunta hacia adelante, se prohíbe el movimiento simple
+            if (dr === forwardStep) {
+              continue;
+            }
+
             for (let step = 1; step < sz; step++) {
               const nr = r + dr * step, nc = c + dc * step;
               if (nr < 0 || nr >= sz || nc < 0 || nc >= sz || board[nr][nc]) break;
-
-              // RESTRICCIÓN SOLICITADA: Lo único que NO permite es caminar la Dama un paso adelante (dr === forwardStep && step === 1)
-              const isOneStepForward = (dr === forwardStep && step === 1 && (dc === 0 || Math.abs(dc) === 1));
-              if (isOneStepForward) {
-                continue; // Prohibido dar 1 paso simple hacia adelante
-              }
               moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
             }
           }
