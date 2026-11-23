@@ -3559,13 +3559,25 @@
       if (!isPassAndPlay && turn !== 'w') return;
 
       const p = board[r][c];
+
+      // Si la pieza actual está en medio de un salto múltiple encadenado (2 o 3 capturas):
+      if (window.lockedMultiJumpPiece) {
+        const move = legalMoves.find(m => m.toR === r && m.toC === c);
+        if (move) {
+          window.lockedMultiJumpPiece = null;
+          executeMove(move);
+          return;
+        }
+        showCoinToast('⚡ ¡Debes completar el salto múltiple con la misma ficha!');
+        return;
+      }
+
       if (selectedCell) {
         const move = legalMoves.find(m => m.toR === r && m.toC === c);
         if (move) {
-          executeMove(move);
           selectedCell = null;
           legalMoves = [];
-          renderBoard();
+          executeMove(move);
           return;
         }
       }
@@ -3930,6 +3942,37 @@
         return;
       }
 
+      // REGLA UNIVERSAL DE SALTO MÚLTIPLE (CAPTURAS ENCADENADAS: 2, 3 o MÁS VECES)
+      // Si la jugada recién realizada fue una captura (m.cap), se verifica si esa misma pieza puede seguir comiendo:
+      if (m.cap) {
+        const furtherCaptures = getMovesForPiece(m.toR, m.toC).filter(nextM => nextM.cap);
+        if (furtherCaptures.length > 0) {
+          // La misma ficha DEBE continuar comiendo sin ceder el turno
+          window.lockedMultiJumpPiece = { r: m.toR, c: m.toC };
+          selectedCell = { r: m.toR, c: m.toC };
+          legalMoves = furtherCaptures;
+          renderBoard();
+          const info = document.getElementById('infoText');
+          if (info) {
+            info.innerHTML = '<span class="text-emerald-400 font-black animate-pulse">🔥 ¡SALTO MÚLTIPLE OBLIGATORIO!</span> Sigue comiendo con la misma ficha.';
+          }
+          showCoinToast('⚡ ¡Salto en cadena! Continúa capturando.');
+
+          // Si es turno de la IA, encadena el siguiente salto automáticamente tras un breve delay visual
+          if (turn === 'b' && !isPassAndPlay) {
+            setTimeout(() => {
+              executeMove(furtherCaptures[0]);
+              renderBoard();
+            }, 550);
+          }
+          return;
+        }
+      }
+
+      // Si no hay más capturas encadenadas, se cambia el turno con normalidad
+      window.lockedMultiJumpPiece = null;
+      selectedCell = null;
+      legalMoves = [];
       if (turn === 'w') {
         turn = 'b';
         updateTurnStatus();
