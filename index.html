@@ -1216,7 +1216,7 @@
                 <span class="text-xs font-black text-white uppercase tracking-wider">MODO ABIERTO UNIVERSAL</span>
                 <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-[#b86b4b] text-white">NUEVO</span>
               </div>
-              <p class="text-[10px] text-slate-300 font-medium">Liga todas las reglas mundiales • La Dama no puede moverse hacia adelante</p>
+              <p class="text-[10px] text-slate-300 font-medium">Liga todas las reglas mundiales en diagonal estricta (cero pasos rectos) • Damas voladoras + peón come atrás</p>
             </div>
           </div>
           <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">PROBAR</span>
@@ -1370,8 +1370,9 @@
             <span class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow-lg">JUGAR</span>
           </div>
           <p class="text-xs text-slate-200 leading-relaxed font-medium">
-            🔥 <strong>Reglas Ligadas:</strong> Fusión total de Damas Turcas, Internacionales y Rusas (saltos ortogonales + diagonales 360° y capturas hacia atrás). <br>
-            🚫 <strong>Única Restricción Clave:</strong> La Dama tiene terminantemente PROHIBIDO moverse hacia adelante (solo mueve hacia los lados y hacia atrás, o salta para comer).
+            🔥 <strong>Reglas Ligadas:</strong> Fusión de todas las reglas maestras (Internacional, Rusa y Española). <br>
+            ♟️ <strong>Diagonal Estricta:</strong> Prohibido el paso recto hacia adelante (respeta la regla pura de las Damas). <br>
+            👑 <strong>Poderes Ligados:</strong> Damas de vuelo libre + peones comen en diagonal hacia adelante y hacia atrás.
           </p>
         </div>
 
@@ -3642,24 +3643,16 @@
       const sz = cfg.size;
       const moves = [];
 
-      // MODO ABIERTO UNIVERSAL (OPEN RULES): LIGA TODAS LAS REGLAS MUNDIALES
-      // Unifica movimientos ortogonales (Turcas) y diagonales (Internacionales/Españolas).
-      // Regla de restricción única solicitada: La Dama tiene PROHIBIDO caminar exactamente 1 paso hacia adelante.
+      // MODO ABIERTO UNIVERSAL (OPEN RULES): LIGA TODAS LAS REGLAS MUNDIALES EN DIAGONAL PURA
+      // Regla inviolable de las Damas: Cero pasos rectos/verticales hacia adelante.
+      // Todo movimiento y captura es ESTRICTAMENTE DIAGONAL.
       if (cfg.isOpenMaster) {
-        // Direcciones combinadas: 4 diagonales + 4 ortogonales (8 direcciones)
-        const allDirs = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
-        const forwardStep = p.col === 'w' ? -1 : 1;
+        // Direcciones exclusivamente diagonales (4 diagonales)
+        const diagDirs = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
 
         if (p.king) {
-          // 1. Movimientos simples de Dama: ESTRICTAMENTE PROHIBIDO MOVERSE HACIA ADELANTE (dr === forwardStep)
-          // La Dama NO PUEDE caminar hacia adelante (ni 1 paso, ni vuelo hacia adelante).
-          // Solo puede moverse hacia atrás o lateralmente.
-          for (const [dr, dc] of allDirs) {
-            // BLOQUEO TOTAL HACIA ADELANTE: Si la dirección apunta hacia adelante, se prohíbe el movimiento simple
-            if (dr === forwardStep) {
-              continue;
-            }
-
+          // Dama Voladora Universal (Vuelo largo de largo alcance en todas las diagonales libres)
+          for (const [dr, dc] of diagDirs) {
             for (let step = 1; step < sz; step++) {
               const nr = r + dr * step, nc = c + dc * step;
               if (nr < 0 || nr >= sz || nc < 0 || nc >= sz || board[nr][nc]) break;
@@ -3667,8 +3660,8 @@
             }
           }
 
-          // 2. Capturas de Dama (Permitidas en todas direcciones sin restricción, ¡incluso saltando adelante!)
-          for (const [dr, dc] of allDirs) {
+          // Capturas de Dama Voladora a cualquier distancia diagonal
+          for (const [dr, dc] of diagDirs) {
             let foundMid = null;
             for (let step = 1; step < sz; step++) {
               const mr = r + dr * step, mc = c + dc * step;
@@ -3690,21 +3683,17 @@
           }
           return moves;
         } else {
-          // PEÓN EN MODO ABIERTO:
-          // Camina hacia adelante (diagonal u ortogonal recto)
-          const pawnStepDirs = (p.col === 'w') 
-            ? [[-1, -1], [-1, 1], [-1, 0]]
-            : [[1, -1], [1, 1], [1, 0]];
-
-          for (const [dr, dc] of pawnStepDirs) {
+          // PEÓN: Camina EXCLUSIVAMENTE en diagonal hacia adelante (¡cero pasos rectos verticales!)
+          const forwardDiag = (p.col === 'w') ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]];
+          for (const [dr, dc] of forwardDiag) {
             const nr = r + dr, nc = c + dc;
             if (nr >= 0 && nr < sz && nc >= 0 && nc < sz && !board[nr][nc]) {
               moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
             }
           }
 
-          // Come en 360° (hacia adelante y hacia atrás, diagonal y ortogonal)
-          for (const [dr, dc] of allDirs) {
+          // PEÓN COME EN TODAS LAS DIAGONALES (Hacia adelante y hacia atrás: regla Rusa/Internacional/Brasileña)
+          for (const [dr, dc] of diagDirs) {
             const midR = r + dr, midC = c + dc;
             const landR = r + dr * 2, landC = c + dc * 2;
             if (landR >= 0 && landR < sz && landC >= 0 && landC < sz) {
