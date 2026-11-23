@@ -1205,6 +1205,23 @@
           </div>
         </div>
 
+        <!-- BOTÓN DESTACADO: MODO ABIERTO UNIVERSAL (ALL-RULES OPEN) -->
+        <div onclick="startMatchWithBet('open_master', 50)" class="p-3.5 rounded-2xl bg-gradient-to-r from-[#20252e] via-[#282f3a] to-[#20252e] border-2 border-[#e6c89c]/70 hover:border-[#e6c89c] flex items-center justify-between cursor-pointer active:scale-98 transition shadow-lg relative overflow-hidden select-none">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#e6c89c] to-[#b86b4b] text-[#181c24] flex items-center justify-center text-2xl shadow-md font-black">
+              ⚡
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-black text-white uppercase tracking-wider">MODO ABIERTO UNIVERSAL</span>
+                <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-[#b86b4b] text-white">NUEVO</span>
+              </div>
+              <p class="text-[10px] text-slate-300 font-medium">Liga todas las reglas mundiales • Dama no camina 1 paso adelante</p>
+            </div>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">PROBAR</span>
+        </div>
+
         <!-- 3 GRANDES TARJETAS ACCIÓN NEO-TACTILE (PLAY ONLINE, PLAY VS AI, PRACTICE MODE) -->
         <div class="space-y-3 pt-1">
 
@@ -1334,6 +1351,30 @@
       </header>
 
       <main class="p-4 space-y-3 w-full">
+        <!-- MODULO DESTACADO: MODO ABIERTO UNIVERSAL (OPEN RULES) -->
+        <div onclick="startMatchWithBet('open_master', 50)" class="p-4 rounded-2xl bg-gradient-to-r from-[#20252e] to-[#282f3a] border-2 border-[#e6c89c] hover:border-[#b86b4b] flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-[#e6c89c] text-[#181c24] text-[8px] font-black px-2.5 py-0.5 rounded-bl-lg tracking-wider">
+            NUEVO MÓDULO OPEN
+          </div>
+          <div class="flex items-center justify-between mb-2 mt-1">
+            <div class="flex items-center gap-2.5">
+              <span class="text-3xl">⚡</span>
+              <div>
+                <h3 class="text-sm font-black text-white flex items-center gap-1.5">
+                  <span>Modo Abierto Universal</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#b86b4b]/20 border border-[#b86b4b]/40 text-[#e6c89c] text-[9px] font-mono font-bold">ALL-RULES OPEN</span>
+                </h3>
+                <span class="text-[10px] font-mono text-[#e6c89c] font-bold">Tablero 8x8 • Combina Todas las Reglas • Apuesta: 50 🪙</span>
+              </div>
+            </div>
+            <span class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow-lg">JUGAR</span>
+          </div>
+          <p class="text-xs text-slate-200 leading-relaxed font-medium">
+            🔥 <strong>Reglas Ligadas:</strong> Fusión total de Damas Turcas, Internacionales y Rusas (saltos ortogonales + diagonales 360° y capturas hacia atrás). <br>
+            🚫 <strong>Única Restricción Clave:</strong> La Dama tiene prohibido dar 1 solo paso hacia adelante (debe volar 2+ casillas o capturar).
+          </p>
+        </div>
+
         <!-- 1. Española -->
         <div onclick="startMatchWithBet('spanish', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
@@ -3001,6 +3042,14 @@
     }
 
     const RULES = {
+      open_master: {
+        id: 'open_master',
+        name: 'Modo Abierto Universal (Open Rules)',
+        flag: '⚡',
+        size: 8,
+        turkishMove: false,
+        isOpenMaster: true
+      },
       spanish: { id: 'spanish', name: 'Damas Españolas (8x8)', flag: '🇪🇸', size: 8, turkishMove: false },
       international: { id: 'international', name: 'Damas Internacionales (10x10)', flag: '🌍', size: 10, turkishMove: false },
       brazilian: { id: 'brazilian', name: 'Damas Brasileñas (8x8)', flag: '🇧🇷', size: 8, turkishMove: false },
@@ -3592,6 +3641,81 @@
       const cfg = RULES[currentVar] || RULES.spanish;
       const sz = cfg.size;
       const moves = [];
+
+      // MODO ABIERTO UNIVERSAL (OPEN RULES): LIGA TODAS LAS REGLAS MUNDIALES
+      // Unifica movimientos ortogonales (Turcas) y diagonales (Internacionales/Españolas).
+      // Regla de restricción única solicitada: La Dama tiene PROHIBIDO caminar exactamente 1 paso hacia adelante.
+      if (cfg.isOpenMaster) {
+        // Direcciones combinadas: 4 diagonales + 4 ortogonales (8 direcciones)
+        const allDirs = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
+        const forwardStep = p.col === 'w' ? -1 : 1;
+
+        if (p.king) {
+          // 1. Movimientos simples de Dama Voladora (vuelo largo en 8 direcciones)
+          for (const [dr, dc] of allDirs) {
+            for (let step = 1; step < sz; step++) {
+              const nr = r + dr * step, nc = c + dc * step;
+              if (nr < 0 || nr >= sz || nc < 0 || nc >= sz || board[nr][nc]) break;
+
+              // RESTRICCIÓN SOLICITADA: Lo único que NO permite es caminar la Dama un paso adelante (dr === forwardStep && step === 1)
+              const isOneStepForward = (dr === forwardStep && step === 1 && (dc === 0 || Math.abs(dc) === 1));
+              if (isOneStepForward) {
+                continue; // Prohibido dar 1 paso simple hacia adelante
+              }
+              moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
+            }
+          }
+
+          // 2. Capturas de Dama (Permitidas en todas direcciones sin restricción, ¡incluso saltando adelante!)
+          for (const [dr, dc] of allDirs) {
+            let foundMid = null;
+            for (let step = 1; step < sz; step++) {
+              const mr = r + dr * step, mc = c + dc * step;
+              if (mr < 0 || mr >= sz || mc < 0 || mc >= sz) break;
+              const cellP = board[mr][mc];
+              if (!foundMid) {
+                if (cellP) {
+                  if (cellP.col !== p.col) foundMid = { r: mr, c: mc };
+                  else break;
+                }
+              } else {
+                if (!cellP) {
+                  moves.unshift({ fromR: r, fromC: c, toR: mr, toC: mc, cap: foundMid });
+                } else {
+                  break;
+                }
+              }
+            }
+          }
+          return moves;
+        } else {
+          // PEÓN EN MODO ABIERTO:
+          // Camina hacia adelante (diagonal u ortogonal recto)
+          const pawnStepDirs = (p.col === 'w') 
+            ? [[-1, -1], [-1, 1], [-1, 0]]
+            : [[1, -1], [1, 1], [1, 0]];
+
+          for (const [dr, dc] of pawnStepDirs) {
+            const nr = r + dr, nc = c + dc;
+            if (nr >= 0 && nr < sz && nc >= 0 && nc < sz && !board[nr][nc]) {
+              moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, cap: null });
+            }
+          }
+
+          // Come en 360° (hacia adelante y hacia atrás, diagonal y ortogonal)
+          for (const [dr, dc] of allDirs) {
+            const midR = r + dr, midC = c + dc;
+            const landR = r + dr * 2, landC = c + dc * 2;
+            if (landR >= 0 && landR < sz && landC >= 0 && landC < sz) {
+              const midP = board[midR][midC];
+              if (midP && midP.col !== p.col && !board[landR][landC]) {
+                moves.unshift({ fromR: r, fromC: c, toR: landR, toC: landC, cap: { r: midR, c: midC } });
+              }
+            }
+          }
+          return moves;
+        }
+      }
 
       const isFlying = (p.king && (isAcademyMode || currentVar === 'spanish' || currentVar === 'international' || currentVar === 'brazilian' || currentVar === 'russian' || currentVar === 'turkish'));
 
