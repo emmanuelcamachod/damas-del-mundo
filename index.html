@@ -1205,23 +1205,6 @@
           </div>
         </div>
 
-        <!-- BOTÓN DESTACADO: MODO ABIERTO UNIVERSAL (ALL-RULES OPEN) -->
-        <div onclick="startMatchWithBet('open_master', 50)" class="p-3.5 rounded-2xl bg-gradient-to-r from-[#20252e] via-[#282f3a] to-[#20252e] border-2 border-[#e6c89c]/70 hover:border-[#e6c89c] flex items-center justify-between cursor-pointer active:scale-98 transition shadow-lg relative overflow-hidden select-none">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#e6c89c] to-[#b86b4b] text-[#181c24] flex items-center justify-center text-2xl shadow-md font-black">
-              ⚡
-            </div>
-            <div>
-              <div class="flex items-center gap-1.5">
-                <span class="text-xs font-black text-white uppercase tracking-wider">MODO ABIERTO UNIVERSAL</span>
-                <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-[#b86b4b] text-white">NUEVO</span>
-              </div>
-              <p class="text-[10px] text-slate-300 font-medium">Liga todas las reglas mundiales en diagonal estricta (cero pasos rectos) • Damas voladoras + peón come atrás</p>
-            </div>
-          </div>
-          <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">PROBAR</span>
-        </div>
-
         <!-- 3 GRANDES TARJETAS ACCIÓN NEO-TACTILE (PLAY ONLINE, PLAY VS AI, PRACTICE MODE) -->
         <div class="space-y-3 pt-1">
 
@@ -1290,7 +1273,7 @@
           <div onclick="navigateTo('screenVariants')" class="p-3 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/50 cursor-pointer active:scale-95 transition-all shadow-md flex items-center gap-2.5">
             <span class="text-xl">🌍</span>
             <div class="min-w-0">
-              <div class="text-xs font-black text-white truncate">7 Variantes</div>
+              <div class="text-xs font-black text-white truncate">8 Variantes</div>
               <div id="heroActiveVariantTitle" class="text-[10px] text-[#e6c89c] font-semibold truncate">Española 8x8</div>
             </div>
           </div>
@@ -1346,36 +1329,11 @@
         </button>
         <div>
           <h2 class="text-sm font-black text-white">Variantes Mundiales de Damas</h2>
-          <p class="text-[10px] text-slate-400">7 Reglamentos Oficiales Internacionales</p>
+          <p class="text-[10px] text-slate-400">8 Reglamentos Oficiales e Híbridos</p>
         </div>
       </header>
 
       <main class="p-4 space-y-3 w-full">
-        <!-- MODULO DESTACADO: MODO ABIERTO UNIVERSAL (OPEN RULES) -->
-        <div onclick="startMatchWithBet('open_master', 50)" class="p-4 rounded-2xl bg-gradient-to-r from-[#20252e] to-[#282f3a] border-2 border-[#e6c89c] hover:border-[#b86b4b] flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-xl relative overflow-hidden">
-          <div class="absolute top-0 right-0 bg-[#e6c89c] text-[#181c24] text-[8px] font-black px-2.5 py-0.5 rounded-bl-lg tracking-wider">
-            NUEVO MÓDULO OPEN
-          </div>
-          <div class="flex items-center justify-between mb-2 mt-1">
-            <div class="flex items-center gap-2.5">
-              <span class="text-3xl">⚡</span>
-              <div>
-                <h3 class="text-sm font-black text-white flex items-center gap-1.5">
-                  <span>Modo Abierto Universal</span>
-                  <span class="px-2 py-0.5 rounded-full bg-[#b86b4b]/20 border border-[#b86b4b]/40 text-[#e6c89c] text-[9px] font-mono font-bold">ALL-RULES OPEN</span>
-                </h3>
-                <span class="text-[10px] font-mono text-[#e6c89c] font-bold">Tablero 8x8 • Combina Todas las Reglas • Apuesta: 50 🪙</span>
-              </div>
-            </div>
-            <span class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#b86b4b] to-[#a35c3e] text-white font-black text-xs shadow-lg">JUGAR</span>
-          </div>
-          <p class="text-xs text-slate-200 leading-relaxed font-medium">
-            🔥 <strong>Reglas Ligadas:</strong> Fusión de todas las reglas maestras (Internacional, Rusa y Española). <br>
-            ♟️ <strong>Diagonal Estricta:</strong> Prohibido el paso recto hacia adelante (respeta la regla pura de las Damas). <br>
-            👑 <strong>Poderes Ligados:</strong> Damas de vuelo libre + peones comen en diagonal hacia adelante y hacia atrás.
-          </p>
-        </div>
-
         <!-- 1. Española -->
         <div onclick="startMatchWithBet('spanish', 50)" class="p-4 rounded-2xl bg-[#20252e] border border-white/10 hover:border-[#b86b4b]/60 flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg">
           <div class="flex items-center justify-between mb-2">
@@ -1492,6 +1450,26 @@
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Movimientos y saltos ortogonales (rectos y laterales).
+          </p>
+        </div>
+
+        <!-- 8. Modo Abierto Universal (Open Rules) -->
+        <div onclick="startMatchWithBet('open_master', 50)" class="p-4 rounded-2xl bg-gradient-to-r from-[#20252e] to-[#282f3a] border border-[#e6c89c]/60 hover:border-[#e6c89c] flex flex-col justify-between cursor-pointer active:scale-98 transition shadow-lg relative overflow-hidden">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-2xl">⚡</span>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <h3 class="text-sm font-black text-white">Modo Abierto Universal</h3>
+                  <span class="px-1.5 py-0.2 rounded text-[8px] font-black bg-[#b86b4b] text-white">OPEN</span>
+                </div>
+                <span class="text-[10px] font-mono text-[#e6c89c] font-bold">Tablero 8x8 • Todas las Reglas Ligadas • Apuesta: 50 🪙</span>
+              </div>
+            </div>
+            <span class="px-3 py-1.5 rounded-xl bg-[#b86b4b] text-white font-black text-xs shadow">JUGAR</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Fusión de reglas maestras en diagonal pura. Damas voladoras de largo alcance y peones con captura hacia atrás. Cero pasos rectos.
           </p>
         </div>
       </main>
